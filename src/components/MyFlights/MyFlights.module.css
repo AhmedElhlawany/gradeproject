@@ -1,0 +1,43 @@
+
+.my-flights{
+    padding-top: 100px;
+}
+
+.my-flights {
+  background-color: #eff8fe;
+  border-radius: 12px;
+}
+
+.flight-card {
+  background-color: white;
+  border-left: 6px solid #3db9ef;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(61, 185, 239, 0.1);
+}
+
+.flight-title {
+  color: #3db9ef;
+  font-weight: bold;
+}
+
+.transit-box {
+  background-color: #fff9e5;
+  border: 1px solid #ffc118;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-top: 1rem;
+}
+
+.transit-box h5 {
+  color: #ffc118;
+  margin-bottom: 0.5rem;
+}
+
+.section-title {
+  color: #3db9ef;
+  border-bottom: 2px solid #3db9ef;
+  padding-bottom: 0.3rem;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}

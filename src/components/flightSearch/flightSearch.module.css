@@ -1,0 +1,64 @@
+.flight-search{
+    padding-top: 100px;
+}
+
+
+
+
+
+.flight-search input {
+    width: 25%;
+    padding: 10px;
+    margin: 5px ;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+.flight-search input:focus {
+    outline: none;
+    border-color: #de4e48;
+    box-shadow: 0 0 5px 5px #d8b6b3;
+}
+
+.flight-search button{
+    padding: 10px 20px;
+    background-color: #d8b6b3;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.flight-search button:hover{
+    background-color: #d8b6b3;
+}
+
+.flight-list table{
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+
+}
+
+.flight-list th, .flight-list td{
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ccc;
+}
+
+.flight-list th{
+    background-color: #de4e48;
+    color: #fff;
+}
+
+.flight-list td button{
+    padding: 5px 10px;
+    background-color: #de4e48;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.flight-list td button:hover{
+    background-color: #d8b6b3;
+}

@@ -1,0 +1,11 @@
+/* body{
+background: linear-gradient(to bottom, #DE4E48 10%, #D8B6B3 , #F0F0F0);
+background-repeat: no-repeat;
+min-height: 100vh;
+} */
+
+.activities-area , .day{
+   /* border: 1px solid #ac817b; */
+    border-radius: 10px;
+background: linear-gradient(to right, #3db9ef, #F0F0F0);
+}

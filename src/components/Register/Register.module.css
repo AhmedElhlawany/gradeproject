@@ -1,0 +1,58 @@
+.register {
+    background-image: url("../../assets/flight2.jpg");
+    background-size: cover;
+    background-position: center;
+
+}
+
+.form-control {
+  width: 100%;
+  outline: #de4e48;
+    border: 1px solid #de4e48;
+    background-color: transparent;
+}   
+.form-control:focus {
+  outline: 2px solid #de4e48;
+  border-color: #de4e48;
+    box-shadow: 0 0 5px 5px #d8b6b3;
+    background-color: transparent;
+}
+label{
+    color: #be7c76 !important;
+        font-weight: 600;
+        font-size: 1.2rem;
+        font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+        transition: 0.3s all;
+}
+.register h1{
+  color: #de4e48;
+    font-size: 4rem;
+    font-weight: 700;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    position: relative;
+}
+.register h1::after{
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -5px;
+    width: 35%;
+    height: 0px;
+    transform: translateX(-50%);
+    background: rgba(216, 182, 179, 0.5);
+    transition: 1s all;
+}
+.register h1:hover::after{
+    height: 40px;
+}
+p {
+    color: #000;
+    font-size: 1.2rem;
+    font-weight: 500;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+a {
+    color: #de4e48;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}

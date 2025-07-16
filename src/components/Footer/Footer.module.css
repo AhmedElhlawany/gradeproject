@@ -1,0 +1,38 @@
+.footer {
+    background-color: #3db9ef;
+    color: #fff;
+    padding: 20px;
+}
+.footer p {
+    text-align: center;
+    padding: 10px 50px;
+    color: #fff;
+}
+
+
+.icon{
+    width: 40px;
+    height: 40px;
+    margin: 10px;
+    border-radius: 50%;
+    transition: all 0.5s;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+.footer .icon i{
+    color: #3db9ef;
+    font-size: 30px;
+    padding: 10px;
+    transition: all 0.5s;
+}
+.icon:hover{
+    background-color: #3db9ef;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+.icon:hover i{
+    color: #fff;
+}
+
