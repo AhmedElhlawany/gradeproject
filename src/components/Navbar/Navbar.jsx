@@ -52,6 +52,9 @@ export default function Navbar() {
               <li className="nav-item">
                 <Link className="nav-link text-dark fs-5" to="myflights">My Flights</Link>
               </li>
+              <li className="nav-item">
+                <Link className="nav-link text-dark fs-5" to="favourite">Favourite</Link>
+              </li>
             </ul>
 
             <ul className="navbar-nav ms-auto">

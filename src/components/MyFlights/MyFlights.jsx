@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Style from './MyFlights.module.css';
 import { FlightContext } from '../Context/FlightContext';
 import Places from '../places/places';
@@ -6,6 +7,11 @@ import WeatherCard from '../Weather/Weather';
 
 export default function MyFlights() {
   const { selectedFlight } = useContext(FlightContext);
+  const navigate = useNavigate();
+
+  const handlePayment = () => {
+    navigate("/payment");
+  };
 
   if (!selectedFlight) {
     return (
@@ -17,7 +23,7 @@ export default function MyFlights() {
   }
 
   return (
-    <div className={`container ${Style['my-flights']}`}>
+    <div className={`container ${Style['my-flights']}`} style={{ paddingTop: "120px" }}>
       <h2 className={Style['flight-title']}>🛫 Your Selected Flight</h2>
 
       <div className={`${Style['flight-card']} my-4`}>
@@ -36,6 +42,12 @@ export default function MyFlights() {
             <p><strong>Transit Duration:</strong> {selectedFlight.transit.transitDuration}</p>
           </div>
         )}
+
+        <div className="d-flex justify-content-center mt-4">
+          <button className={Style.paymentBtn} onClick={handlePayment}>
+            Proceed to Payment
+          </button>
+        </div>
       </div>
 
       <h3 className={Style['section-title']}>🌤️ Weather Forecast</h3>

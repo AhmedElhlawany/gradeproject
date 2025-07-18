@@ -1,0 +1,89 @@
+.card {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background: #fff;
+}
+
+.iconCircle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #f8f9fa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon {
+  color: #00c3ff;
+  font-size: 1.2rem;
+}
+
+.timeBlock {
+  font-size: 0.9rem;
+}
+
+.timeIcon, .dateIcon, .dollarIcon {
+  color: #00c3ff;
+  font-size: 1rem;
+}
+
+.route {
+  font-size: 0.9rem;
+}
+
+.city {
+  font-weight: 500;
+}
+
+.dash {
+  margin: 0 8px;
+  color: #6c757d;
+}
+
+.date {
+  font-size: 0.85rem;
+  color: #6c757d;
+}
+
+.priceSection {
+  font-size: 0.9rem;
+}
+
+.price {
+  font-weight: bold;
+  color: #00c3ff;
+}
+
+.perPerson {
+  display: block;
+  font-size: 0.8rem;
+  color: #6c757d;
+}
+
+.bookBtn {
+  background-color: #00c3ff;
+  color: #fff;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.bookBtn:hover {
+  background-color: #0099cc;
+}
+
+.favoriteBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+}
+
+.favoriteIcon {
+  color: #00c3ff;
+  font-size: 1.1rem;
+}
