@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import Style from './Home.module.css'
 import Airportpana from '../../assets/Departing-rafiki.png'
-import axios from 'axios';
+import axios, { Axios } from 'axios';
 export default function Home() {
 
 
   const [flights, setFlights] = useState([]);
   const [token, setToken] = useState("");
+  const [Places, setPlaces] = useState([])
 
   const client_id = "s7YKywfPV4vZaM0scicmt217efz3kWKz ";
   const client_secret = "AUkxfV94aMiqcCWc";
@@ -22,33 +23,20 @@ export default function Home() {
     );
     setToken(response.data.access_token);
   };
-
-  const searchFlights = async () => {
-    const response = await axios.get(
-      "https://test.api.amadeus.com/v2/shopping/flight-offers",
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        params: {
-          originLocationCode: "CAI",
-          destinationLocationCode: "DXB",
-          departureDate: "2025-07-10",
-          adults: 1,
-          max: 5,
-        },
-      }
-    );
-    setFlights(response.data.data);
-  };
+function getPlaces(){
+  axios.get(`http://localhost:3000/api/places`).then(res =>setPlaces(res.data));
+  
+  
+}
+ 
 
   useEffect(() => {
     getAccessToken();
+    getPlaces();
   }, []);
 
   useEffect(() => {
     if (token) {
-      searchFlights();
     }
   }, [token]);
   return (
@@ -128,41 +116,43 @@ export default function Home() {
         <div className="container">
 
 
-          <h2>trending flights</h2>
-          {flights.length > 0 ? (
-            flights.map((flight, index) => (
-              <div
-                key={index}
-                style={{
-                  border: "1px solid #ccc",
-                  marginBottom: "10px",
-                  padding: "10px",
-                  borderRadius: "10px",
-                }}
-                className={`d-flex justify-content-between align-items-center flex-wrap ${Style['flights']}`}
-              >
-                <p className={`${Style['from']}`}>
+          <h2 className={`${Style['popylar']} text-center`}>Popular <span>Destinations</span></h2>
+         
 
-                  {flight.itineraries[0].segments[0].departure.iataCode}
-                </p>
-                <i class="fa-solid fa-plane"></i>
+<p className={`text-center text-secondary`}>Discover breathtaking locations around the world. From iconic landmarks to hidden gems.</p>
 
-                <p className={`${Style['to']} text-end`}>
+<div className="row  py-5">
+{Places.slice(0, 3).map((place) => (
+ <div key={place.id} className={`${Style['destinationsCard']} col-md-4 p-3`}>
+  <div className={`${Style['card']}`}>
+    <div className={`${Style['cardTop']} overflow-hidden d-flex align-items-center justify-content-center`}>
+    {/* <img src="dubai.jpg" className='w-100' alt="" /> */}
+    <h2>{place.city}</h2>
 
-                  {
-                    flight.itineraries[0].segments[
-                      flight.itineraries[0].segments.length - 1
-                    ].arrival.iataCode
-                  }
-                </p>
-                <p>
-                  <strong>price:</strong> {flight.price.total} {flight.price.currency}
-                </p>
-              </div>
-            ))
-          ) : (
-            <p>loading ...</p>
-          )}
+  </div>
+  <div className={`${Style['cardContent']}`}>
+  <ul>
+    {place?.places?.map((place) => (
+      <li key={place.id}><i className="fa-solid fa-camera"></i> {place.name}</li>
+    ))}
+  </ul>
+  <div className={`d-flex align-items-center justify-content-end pt-2`}>
+
+<button className={`${Style['explore']}`}>Explore</button>
+
+
+
+  </div>
+  </div>
+  </div>
+</div>
+  ))}
+
+</div>
+
+
+
+
         </div>
       </div>
 

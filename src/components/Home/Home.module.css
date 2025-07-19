@@ -12,7 +12,7 @@ h2{
 }
 h2 span{
     color: #50bdeba9;
-    font-size: 4rem;
+    font-size: 3rem;
     font-weight: 700;
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
@@ -40,7 +40,7 @@ ul{
     margin: 0
 }
 li{
-    font-size: 30px;
+    font-size: 20px;
     vertical-align: middle;
 
 }
@@ -90,3 +90,52 @@ li p{
     font-size: 20px;
     color: #000;
 }
+
+
+/* destination */
+
+.card{
+    transition: 0.5s all;
+    border-radius: 20px;
+}
+.card:hover{
+    transform: scale(1.05);
+    box-shadow: 0 0 5px 1px #3db9ef;
+}
+
+
+.cardTop{
+    height: 200px;
+    background-image:linear-gradient(to bottom right, #5cbbe4 , #e8d999 70%);
+    border-radius: 20px 20px 0 0;
+    position: relative;
+
+}
+.cardContent{
+    background-color: #f7f7f7;
+    height: 200px;
+    border-radius: 0 0 20px 20px;
+    position: relative;
+    padding: 20px;
+    color: #000;
+  
+}
+
+li i{
+    color: #3db9ef;
+}
+
+.explore{
+    background-color: #3db9ef;
+    padding: 10px 20px;
+    border-radius: 8px;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.explore:hover{
+    transform: scale(1.1);
+    box-shadow: 0 0 5px 1px #3db9ef;
+}
+

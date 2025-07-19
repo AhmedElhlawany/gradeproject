@@ -1,13 +1,36 @@
 .navbar {
     width: 100%;
-    background-color: rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(50px) ;
+    /* background-color: rgba(4, 39, 213, 0.1); */
+    backdrop-filter: blur(500px) ;
     position: fixed;
     color: #fff;
     z-index: 999999999999;
+    height: 70px;
+    border: #3db9ef 1px solid;
+    box-shadow: 0 0 5px 2px #3db9ef;
+    border-radius: 0 0 5px 5px;
 }
-
+.navbar img{
+    width: 90px;
+    height: 80px;
+    
+}
 .logo{
     color: #3db9ef;
     font-family: cursive;
+}
+.nav-link , .outbtn{
+    border-radius: 5px;
+    transition: 0.5s all;
+    border: none;
+    background-color: transparent;
+}
+
+.nav-link:hover , .outbtn:hover{
+    color: #3db9ef !important;
+    background-color: #fff; 
+
+}
+.outbtn{
+    border: none;
 }
