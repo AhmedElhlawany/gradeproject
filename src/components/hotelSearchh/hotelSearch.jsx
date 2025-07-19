@@ -44,8 +44,8 @@ export default function HotelSearch() {
 
   return (
     <>
-      <div className={`${Style['hotel-search']} container d-flex align-items-end justify-content-between`}>
-       <div className='w-50'>
+      <div className={`${Style['hotel-search']} container d-flex align-items-end justify-content-between pt-5`}>
+       <div className='w-50 pt-5'>
          <h2>🏨 Hotels</h2>
         <input placeholder="City" onChange={e => setCity(e.target.value)} />
         <button onClick={handleSearch}>Search Hotels</button>

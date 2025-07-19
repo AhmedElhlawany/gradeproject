@@ -21,7 +21,7 @@
 
 .flight-search button{
     padding: 10px 20px;
-    background-color: #d8b6b3;
+    background-color: #3db9ef;
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -29,7 +29,7 @@
     transition: background-color 0.3s ease;
 }
 .flight-search button:hover{
-    background-color: #d8b6b3;
+    background-color: #226a8a;
 }
 
 .flight-list table{
@@ -62,3 +62,4 @@
 .flight-list td button:hover{
     background-color: #d8b6b3;
 }
+
