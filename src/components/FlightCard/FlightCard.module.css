@@ -113,3 +113,16 @@
   font-weight: bold;
   cursor: pointer;
 }
+
+.favoriteBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  margin-left: 10px;
+}
+
+.favoriteIcon {
+  color: #00c3ff;
+  font-size: 1.5rem;
+}
