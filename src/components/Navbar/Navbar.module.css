@@ -3,20 +3,34 @@
   top: 0;
   left: 0;
   width: 100%;
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: rgba(255, 255, 255, 0.7);
     backdrop-filter: blur(50px) ;
 
     color: #fff;
     z-index: 999999999999;
     height: 70px;
-    border: #3db9ef 1px solid;
-    box-shadow: 0 0 5px 2px #3db9ef;
+
     border-radius: 0 0 5px 5px;
 }
 .navbar img{
     width: 90px;
     height: 80px;
     
+}
+
+.active-link {
+  /* background-color: #9ccee3 !important; */
+  color: #3db9ef !important;
+  position: relative;
+}
+.active-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #3db9ef;
 }
 .logo{
     color: #3db9ef;
@@ -32,7 +46,6 @@
 
 .nav-link:hover , .outbtn:hover{
     color: #3db9ef !important;
-    background-color: #fff; 
 
 }
 

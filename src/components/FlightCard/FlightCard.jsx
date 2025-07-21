@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import styles from "./FlightCard.module.css";
 import { FaPlaneDeparture, FaClock, FaCalendarAlt, FaDollarSign, FaRegHeart, FaHeart } from "react-icons/fa";
+import { FlightContext } from "../Context/FlightContext";
 
 export default function FlightCard({
   airline = "Emirates",
@@ -13,7 +14,10 @@ export default function FlightCard({
   price = 350,
   onBook,
 }) {
+const { setNumberOfPersons, setSelectedFlight } = useContext(FlightContext);
   const [isHovered, setIsHovered] = useState(false);
+  const [personCount, setPersonCount] = useState(1); 
+
   const [isFavorited, setIsFavorited] = useState(() => {
     try {
       const favorites = JSON.parse(localStorage.getItem("favoriteFlights") || "[]");
@@ -84,7 +88,7 @@ export default function FlightCard({
         <small className={styles.perPerson}>Per person</small>
       </div>
 
-      <button className={styles.bookBtn} onClick={onBook}>
+      <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo" className={styles.bookBtn} >
         Book Now
       </button>
       <button
@@ -95,6 +99,33 @@ export default function FlightCard({
       >
         {isFavorited || isHovered ? <FaHeart className={styles.favoriteIcon} /> : <FaRegHeart className={styles.favoriteIcon} />}
       </button>
+      
+<div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div className="modal-dialog">
+    <div className="modal-content">
+      <div className="modal-header">
+        <h1 className="modal-title fs-5" id="exampleModalLabel">New message</h1>
+        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div className="modal-body">
+          <div className="mb-3">
+            <label htmlFor="noPersons" className="col-form-label">Number of persons:</label>
+            <input type="number" min="1"  className="form-control" id="noPersons"  onChange={(e) => setPersonCount(Number(e.target.value))}/>
+          </div>
+         
+      </div>
+      <div className="modal-footer">
+        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" 
+        onClick={() => {
+    setNumberOfPersons(personCount); 
+    onBook(); 
+  }}  
+  data-bs-dismiss="modal" className={styles.bookBtn}>Submit</button>
+      </div>
+    </div>
+  </div>
+</div>
     </div>
   );
 }

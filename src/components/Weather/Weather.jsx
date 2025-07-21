@@ -28,9 +28,12 @@ export default function WeatherCard({ city, date }) {
         const startIndex = forecastList.findIndex((d) => d.date === date);
         if (startIndex !== -1) {
           const threeDays = forecastList.slice(startIndex, startIndex + 3);
+          console.log("threeDays:", threeDays);
+          
           setWeather({
             ...res.data,
             forecast: { forecastday: threeDays },
+            
           });
         } else {
           setWeather(res.data);

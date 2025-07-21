@@ -8,7 +8,7 @@ import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import Home from './components/Home/Home';
 import Notfound from './components/Notfound/Notfound';
 import FlightSearch from './components/flightSearch/flightSearch';
-import HotelSearch from './components/hotelSearchh/hotelSearch';
+import HotelSearch from './components/hotelSearch/hotelSearch';
 import Places from './components/places/places';
 import MyFlights from './components/MyFlights/MyFlights';
 import FavoritesPage from './components/Favourite/Favourite';

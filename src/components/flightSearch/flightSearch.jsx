@@ -28,17 +28,33 @@ export default function FlightSearch() {
     if (query.date) params.append("date", query.date);
 
     fetchFlights(`?${params.toString()}`);
-    setIsSearched(true); // ✅ عدل الحالة لما يضغط سيرش
+    setIsSearched(true); 
   };
 
   return (
     <>
       <div className={`container ${Style['flight-search']}`}>
         <h2>✈️ Flights</h2>
-        <input placeholder="From" onChange={e => setQuery({ ...query, from: e.target.value })} />
-        <input placeholder="To" onChange={e => setQuery({ ...query, to: e.target.value })} />
-        <input type="date" onChange={e => setQuery({ ...query, date: e.target.value })} />
+        <div className='d-flex justify-content-between align-items-center flex-wrap mb-4 w-100'>
+        <div className={`${Style['form-floating']} form-floating mb-3`}>
+  <input type="text" onChange={e => setQuery({ ...query, from: e.target.value })} className="form-control" id="floatingInput" placeholder="name@example.com"/>
+  <label htmlFor="floatingInput">From</label>
+</div>
+        {/* <input placeholder="From"  /> */}
+        <div className={`${Style['form-floating']} form-floating mb-3`}>
+  <input type="text" onChange={e => setQuery({ ...query, to: e.target.value })} className="form-control" id="floatingInput" placeholder="name@example.com"/>
+  <label htmlFor="floatingInput">To</label>
+</div>
+{/*  */}
+        <div className={`${Style['form-floating']} form-floating mb-3`}>
+  <input type="date" onChange={e => setQuery({ ...query, date: e.target.value })} className="form-control" id="floatingInput" placeholder="name@example.com"/>
+  <label htmlFor="floatingInput">Date</label>
+</div>
+
+
+        {/* <input type="date"  /> */}
         <button onClick={handleSearch} className={`${Style['search-button']}`}>Search Flights</button>
+        </div>
       </div>
 
       {!isSearched ? (

@@ -3,21 +3,15 @@
 }
 
 
-
-
-
-.flight-search input {
-    width: 25%;
-    padding: 10px;
-    margin: 5px ;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+.form-floating{
+    width: 25% ;
+    margin: 5px;
 }
-.flight-search input:focus {
-    outline: none;
-    border-color: #de4e48;
-    box-shadow: 0 0 5px 5px #d8b6b3;
+.form-floating input{
+    width: 100% !important;
 }
+
+
 
 .flight-search button{
     padding: 10px 20px;

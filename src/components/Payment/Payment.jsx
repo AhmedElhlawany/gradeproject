@@ -4,7 +4,7 @@ import { FlightContext } from "../Context/FlightContext";
 import styles from "./Payment.module.css";
 
 export default function Payment() {
-  const { selectedFlight } = useContext(FlightContext);
+  const { selectedFlight, numberOfPersons } = useContext(FlightContext);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     cardNumber: "",
@@ -62,7 +62,7 @@ export default function Payment() {
               <p><strong>To:</strong> {selectedFlight.to}</p>
               <p><strong>Date:</strong> {selectedFlight.date}</p>
               <p><strong>Airline:</strong> {selectedFlight.airline}</p>
-              <p><strong>Price:</strong> ${selectedFlight.price}</p>
+              <p><strong>Price:</strong> ${selectedFlight.price * numberOfPersons}</p>
             </div>
 
             <h3 className={styles.subTitle}>Payment Information</h3>
@@ -78,6 +78,9 @@ export default function Payment() {
                   placeholder="1234 5678 9012 3456"
                   className={styles.input}
                   required
+                  minLength={16}
+                  maxLength={16}
+                  pattern="[0-9]{4} [0-9]{4} [0-9]{4} [0-9]{4}"
                 />
               </div>
               <div className={styles.formRow}>

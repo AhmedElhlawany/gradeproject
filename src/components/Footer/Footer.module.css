@@ -37,3 +37,14 @@
     color: #fff;
 }
 
+.footer a{
+    color: #fff;
+    text-align: left;
+    font-size: 25px;
+    padding: 0 100px;
+    transition: all 0.5s;
+}
+.footer a:hover{
+    color: #3db9ef;
+    transform: translateX(20px) !important;
+}

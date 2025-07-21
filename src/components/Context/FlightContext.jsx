@@ -12,11 +12,12 @@ export default function FlightContextProvider({ children }) {
 
 
 
+  const [numberOfPersons, setNumberOfPersons] = useState(1); // ⬅️ أضف دي
 
  const [selectedFlight, setSelectedFlight] = useState(null);
 
   return (
-    <FlightContext.Provider value={{ selectedFlight, setSelectedFlight }}>
+    <FlightContext.Provider value={{ selectedFlight, setSelectedFlight ,numberOfPersons, setNumberOfPersons }}>
       {children}
     </FlightContext.Provider>
   );

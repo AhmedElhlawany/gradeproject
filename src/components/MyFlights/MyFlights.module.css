@@ -1,10 +1,10 @@
 
 .my-flights{
-    padding-top: 100px;
+    padding-top: 150px;
 }
 
 .my-flights {
-  background-color: #eff8fe;
+  /* background-color: #eff8fe; */
   border-radius: 12px;
 }
 
@@ -35,7 +35,7 @@
 }
 
 .section-title {
-  color: #3db9ef;
+  color: #0f1112;
   border-bottom: 2px solid #3db9ef;
   padding-bottom: 0.3rem;
   margin-top: 2rem;

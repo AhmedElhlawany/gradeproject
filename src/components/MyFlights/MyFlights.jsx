@@ -6,7 +6,8 @@ import Places from '../places/places';
 import WeatherCard from '../Weather/Weather';
 
 export default function MyFlights() {
-  const { selectedFlight } = useContext(FlightContext);
+  const { selectedFlight, numberOfPersons } = useContext(FlightContext);
+
   const navigate = useNavigate();
 
   const handlePayment = () => {
@@ -15,7 +16,7 @@ export default function MyFlights() {
 
   if (!selectedFlight) {
     return (
-      <div className="container text-center mt-5">
+      <div className="container text-center mt-5" style={{ paddingTop: "70px" }}>
         <h3>No flight selected</h3>
         <p>Please go back and select a flight first.</p>
       </div>
@@ -23,7 +24,7 @@ export default function MyFlights() {
   }
 
   return (
-    <div className={`container ${Style['my-flights']}`} style={{ paddingTop: "120px" }}>
+    <div className={`container ${Style['my-flights']}`} >
       <h2 className={Style['flight-title']}>🛫 Your Selected Flight</h2>
 
       <div className={`${Style['flight-card']} my-4`}>
@@ -33,7 +34,9 @@ export default function MyFlights() {
         <p><strong>Departure Time:</strong> {selectedFlight.departureTime}</p>
         <p><strong>Arrival Time:</strong> {selectedFlight.arrivalTime}</p>
         <p><strong>Airline:</strong> {selectedFlight.airline}</p>
-        <p><strong>Price:</strong> ${selectedFlight.price}</p>
+       <p><strong>Number of Persons:</strong> {numberOfPersons}</p>
+       <p><strong>Total Price:</strong> ${selectedFlight.price * numberOfPersons}</p>
+
 
         {selectedFlight.transit && (
           <div className={Style['transit-box']}>

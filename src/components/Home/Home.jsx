@@ -23,12 +23,12 @@ export default function Home() {
     );
     setToken(response.data.access_token);
   };
-function getPlaces(){
-  axios.get(`http://localhost:3000/api/places`).then(res =>setPlaces(res.data));
-  
-  
-}
- 
+  function getPlaces() {
+    axios.get(`http://localhost:3000/api/places`).then(res => setPlaces(res.data));
+
+
+  }
+
 
   useEffect(() => {
     getAccessToken();
@@ -42,20 +42,29 @@ function getPlaces(){
   return (
     <>
 
-      <div className={`${Style['home']} text-center m-0 d-flex justify-content-center align-items-center`}>
-
-        <div className={`${Style['header']}`}>
+      <div className={`${Style['home']} text-center m-0 d-flex justify-content-center align-items-center position-relative`}>
+        <video src="home.mp4" autoPlay loop muted width={"100%"} className="homeVid"></video>
+        <div className={`${Style['overlay']} position-absolute`}></div>
+        <div className={`${Style['header']} position-absolute `}>
           <h1 className='text-light'>Explore the <span>World </span>
             Your Way</h1>
 
-          <p className=' fs-3 fw-bolder'>Discover amazing destinations, book flights & hotels, and create unforgettable memories with our travel platform.</p>
+          <p className=' fs-3 '>Discover amazing destinations, book flights & hotels, and create unforgettable memories with our travel platform.</p>
+
+
+          <div className={`${Style["heroButtons"]}`}>
+            <button className={`me-3 btn ${Style['btn-book']} px-4`}>Book Now</button>
+            <button className='me-3 px-4 btn btn-secondary'>Explore</button>
+          </div>
+
+
         </div>
 
 
       </div>
 
 
-      <div className="provide">
+      <div className={`${Style['provide']}`}>
 
         <div className="container py-5">
           <div className="row">
@@ -68,30 +77,24 @@ function getPlaces(){
               <ul>
                 <li>
                   <i className="fa-solid fa-code-compare me-2"></i>
-                    Search and Compare
-                  <p>allows you to compare prices and find the best deals</p>
+                  Search and Compare
                 </li>
                 <li>
                   <i className="fa-solid fa-comment me-2"></i>
                   Customer reviews
-                  <p>customer reviews and ratings help you make informed decisions</p>
                 </li>
                 <li>
                   <i className="fa-solid fa-money-check me-2"></i>
                   online check-in
-                  <p>
-                    allows you to check-in online and save time
-                  </p>
+
                 </li>
                 <li>
                   <i className="fa-solid fa-earth-americas me-2"></i>
                   multi cities
-                  <p>allows you to book flights to multiple destinations</p>
                 </li>
                 <li>
                   <i className="fa-solid fa-plane-departure me-2"></i>
                   flight tracking
-                  <p>allows you to track your flights in real-time</p>
                 </li>
               </ul>
 
@@ -116,39 +119,40 @@ function getPlaces(){
         <div className="container">
 
 
-          <h2 className={`${Style['popylar']} text-center`}>Popular <span>Destinations</span></h2>
-         
-
-<p className={`text-center text-secondary`}>Discover breathtaking locations around the world. From iconic landmarks to hidden gems.</p>
-
-<div className="row  py-5">
-{Places.slice(0, 3).map((place) => (
- <div key={place.id} className={`${Style['destinationsCard']} col-md-4 p-3`}>
-  <div className={`${Style['card']}`}>
-    <div className={`${Style['cardTop']} overflow-hidden d-flex align-items-center justify-content-center`}>
-    {/* <img src="dubai.jpg" className='w-100' alt="" /> */}
-    <h2>{place.city}</h2>
-
-  </div>
-  <div className={`${Style['cardContent']}`}>
-  <ul>
-    {place?.places?.map((place) => (
-      <li key={place.id}><i className="fa-solid fa-camera"></i> {place.name}</li>
-    ))}
-  </ul>
-  <div className={`d-flex align-items-center justify-content-end pt-2`}>
-
-<button className={`${Style['explore']}`}>Explore</button>
+          <h2 className={`${Style['popular']} text-center`}>Popular <span>Destinations</span></h2>
 
 
+          <p className={`text-center text-secondary`}>Discover breathtaking locations around the world. From iconic landmarks to hidden gems.</p>
 
-  </div>
-  </div>
-  </div>
-</div>
-  ))}
+          <div className="row  py-5">
+            {Places.slice(0, 3).map((place) => (
+              <div key={place.id} className={`${Style['destinationsCard']} col-md-4 p-3`}>
+                <div className={`${Style['card']}`}>
+                  <div className={`${Style['cardTop']} overflow-hidden d-flex align-items-center justify-content-center`}>
+                    <img src={place.image} className='w-100' alt="" />
 
-</div>
+                  </div>
+                  <div className={`${Style['cardContent']}`}>
+                                        <h2>{place.city}</h2>
+
+                    <ul>
+                      {place?.places?.map((place) => (
+                        <li key={place.id}><i className="fa-solid fa-camera"></i> {place.name}</li>
+                      ))}
+                    </ul>
+                    <div className={`d-flex align-items-center justify-content-end pt-2`}>
+
+                      <button className={`${Style['explore']} w-100`}>Explore</button>
+
+
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+
+          </div>
 
 
 
@@ -156,9 +160,7 @@ function getPlaces(){
         </div>
       </div>
 
-      <div className='r'>
-
-      </div>
+     
     </>
   )
 }
