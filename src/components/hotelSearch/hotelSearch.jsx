@@ -88,16 +88,15 @@ const HotelBooking = () => {
         {/* Hotel Results */}
         <div className="row g-4">
           {filteredHotels.map((hotel) => {
-            const rating = getRandomRating();
             const amenities = getRandomAmenities();
 
             return (
-              <div key={hotel.id} className="col-md-6 col-lg-4 border-2 overflow-hidden p-3 ">
+              <div key={hotel.id} className="col-md-6 col-lg-4 border-1 overflow-hidden p-3 ">
                 <div className="card h-100 shadow-sm border-1 overflow-hidden">
                   <div className="overflow-hidden  position-relative" style={{ height: "200px" }}>
                     <img src={hotel.image} className="w-100 " style={{ height: "100%"}} alt="" />
                       <span className="badge bg-light opacity-50 text-dark position-absolute top-0 end-0 m-2">
-                      {hotel.availableRooms} rooms
+                      {hotel.availableRooms} Rooms
                     </span>
                   </div>
                   <div className="card-body">
@@ -122,8 +121,8 @@ const HotelBooking = () => {
                     </div>
                     <div className="d-flex flex-wrap gap-2 mb-3">
                       {amenities.map((a, index) => (
-                        <span key={index} className={`${style.mainColor} badge bg-light border`}>
-                          <a.icon size={12} className="me-1" /> {a.name}
+                        <span key={index} className={`${style.mainColor} badge bg-light fw-normal border`}>
+                          <a.icon size={16} className="me-1" /> {a.name}
                         </span>
                       ))}
                     </div>
@@ -131,16 +130,7 @@ const HotelBooking = () => {
                       
                       <button className={`btn ${style.bookBtn}`}>Book Now</button>
                     </div>
-                    <div className="border-top pt-2 mt-3">
-                      <small className="text-muted d-flex align-items-center gap-2">
-                        <Users size={16} className={`${style.mainColor}`} />
-                        {hotel.availableRooms > 10
-                          ? "Many rooms available"
-                          : hotel.availableRooms > 5
-                          ? "Few rooms left"
-                          : "Limited availability"}
-                      </small>
-                    </div>
+                    
                   </div>
                 </div>
               </div>
