@@ -91,11 +91,11 @@ const HotelBooking = () => {
             const amenities = getRandomAmenities();
 
             return (
-              <div key={hotel.id} className="col-md-6 col-lg-4 border-1 overflow-hidden p-3 ">
-                <div className="card h-100 shadow-sm border-1 overflow-hidden">
+              <div key={hotel.id} className="col-md-6 col-lg-4 border-0 overflow-hidden p-3 ">
+                <div className="card h-100 shadow-sm border-0 overflow-hidden">
                   <div className="overflow-hidden  position-relative" style={{ height: "200px" }}>
                     <img src={hotel.image} className="w-100 " style={{ height: "100%"}} alt="" />
-                      <span className="badge bg-light opacity-50 text-dark position-absolute top-0 end-0 m-2">
+                      <span className="badge bg-light bg-opacity-50 fw-normal text-dark position-absolute top-0 end-0 m-2">
                       {hotel.availableRooms} Rooms
                     </span>
                   </div>

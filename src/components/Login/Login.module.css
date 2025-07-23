@@ -7,25 +7,25 @@
 
 .form-control {
   width: 100%;
-  outline: #de4e48;
-    border: 1px solid #de4e48;
+  outline: #3db9ef;
+    border: 1px solid #3db9ef;
     background-color: transparent;
 }   
 .form-control:focus {
-  outline: 2px solid #de4e48;
-  border-color: #de4e48;
-    box-shadow: 0 0 5px 5px #d8b6b3;
+  outline: 2px solid #3db9ef;
+  border-color: #3db9ef;
+    box-shadow: 0 0 5px 2px #66bee4;
     background-color: transparent;
 }
 label{
-    color: #d8b6b3 !important;
+    color: #66bee4 !important;
         font-weight: 600;
         font-size: 1.2rem;
         font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
         transition: 0.3s all;
 }
 .login h1{
-  color: #de4e48;
+  color: #3db9ef;
     font-size: 4rem;
     font-weight: 700;
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
@@ -39,7 +39,7 @@ label{
     width: 30%;
     height: 0px;
     transform: translateX(-50%);
-    background: rgba(216, 182, 179, 0.5);
+    background: rgba(137, 208, 239, 0.5);
     transition: 1s all;
 }
 .login h1:hover::after{
@@ -47,13 +47,30 @@ label{
 }
 
 .login {
-    color: #3db9ef;
+    color: #0a0a0a;
     font-size: 1.2rem;
     font-weight: 500;
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 a {
-    color: #de4e48;
+    color: #3db9ef;
     text-decoration: none;
     transition: color 0.3s ease;
+}
+.login a{
+    color: #3db9ef;
+}
+.login-btn {
+  background-color: #3db9ef;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.login-btn:hover {
+  background-color: #0b719d;
 }

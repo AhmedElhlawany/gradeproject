@@ -21,20 +21,42 @@ export default function Register() {
     rePassword: Yup.string().oneOf([Yup.ref('password')], 'Passwords must match').required('Re-enter password'),
   });
 
-  const handleRegister = async (values) => {
-    setIsLoading(true);
-    setApiError('');
-    try {
-      await createUserWithEmailAndPassword(auth, values.email, values.password);
-      alert("Registration successful!");
-      navigate('/login');
-    } catch (error) {
-      console.error(error);
-      setApiError(error.message);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+ const handleRegister = async (values) => {
+  setIsLoading(true);
+  setApiError('');
+  try {
+    // إنشاء مستخدم في Firebase
+    await createUserWithEmailAndPassword(auth, values.email, values.password);
+
+    // تحضير بيانات المستخدم اللي هتتحفظ (بدون الباسورد لو تحب للأمان)
+    const userData = {
+      name: values.name,
+      phone: values.phone,
+      email: values.email,
+    };
+
+    // جلب المستخدمين الموجودين بالفعل من localStorage (لو في)
+    const existingUsers = JSON.parse(localStorage.getItem('users')) || [];
+
+    // إضافة المستخدم الجديد للـ array
+    existingUsers.push(userData);
+
+    // حفظ الـ array في localStorage
+    localStorage.setItem('users', JSON.stringify(existingUsers));
+
+    // كمان ممكن تحفظ المستخدم الحالي لوحده
+    localStorage.setItem('currentUser', JSON.stringify(userData));
+
+    alert("Registration successful!");
+    navigate('/login');
+  } catch (error) {
+    console.error(error);
+    setApiError(error.message);
+  } finally {
+    setIsLoading(false);
+  }
+};
+
 
   const formik = useFormik({
     initialValues: {
@@ -49,7 +71,7 @@ export default function Register() {
   });
 
   return (
-    <div className={`${style['register']} d-flex justify-content-center align-items-center vh-100`}>
+    <div className={`${style['register']} d-flex justify-content-center align-items-center `}>
       <div className="register-form w-50 mx-auto my-5">
         <h1 className="text-center mb-5">Register</h1>
         <form onSubmit={formik.handleSubmit}>
@@ -140,7 +162,7 @@ export default function Register() {
 
           {apiError && <div className="alert alert-danger">{apiError}</div>}
 
-          <button type="submit" className="btn btn-danger w-100 mt-4" disabled={isLoading}>
+          <button type="submit" className={`btn w-100 mt-4 ${style['register-btn']}`} disabled={isLoading}>
             {isLoading ? 'Creating account...' : 'Register'}
           </button>
         </form>

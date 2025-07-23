@@ -14,36 +14,48 @@ export default function FlightCard({
   price = 350,
   onBook,
 }) {
+const modalId = `modal_${flightNumber.replace(/[^a-zA-Z0-9]/g, '')}`;
+
 const { setNumberOfPersons, setSelectedFlight } = useContext(FlightContext);
   const [isHovered, setIsHovered] = useState(false);
   const [personCount, setPersonCount] = useState(1); 
 
-  const [isFavorited, setIsFavorited] = useState(() => {
-    try {
-      const favorites = JSON.parse(localStorage.getItem("favoriteFlights") || "[]");
-      return favorites.some(flight => flight.flightNumber === flightNumber);
-    } catch (error) {
-      console.error("Error reading favoriteFlights from localStorage:", error);
-      return false;
-    }
-  });
+  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+const favoritesKey = currentUser ? `favoriteFlights_${currentUser.email}` : null;
 
-  const handleFavoriteToggle = () => {
-    try {
-      const favorites = JSON.parse(localStorage.getItem("favoriteFlights") || "[]");
-      if (isFavorited) {
-        const updatedFavorites = favorites.filter(flight => flight.flightNumber !== flightNumber);
-        localStorage.setItem("favoriteFlights", JSON.stringify(updatedFavorites));
-        setIsFavorited(false);
-      } else {
-        const updatedFavorites = [...favorites, { airline, flightNumber, from, to, departureTime, arrivalTime, date, price }];
-        localStorage.setItem("favoriteFlights", JSON.stringify(updatedFavorites));
-        setIsFavorited(true);
-      }
-    } catch (error) {
-      console.error("Error updating favoriteFlights in localStorage:", error);
+const [isFavorited, setIsFavorited] = useState(() => {
+  if (!favoritesKey) return false;
+  try {
+    const favorites = JSON.parse(localStorage.getItem(favoritesKey) || "[]");
+    return favorites.some(flight => flight.flightNumber === flightNumber);
+  } catch (error) {
+    console.error("Error reading favorites from localStorage:", error);
+    return false;
+  }
+});
+
+const handleFavoriteToggle = () => {
+  if (!favoritesKey) {
+    alert("Please login to use favorites");
+    return;
+  }
+
+  try {
+    const favorites = JSON.parse(localStorage.getItem(favoritesKey) || "[]");
+    if (isFavorited) {
+      const updatedFavorites = favorites.filter(flight => flight.flightNumber !== flightNumber);
+      localStorage.setItem(favoritesKey, JSON.stringify(updatedFavorites));
+      setIsFavorited(false);
+    } else {
+      const updatedFavorites = [...favorites, { airline, flightNumber, from, to, departureTime, arrivalTime, date, price }];
+      localStorage.setItem(favoritesKey, JSON.stringify(updatedFavorites));
+      setIsFavorited(true);
     }
-  };
+  } catch (error) {
+    console.error("Error updating favorites in localStorage:", error);
+  }
+};
+
 
   return (
     <div className={styles.card}>
@@ -88,7 +100,7 @@ const { setNumberOfPersons, setSelectedFlight } = useContext(FlightContext);
         <small className={styles.perPerson}>Per person</small>
       </div>
 
-      <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo" className={styles.bookBtn} >
+      <button type="button" data-bs-toggle="modal" data-bs-target={`#${modalId}`}  data-bs-whatever="@mdo" className={styles.bookBtn} >
         Book Now
       </button>
       <button
@@ -100,11 +112,11 @@ const { setNumberOfPersons, setSelectedFlight } = useContext(FlightContext);
         {isFavorited || isHovered ? <FaHeart className={styles.favoriteIcon} /> : <FaRegHeart className={styles.favoriteIcon} />}
       </button>
       
-<div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div className="modal fade mt-5" id={modalId} tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div className="modal-dialog">
     <div className="modal-content">
       <div className="modal-header">
-        <h1 className="modal-title fs-5" id="exampleModalLabel">New message</h1>
+        <h1 className="modal-title fs-5" id="exampleModalLabel">Number of persons</h1>
         <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div className="modal-body">

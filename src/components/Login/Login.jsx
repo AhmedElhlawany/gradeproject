@@ -12,32 +12,39 @@ export default function Login() {
   const auth = getAuth();
 
   const validationSchema = Yup.object({
-    email: Yup.string().email('Email is invalid').required('Email is required'),
-    // password: Yup.string()
-    //   .matches(
-    //     /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$/,
-    //     'Password is not valid'
-    //   )
-    //   .required('Password is required'),
-  });
+  email: Yup.string().email('Email is invalid').required('Email is required'),
+  password: Yup.string()
+    .matches(
+      /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/,
+      'Password is not valid'
+    )
+    .required('Password is required'),
+});
 
-  const handleLogin = async (formValues) => {
-    setIsLoading(true);
-    setapiError('');
-    try {
-      const userCredential = await signInWithEmailAndPassword(auth, formValues.email, formValues.password);
-      const user = userCredential.user;
-      const token = await user.getIdToken(); // Optional: if you want to send to backend
-      console.log('Login successful, token:', token);
+const handleLogin = async (formValues) => {
+  setIsLoading(true);
+  setapiError('');
+  try {
+    const userCredential = await signInWithEmailAndPassword(auth, formValues.email, formValues.password);
+    const token = await userCredential.user.getIdToken();
 
-      // Navigate to home page
-      navigate('/');
-    } catch (error) {
-      setapiError(error.message);
-    } finally {
-      setIsLoading(false);
+    const users = JSON.parse(localStorage.getItem('users')) || [];
+    const currentUser = users.find(user => user.email === formValues.email);
+
+    if (currentUser) {
+      localStorage.setItem('currentUser', JSON.stringify(currentUser));
     }
-  };
+
+    navigate('/');
+    localStorage.setItem("userEmail", currentUser.email);
+
+  } catch (error) {
+    setapiError('Invalid email or password');
+  } finally {
+    setIsLoading(false);
+  }
+};
+
 
   const formik = useFormik({
     initialValues: {
@@ -89,7 +96,7 @@ export default function Login() {
 
           {apiError && <div className="alert alert-danger mt-3">{apiError}</div>}
 
-          <button disabled={isLoading} type="submit" className="btn btn-danger w-100 mt-4">
+          <button disabled={isLoading} type="submit" className={`${styles['login-btn']}  btn w-100 mt-4`}>
             {isLoading ? 'Logging in...' : 'Login'}
           </button>
         </form>

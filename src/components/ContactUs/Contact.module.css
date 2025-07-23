@@ -1,0 +1,88 @@
+.contactCard {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background: #fff;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.sectionTitle {
+  color: #00c3ff;
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.subTitle {
+  color: #00c3ff;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.confirmation {
+  text-align: center;
+}
+
+.confirmation .text {
+  font-size: 0.95rem;
+  color: #6c757d;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.contactForm {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.formGroup {
+  margin-bottom: 15px;
+}
+
+.label {
+  display: block;
+  font-size: 0.9rem;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.input,
+.textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.textarea {
+  resize: vertical;
+}
+
+.input:focus,
+.textarea:focus {
+  outline: none;
+  border-color: #00c3ff;
+  box-shadow: 0 0 5px rgba(0, 195, 255, 0.3);
+}
+
+.submitBtn {
+  background-color: #00c3ff;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.submitBtn:hover {
+  background-color: #0099cc;
+}

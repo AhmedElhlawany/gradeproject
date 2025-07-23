@@ -18,14 +18,18 @@ export default function Navbar() {
   }, []);
 
   // Logout handler
-  const handleLogout = async () => {
-    try {
-      await signOut(auth);
-      navigate('/login');
-    } catch (error) {
-      console.error('Logout error:', error);
-    }
-  };
+ const handleLogout = async () => {
+  try {
+    await signOut(auth);
+
+    // امسح بيانات المستخدم من localStorage
+    localStorage.removeItem('currentUser');
+
+    navigate('/login');
+  } catch (error) {
+    console.error('Logout error:', error);
+  }
+};
 
   return (
     <nav className={`${style['navbar']} navbar navbar-expand-lg`}>
@@ -45,8 +49,8 @@ export default function Navbar() {
               { to: '/', label: 'Home' },
               { to: '/flights', label: 'Flights' },
               { to: '/hotels', label: 'Hotels' },
-              { to: '/myflights', label: 'My Flights' },
-              { to: '/favourite', label: 'Favourite' },
+              // { to: '/myflights', label: 'My Flight' },
+              // { to: '/favourite', label: 'Favourite' },
             ].map(({ to, label }) => (
               <li className="nav-item" key={to}>
                 <NavLink
@@ -58,11 +62,35 @@ export default function Navbar() {
                   {label}
                 </NavLink>
               </li>
+              
             ))}
+
           </ul>
 
           <ul className="navbar-nav ms-auto">
             {user ? (
+              <>
+ <li className="nav-item">
+                <NavLink
+                  to="/favorite"
+                  className={({ isActive }) =>
+                    `${style['nav-link']} d-flex align-items-center pt-3 text-dark p-2 mx-2 fs-5 ${isActive ? style['active-link'] : ''}`
+                  }
+                >
+                  <i className={`fa-solid fa-heart ${style['profile-icon']}`}></i>
+                </NavLink>
+              </li>
+
+              <li className="nav-item">
+                <NavLink
+                  to="/profile"
+                  className={({ isActive }) =>
+                    `${style['nav-link']} d-flex align-items-center pt-3 text-dark p-2 mx-2 fs-5 ${isActive ? style['active-link'] : ''}`
+                  }
+                >
+                  <i className={`fa-regular fa-user ${style['profile-icon']}`}></i>
+                </NavLink>
+              </li>
               <li className="nav-item">
                 <button
                   onClick={handleLogout}
@@ -71,6 +99,7 @@ export default function Navbar() {
                   Logout
                 </button>
               </li>
+              </>
             ) : (
               <>
                 <li className="nav-item">

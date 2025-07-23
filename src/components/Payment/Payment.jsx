@@ -4,29 +4,96 @@ import { FlightContext } from "../Context/FlightContext";
 import styles from "./Payment.module.css";
 
 export default function Payment() {
-  const { selectedFlight, numberOfPersons } = useContext(FlightContext);
+  const { selectedFlight, numberOfPersons, user } = useContext(FlightContext);
   const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     cardNumber: "",
     expiryDate: "",
     cvv: "",
     cardholderName: "",
   });
+
   const [isPaymentConfirmed, setIsPaymentConfirmed] = useState(false);
+  const [error, setError] = useState("");
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setIsPaymentConfirmed(true); 
+  const validateForm = () => {
+    const cardNumberRegex = /^[0-9]{16}$/;
+    const expiryRegex = /^(0[1-9]|1[0-2])\/([0-9]{2})$/;
+    const cvvRegex = /^[0-9]{3}$/;
+
+    if (!cardNumberRegex.test(formData.cardNumber.replace(/\s/g, ""))) {
+      return "Invalid card number. Must be 16 digits.";
+    }
+
+    if (!expiryRegex.test(formData.expiryDate)) {
+      return "Expiry date must be in MM/YY format.";
+    }
+
+    const [month, year] = formData.expiryDate.split("/").map(Number);
+    const now = new Date();
+    const expiryDate = new Date(`20${year}`, month);
+    if (expiryDate < now) {
+      return "Card is expired.";
+    }
+
+    if (!cvvRegex.test(formData.cvv)) {
+      return "Invalid CVV. Must be 3 digits.";
+    }
+
+    if (!formData.cardholderName.trim()) {
+      return "Cardholder name is required.";
+    }
+
+    return null;
   };
 
-  const handleBackToFlights = () => {
-    navigate("/flights"); 
+ const handleSubmit = (e) => {
+  e.preventDefault();
+  const validationError = validateForm();
+  if (validationError) {
+    setError(validationError);
+    return;
+  }
+
+  // محاولة الحصول على البريد الإلكتروني من localStorage لو مش موجود في Context
+  const userKey = user?.email || localStorage.getItem("userEmail") || "guest";
+
+  const savedBookings = JSON.parse(localStorage.getItem("bookings")) || {};
+
+  const newBooking = {
+    ...selectedFlight,
+    numberOfPersons,
+    totalPrice: selectedFlight.price * numberOfPersons,
+    dateBooked: new Date().toISOString(),
   };
+
+  savedBookings[userKey] = [...(savedBookings[userKey] || []), newBooking];
+  localStorage.setItem("bookings", JSON.stringify(savedBookings));
+
+  setIsPaymentConfirmed(true);
+  setError("");
+};
+
+
+  const handleCancelBooking = () => {
+    const userKey = user?.email || "guest";
+    const savedBookings = JSON.parse(localStorage.getItem("bookings")) || {};
+    if (savedBookings[userKey]) {
+      savedBookings[userKey] = savedBookings[userKey].filter(
+        (f) => f.date !== selectedFlight.date || f.from !== selectedFlight.from
+      );
+      localStorage.setItem("bookings", JSON.stringify(savedBookings));
+    }
+    setIsPaymentConfirmed(false);
+  };
+
+  const handleBackToFlights = () => navigate("/flights");
 
   if (!selectedFlight) {
     return (
@@ -46,11 +113,14 @@ export default function Payment() {
           <div className={styles.confirmation}>
             <h3 className={styles.subTitle}>Booking Confirmed Successfully!</h3>
             <p className={styles.text}>
-              Your flight from {selectedFlight.from} to {selectedFlight.to} on {selectedFlight.date} has been booked successfully.
+              Your flight from {selectedFlight.from} to {selectedFlight.to} on {selectedFlight.date} has been booked.
             </p>
-            <div className="d-flex justify-content-center mt-4">
+            <div className="d-flex justify-content-center gap-3 mt-4">
               <button className={styles.confirmBtn} onClick={handleBackToFlights}>
                 Back to Flights
+              </button>
+              <button className="btn btn-danger" onClick={handleCancelBooking}>
+                Cancel Booking
               </button>
             </div>
           </div>
@@ -66,6 +136,7 @@ export default function Payment() {
             </div>
 
             <h3 className={styles.subTitle}>Payment Information</h3>
+            {error && <p className="text-danger">{error}</p>}
             <form onSubmit={handleSubmit} className={styles.paymentForm}>
               <div className={styles.formGroup}>
                 <label htmlFor="cardNumber" className={styles.label}>Card Number</label>
@@ -75,12 +146,10 @@ export default function Payment() {
                   name="cardNumber"
                   value={formData.cardNumber}
                   onChange={handleInputChange}
-                  placeholder="1234 5678 9012 3456"
+                  placeholder="1234567812345678"
                   className={styles.input}
                   required
-                  minLength={16}
                   maxLength={16}
-                  pattern="[0-9]{4} [0-9]{4} [0-9]{4} [0-9]{4}"
                 />
               </div>
               <div className={styles.formRow}>
@@ -108,6 +177,7 @@ export default function Payment() {
                     placeholder="123"
                     className={styles.input}
                     required
+                    maxLength={3}
                   />
                 </div>
               </div>

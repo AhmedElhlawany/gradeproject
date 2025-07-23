@@ -22,13 +22,11 @@ export default function Footer() {
 <div className="col-md-6 col-sm-12">
   <ul className='text-start'>
     <li>
-      <Link to="/terms">Terms </Link>
+      <Link to="/terms">Terms & Privacy</Link>
     </li>
+   
     <li>
-      <Link to="/privacy">Privacy</Link>
-    </li>
-    <li>
-      <Link to="/contact">Contact Us</Link>
+      <Link to="/contactUs">Contact Us</Link>
     </li>
   </ul>
 </div>

@@ -14,6 +14,9 @@ import MyFlights from './components/MyFlights/MyFlights';
 import FavoritesPage from './components/Favourite/Favourite';
 import PrivacyAndTerms from './components/Terms/Terms';
 import Payment from './components/Payment/Payment';
+import Profile from './components/Profile/Profile';
+import MyBookings from './components/MyBookings/MyBookings';
+import Contact from './components/ContactUs/Contact';
 
 let routes = createBrowserRouter([
   {
@@ -63,7 +66,7 @@ let routes = createBrowserRouter([
         ),
       },
       {
-        path: 'favourite',
+        path: 'favorite',
         element: (
           <Suspense>
             <FavoritesPage />
@@ -81,11 +84,16 @@ let routes = createBrowserRouter([
       {
         path: 'payment',
         element: (
+          <ProtectedRoute>
           <Suspense>
             <Payment />
           </Suspense>
+          </ProtectedRoute>
         ),
       },
+      {path: 'myBookings' , element: <ProtectedRoute><MyBookings></MyBookings></ProtectedRoute>},
+      {path: 'profile', element: <ProtectedRoute><Profile></Profile></ProtectedRoute>},
+      {path: 'contactUs', element: <ProtectedRoute><Contact></Contact></ProtectedRoute>},
       { path: 'login', element: <Login /> },
       { path: 'register', element: <Register /> },
       { path: '*', element: <Notfound /> },
