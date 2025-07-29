@@ -1,0 +1,95 @@
+
+.container {
+  background: linear-gradient(135deg, #ffffff, #e6f7ff);
+  font-family: "Poppins", sans-serif;
+  min-height: 100vh;
+  padding: 30px;
+}
+
+.headerTitle {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.formCard {
+  background: #ffffff;
+  padding: 50px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.formLabel {
+  font-weight: 500;
+  margin-bottom: 10px;
+  color: #00c3ff !important;
+}
+
+.formControl {
+  border: 1px solid rgb(224, 225, 225);
+  border-radius: 5px;
+  padding: 8px;
+  transition: all 0.3s ease;
+ margin-bottom: 25px;
+  width: 100%;
+  font-size: 1rem;
+  
+  
+}
+
+.formControl::placeholder{
+    color:rgb(187, 187, 187);
+}
+.formControl:focus {
+  border-color: #9fe6fd;
+  box-shadow: 0 0 5px #9bd7eb;
+}
+
+.formControl.isInvalid {
+  border-color: #dc3545;
+}
+
+.formControl.isValid {
+  border-color: #28a745;
+}
+
+.invalidFeedback {
+  color: #dc3545;
+  font-size: 0.875rem;
+  margin-top: -15px;
+  margin-bottom: 10px;
+}
+
+.submitButton {
+  background-color: #00c3ff;
+  border: none;
+  color: #ffffff;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+    cursor: pointer;
+    
+}
+
+.submitButton:hover {
+  background-color: #0096c7;
+}
+
+.errorMessage {
+  color: #dc3545;
+  margin-top: 10px;
+}
+@media (max-width: 767px) {
+  .container {
+    padding: 15px;
+  }
+
+  .headerTitle {
+    font-size: 1.5rem;
+  }
+}

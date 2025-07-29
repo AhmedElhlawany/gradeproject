@@ -1,0 +1,123 @@
+.container {
+
+width: 100%;    
+  padding: 20px 0;
+}
+
+.headerTitle {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #333;
+}
+
+.tableWrapper {
+  overflow-x: auto;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  max-width: 100%;
+}
+
+.hotelTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Arial', sans-serif;
+}
+
+.hotelTable th,
+.hotelTable td {
+  padding: 16px 6px;
+  font-size: 0.85rem;
+  word-break: break-word;
+  white-space: normal;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+
+.hotelTable th {
+  background-color: #00c3ff;
+  color: #ffffff;
+  font-weight: 600;
+  text-transform: uppercase;
+ 
+
+}
+
+.thName { width: 13%; }
+.thCity { width: 7%; }
+.thRate { width: 6%; }
+.thOnSale { width: 6%; }
+.thPhone { width: 12%; }
+.thEmail { width: 11%; }       
+.thAmenities { width: 15%; }
+.thRooms { width: 22%; }      
+.thActions { width: 7%; }
+
+.hotelTable tr {
+  transition: background-color 0.3s ease;
+}
+
+.hotelTable tr:hover {
+  background-color: #f5f7fa;
+}
+
+.hotelTable tr:last-child td {
+  border-bottom: none;
+}
+
+.loading {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #1a3c34;
+  padding: 20px;
+}
+
+.error {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #e34a59;
+  padding: 20px;
+}
+
+.empty {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #666;
+  padding: 20px;
+}
+
+.editButton,
+.deleteButton {
+  background: transparent;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 4px;
+}
+
+.editIcon {
+  font-size: 0.85rem;
+  color: #00c3ff;
+  transition: color 0.3s ease;
+}
+
+.editButton:hover .editIcon {
+  color: #0096c7;
+}
+
+.deleteIcon {
+  font-size: 0.85rem;
+  color: #dc3545;
+  transition: color 0.3s ease;
+}
+
+.deleteButton:hover .deleteIcon {
+  color: #c82333;
+}
