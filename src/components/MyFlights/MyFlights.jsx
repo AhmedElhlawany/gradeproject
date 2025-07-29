@@ -6,7 +6,7 @@ import Places from '../places/places';
 import WeatherCard from '../Weather/Weather';
 
 export default function MyFlights() {
-  const { selectedFlight, numberOfPersons } = useContext(FlightContext);
+  const { selectedFlight, adults, child } = useContext(FlightContext);
 
   const navigate = useNavigate();
 
@@ -34,8 +34,7 @@ export default function MyFlights() {
         <p><strong>Departure Time:</strong> {selectedFlight.departureTime}</p>
         <p><strong>Arrival Time:</strong> {selectedFlight.arrivalTime}</p>
         <p><strong>Airline:</strong> {selectedFlight.airline}</p>
-       <p><strong>Number of Persons:</strong> {numberOfPersons}</p>
-       <p><strong>Total Price:</strong> ${selectedFlight.price * numberOfPersons}</p>
+       <p><strong>Total Price:</strong> ${selectedFlight.price * (adults + child*0.5)}</p>
 
 
         {selectedFlight.transit && (

@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "./Terms.module.css";
+import { Link } from "react-router-dom";
 
 export default function PrivacyAndTerms() {
   return (
@@ -32,6 +33,9 @@ export default function PrivacyAndTerms() {
         <p className={styles.text}>
           All bookings are subject to availability and airline policies. Payments must be made in full at the time of booking. Refunds and cancellations are subject to the airline's terms and conditions.
         </p>
+        <p className={styles.text}>
+          Cancellation is free of charge. Additionally, a 10% fee is deducted from the booking amount as platform service profit.
+        </p>
         <h4 className={styles.subHeading}>User Responsibilities</h4>
         <p className={styles.text}>
           You agree to provide accurate information when booking flights. You are responsible for complying with all applicable laws and regulations related to travel.
@@ -42,9 +46,9 @@ export default function PrivacyAndTerms() {
         </p>
 
         <div className="d-flex justify-content-center mt-4">
-          <a href="/contact" className={styles.contactBtn}>
+          <Link to={"/contactUs"} className={styles.contactBtn}>
             Contact Us for More Information
-          </a>
+          </Link>
         </div>
       </div>
     </div>

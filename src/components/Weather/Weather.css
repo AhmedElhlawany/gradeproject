@@ -7,5 +7,10 @@ min-height: 100vh;
 .activities-area , .day{
    /* border: 1px solid #ac817b; */
     border-radius: 10px;
-background: linear-gradient(to right, #3db9ef, #F0F0F0);
+/* background: linear-gradient(to right, #3db9ef, #F0F0F0); */
+background-image: url("../../assets/sky.jpg");
+    background-size: cover;
+    background-position: center;
+    padding: 20px;
+    color: #000;
 }

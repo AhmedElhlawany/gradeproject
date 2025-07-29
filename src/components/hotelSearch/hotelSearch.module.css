@@ -60,52 +60,6 @@
   width: 25%;
 }
 
-/* .slider input[type="range"] {
-  -webkit-appearance: none;
-  width: 100%;
-  height: 8px;
-  background: linear-gradient(to right, #de4e48, #de4e48);
-  border-radius: 5px;
-  outline: none;
-} */
-
-/* شريط الخلفية للكروم */
-/* .slider input[type="range"]::-webkit-slider-runnable-track {
-  height: 8px;
-  background: linear-gradient(to right, #d8b6b3, #de4e48);
-  border-radius: 5px;
-} */
-
-/* الدائرة للكروم */
-/* .slider input[type="range"]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 18px;
-  height: 18px;
-  background: #fff;
-  border: 3px solid #de4e48;
-  border-radius: 50%;
-  cursor: pointer;
-  margin-top: -5px;
-  transition: 0.2s;
-} */
-
-/* الدائرة لفايرفوكس */
-/* .slider input[type="range"]::-moz-range-thumb {
-  width: 18px;
-  height: 18px;
-  background: #fff;
-  border: 3px solid #de4e48;
-  border-radius: 50%;
-  cursor: pointer;
-} */
-
-/* الشريط الخلفي للفايرفوكس */
-/* .slider input[type="range"]::-moz-range-track {
-  height: 8px;
-  background: linear-gradient(to right, #de4e48, #de4e48);
-  border-radius: 5px;
-} */
 
 
 .icon {
@@ -146,4 +100,9 @@
 }
 .bookBtn:hover {
   background-color: #0099cc;
+}
+.bookdiv{
+  bottom: 10px;
+  left: 10px;
+  right: 10px;
 }

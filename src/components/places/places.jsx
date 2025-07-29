@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import Style from './Places.module.css';
+import { useNavigate } from 'react-router-dom';
 
 export default function Places({ city }) {
   const [places, setPlaces] = useState([]);
-
+const navigate = useNavigate();
   useEffect(() => {
     if (city) {
       console.log('Fetching places for city:', city); // للتحقق من الـ city
@@ -31,7 +32,9 @@ export default function Places({ city }) {
 
       {places?.length > 0 ? (
         places?.map(place => (
-          <div key={place.name} className={`${Style['placecard']} text-center`}>
+          <div key={place.id} className={`${Style['placecard']} text-center`}
+           onClick={() => navigate(`/place/${place.id}`)}
+           >
             <img className='w-100' src={place.image} alt={place.name} onError={() => console.log(`Failed to load image: ${place.image}`)} />
             <h4 className='py-2'>{place.name}</h4>
           </div>

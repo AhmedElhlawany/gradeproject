@@ -4,6 +4,7 @@ import { FaPlaneDeparture, FaClock, FaCalendarAlt, FaDollarSign, FaRegHeart, FaH
 import { FlightContext } from "../Context/FlightContext";
 
 export default function FlightCard({
+  id,
   airline = "Emirates",
   flightNumber = "Flight #1",
   from = "Cairo",
@@ -14,130 +15,150 @@ export default function FlightCard({
   price = 350,
   onBook,
 }) {
-const modalId = `modal_${flightNumber.replace(/[^a-zA-Z0-9]/g, '')}`;
-
-const { setNumberOfPersons, setSelectedFlight } = useContext(FlightContext);
+  const { setSelectedFlight } = useContext(FlightContext);
   const [isHovered, setIsHovered] = useState(false);
-  const [personCount, setPersonCount] = useState(1); 
+  const [isFavorited, setIsFavorited] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-const favoritesKey = currentUser ? `favoriteFlights_${currentUser.email}` : null;
+  const userEmail = currentUser?.email;
 
-const [isFavorited, setIsFavorited] = useState(() => {
-  if (!favoritesKey) return false;
-  try {
-    const favorites = JSON.parse(localStorage.getItem(favoritesKey) || "[]");
-    return favorites.some(flight => flight.flightNumber === flightNumber);
-  } catch (error) {
-    console.error("Error reading favorites from localStorage:", error);
-    return false;
-  }
-});
-
-const handleFavoriteToggle = () => {
-  if (!favoritesKey) {
-    alert("Please login to use favorites");
-    return;
-  }
-
-  try {
-    const favorites = JSON.parse(localStorage.getItem(favoritesKey) || "[]");
-    if (isFavorited) {
-      const updatedFavorites = favorites.filter(flight => flight.flightNumber !== flightNumber);
-      localStorage.setItem(favoritesKey, JSON.stringify(updatedFavorites));
+  useEffect(() => {
+    if (!userEmail || !id) {
       setIsFavorited(false);
-    } else {
-      const updatedFavorites = [...favorites, { airline, flightNumber, from, to, departureTime, arrivalTime, date, price }];
-      localStorage.setItem(favoritesKey, JSON.stringify(updatedFavorites));
-      setIsFavorited(true);
+      setIsLoading(false);
+      return;
     }
-  } catch (error) {
-    console.error("Error updating favorites in localStorage:", error);
-  }
-};
 
+    fetch(`http://localhost:3000/api/users/${encodeURIComponent(userEmail)}/favorites`)
+      .then(res => {
+        if (!res.ok) throw new Error("Failed to fetch favorites");
+        return res.json();
+      })
+      .then(favorites => {
+        const isFav = favorites.some(f => f.id === id && f.type === "flight");
+        setIsFavorited(isFav);
+        setIsLoading(false);
+      })
+      .catch(err => {
+        console.error("Error fetching favorites:", err);
+        setIsLoading(false);
+        alert("Failed to load favorite status");
+      });
+  }, [id, userEmail]);
+
+  const handleFavoriteToggle = async () => {
+    if (!userEmail) {
+      alert("Please login to use favorites");
+      return;
+    }
+
+    if (!id) {
+      alert("Invalid flight data. Please try again.");
+      return;
+    }
+
+    try {
+      const endpoint = `http://localhost:3000/api/users/${encodeURIComponent(userEmail)}/favorites`;
+      const method = isFavorited ? "DELETE" : "POST";
+      const favoriteData = {
+        id,
+        type: "flight",
+        airline,
+        flightNumber,
+        from,
+        to,
+        departureTime,
+        arrivalTime,
+        date,
+        price,
+      };
+
+      console.log("Sending favoriteData:", favoriteData); // للتصحيح
+
+      const res = await fetch(endpoint, {
+        method,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(favoriteData),
+      });
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.error || "Failed to update favorite");
+      }
+
+      setIsFavorited(!isFavorited);
+    } catch (error) {
+      console.error("Error toggling favorite:", error);
+      alert(`Failed to update favorite: ${error.message}`);
+    }
+  };
 
   return (
     <div className={styles.card}>
-      <div className={styles.left}>
-        <div className={styles.iconCircle}>
-          <FaPlaneDeparture className={styles.icon} />
+      <div
+        onClick={() => onBook && onBook()}
+        className={`d-flex justify-content-between flex-wrap w-100 ${styles.flightCard}`}
+      >
+        <div className={styles.left}>
+          <div className={styles.iconCircle}>
+            <FaPlaneDeparture className={styles.icon} />
+          </div>
+          <div>
+            <h5>{airline}</h5>
+            <small>{flightNumber}</small>
+          </div>
         </div>
-        <div>
-          <h5>{airline}</h5>
-          <small>{flightNumber}</small>
+
+        <div className={styles.route}>
+          <span className={styles.city}>{from}</span>
+          <span className={styles.dash}>----------------------------</span>
+          <span className={styles.city}>{to}</span>
+        </div>
+
+        <div className={styles.timeBlock}>
+          <div className="d-flex flex-column me-3 text-center">
+            <strong>{departureTime}</strong>
+            <small>{from}</small>
+          </div>
+          <FaClock className={styles.timeIcon} />
+        </div>
+
+        <div className={styles.timeBlock}>
+          <div className="d-flex flex-column me-3">
+            <strong>{arrivalTime}</strong>
+            <small>{to}</small>
+          </div>
+          <FaCalendarAlt className={styles.dateIcon} />
+          <span className={styles.date}>{date}</span>
+        </div>
+
+        <div className={styles.priceSection}>
+          <span className={styles.price}>
+            <FaDollarSign className={styles.dollarIcon} />
+            <span>${price}</span>
+          </span>
+          <small className={styles.perPerson}>per person</small>
         </div>
       </div>
 
-      <div className={styles.route}>
-        <span className={styles.city}>{from}</span>
-        <span className={styles.dash}>----------------------------</span>
-        <span className={styles.city}>{to}</span>
-      </div>
-
-      <div className={styles.timeBlock}>
-        <div className="d-flex flex-column me-3 text-center">
-          <strong>{departureTime}</strong>
-          <small className="">{from}</small>
-        </div>
-        <FaClock className={styles.timeIcon} />
-      </div>
-
-      <div className={styles.timeBlock}>
-        <div className="d-flex flex-column me-3">
-          <strong>{arrivalTime}</strong>
-          <small>{to}</small>
-        </div>
-        <FaCalendarAlt className={styles.dateIcon} />
-        <span className={styles.date}>{date}</span>
-      </div>
-
-      <div className={styles.priceSection}>
-        <span className={styles.price}>
-          <FaDollarSign className={styles.dollarIcon} />
-          <span>${price}</span>
-        </span>
-        <small className={styles.perPerson}>Per person</small>
-      </div>
-
-      <button type="button" data-bs-toggle="modal" data-bs-target={`#${modalId}`}  data-bs-whatever="@mdo" className={styles.bookBtn} >
-        Book Now
-      </button>
       <button
         className={styles.favoriteBtn}
         onClick={handleFavoriteToggle}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
+        disabled={isLoading}
       >
-        {isFavorited || isHovered ? <FaHeart className={styles.favoriteIcon} /> : <FaRegHeart className={styles.favoriteIcon} />}
+        {isLoading ? (
+          <span>Loading...</span>
+        ) : isFavorited || isHovered ? (
+          <FaHeart className={styles.favoriteIcon} />
+        ) : (
+          <FaRegHeart className={styles.favoriteIcon} />
+        )}
       </button>
-      
-<div className="modal fade mt-5" id={modalId} tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div className="modal-dialog">
-    <div className="modal-content">
-      <div className="modal-header">
-        <h1 className="modal-title fs-5" id="exampleModalLabel">Number of persons</h1>
-        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div className="modal-body">
-          <div className="mb-3">
-            <label htmlFor="noPersons" className="col-form-label">Number of persons:</label>
-            <input type="number" min="1"  className="form-control" id="noPersons"  onChange={(e) => setPersonCount(Number(e.target.value))}/>
-          </div>
-         
-      </div>
-      <div className="modal-footer">
-        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-        <button type="button" 
-        onClick={() => {
-    setNumberOfPersons(personCount); 
-    onBook(); 
-  }}  
-  data-bs-dismiss="modal" className={styles.bookBtn}>Submit</button>
-      </div>
-    </div>
-  </div>
-</div>
     </div>
   );
 }

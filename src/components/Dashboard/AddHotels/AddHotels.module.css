@@ -1,0 +1,168 @@
+.container {
+  font-family: "Poppins", sans-serif;
+  padding: 30px;
+}
+
+.headerTitle {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.formCard {
+  background: #ffffff;
+  padding: 50px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+
+.formLabel {
+  font-weight: 500;
+  margin-bottom: 10px;
+  color: #00c3ff !important;
+}
+
+.formControl {
+  border: 1px solid rgb(224, 225, 225);
+  border-radius: 5px;
+  padding: 8px;
+  transition: all 0.3s ease;
+  margin-bottom: 25px;
+  width: 100%;
+  font-size: 1rem;
+}
+
+.formControl::placeholder {
+  color: rgb(187, 187, 187) !important;
+}
+
+.formControl:focus {
+  border-color: #9fe6fd !important;
+  box-shadow: 0 0 5px #9bd7eb !important;
+  outline: none !important;
+}
+
+.formControl.isInvalid {
+  border-color: #dc3545;
+}
+
+.formControl.isValid {
+  border-color: #28a745;
+}
+
+.invalidFeedback {
+  color: #dc3545;
+  font-size: 0.875rem;
+  margin-top: -15px;
+  margin-bottom: 10px;
+}
+
+.amenitiesContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  padding: 10px;
+  border: 1px solid rgb(224, 225, 225);
+  border-radius: 5px;
+  margin-bottom: 25px;
+}
+
+.amenityItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.checkboxInput {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  margin-left: 8px;
+}
+
+.checkboxLabel {
+  font-size: 0.9rem;
+  color: #252424 !important;
+}
+
+.roomRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 15px;
+}
+
+.addRoomButton {
+  background-color: #6c757d;
+  border: none;
+  color: #ffffff;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.addRoomButton:hover {
+  background-color: #5a6268;
+}
+
+.removeButton {
+  background-color: #dc3545;
+  border: none;
+  color: #ffffff;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+}
+
+.removeButton:hover {
+  background-color: #c82333;
+}
+
+.submitButton {
+  background-color: #00c3ff;
+  border: none;
+  color: #ffffff;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-weight: 500;
+  cursor: pointer;
+  display: block;
+}
+
+.submitButton:hover {
+  background-color: #0096c7;
+}
+
+.loading, .error {
+  text-align: center;
+  font-size: 1rem;
+  color: #333;
+  margin-top: 20px;
+}
+
+.error {
+  color: #dc3545;
+}
+
+
+@media (max-width: 767px) {
+  .container {
+    padding: 15px;
+  }
+
+  .headerTitle {
+    font-size: 1.5rem;
+  }
+}

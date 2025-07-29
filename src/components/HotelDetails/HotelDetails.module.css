@@ -1,0 +1,54 @@
+.image {
+  object-fit: cover;
+  height: 100%;
+  border-radius: 12px;
+}
+
+.details {
+  padding-left: 1.5rem;
+}
+
+.title {
+  font-size: 2rem;
+  color: #222;
+}
+
+.description {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #555;
+}
+
+.contact a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.contact a:hover {
+  text-decoration: underline;
+}
+
+.card-body i{
+    width: 20px;
+    color: #3db9ef;
+}
+.bookHotel-button{
+    background-color: #3db9ef;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 100%;
+}
+.bookHotel-button:hover {
+    background-color: #0099cc;
+}
+
+.HDicon{
+    color: #3db9ef;
+    font-size: 1.5rem;
+    margin-right: 10px;
+}

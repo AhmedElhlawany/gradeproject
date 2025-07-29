@@ -68,9 +68,23 @@ a {
   border-radius: 5px;
   font-size: 1rem;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: all 0.5s ease;
 }
 
 .login-btn:hover {
   background-color: #0b719d;
+}
+
+.loginG-btn {
+  background-color: #db4437;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.5s ease;
+}
+.loginG-btn:hover {
+  background-color: #c1351d;
 }

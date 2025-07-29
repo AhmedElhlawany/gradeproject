@@ -44,28 +44,29 @@ export default function Navbar() {
         </button>
 
         <div className="collapse navbar-collapse" id="navbarNav">
-          <ul className="navbar-nav ms-auto">
-            {[
-              { to: '/', label: 'Home' },
-              { to: '/flights', label: 'Flights' },
-              { to: '/hotels', label: 'Hotels' },
-              // { to: '/myflights', label: 'My Flight' },
-              // { to: '/favourite', label: 'Favourite' },
-            ].map(({ to, label }) => (
-              <li className="nav-item" key={to}>
-                <NavLink
-                  to={to}
-                  className={({ isActive }) =>
-                    `${style['nav-link']} text-dark p-2 mx-2 fs-5 ${isActive ? style['active-link'] : ''}`
-                  }
-                >
-                  {label}
-                </NavLink>
-              </li>
-              
-            ))}
+       <ul className="navbar-nav ms-auto">
+  {[
+    { to: '/', label: 'Home' },
+    { to: '/flights', label: 'Flights' },
+    { to: '/hotels', label: 'Hotels' },
+    ...(JSON.parse(localStorage.getItem('currentUser'))?.email === 'ahmedelhalawany429@gmail.com'
+      ? [{ to: '/dashboard', label: 'Dashboard' }]
+      : []),
+  ].map(({ to, label }) => (
+    <li className="nav-item" key={to}>
+      <NavLink
+        to={to}
+        className={({ isActive }) =>
+          `${style['nav-link']} text-dark p-2 mx-2 fs-5 ${isActive ? style['active-link'] : ''}`
+        }
+      >
+        {label}
+      </NavLink>
+    </li>
+  ))}
+</ul>
 
-          </ul>
+
 
           <ul className="navbar-nav ms-auto">
             {user ? (

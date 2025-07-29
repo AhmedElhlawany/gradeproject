@@ -3,13 +3,49 @@ import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import styles from './Login.module.css';
 import { useNavigate, Link } from 'react-router-dom';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import {  signInWithEmailAndPassword } from 'firebase/auth';
+import { signInWithPopup } from "firebase/auth";
+import { auth, provider } from "../../firebase";
 
 export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const [apiError, setapiError] = useState('');
   const navigate = useNavigate();
-  const auth = getAuth();
+  // const auth = getAuth();
+const loginWithGoogle = async () => {
+  try {
+    const result = await signInWithPopup(auth, provider);
+    const user = result.user;
+
+    // جلب كل المستخدمين المسجلين في اللوكال (لو فيه)
+    const users = JSON.parse(localStorage.getItem("users")) || [];
+
+    // شوف لو المستخدم ده موجود بالفعل
+    let existingUser = users.find(u => u.email === user.email);
+
+    // لو مش موجود، ضيفه لقائمة المستخدمين
+    if (!existingUser) {
+      existingUser = {
+        email: user.email,
+        name: user.displayName,
+        photo: user.photoURL,
+        uid: user.uid,
+      };
+      users.push(existingUser);
+      localStorage.setItem("users", JSON.stringify(users));
+    }
+
+    // احفظ المستخدم الحالي
+    localStorage.setItem("currentUser", JSON.stringify(existingUser));
+    localStorage.setItem("userEmail", existingUser.email);
+
+    // التوجيه لصفحة الهوم
+    navigate("/");
+
+  } catch (error) {
+    console.error("Google sign-in error:", error);
+  }
+};
 
   const validationSchema = Yup.object({
   email: Yup.string().email('Email is invalid').required('Email is required'),
@@ -27,6 +63,7 @@ const handleLogin = async (formValues) => {
   try {
     const userCredential = await signInWithEmailAndPassword(auth, formValues.email, formValues.password);
     const token = await userCredential.user.getIdToken();
+      const user = userCredential.user;
 
     const users = JSON.parse(localStorage.getItem('users')) || [];
     const currentUser = users.find(user => user.email === formValues.email);
@@ -34,6 +71,17 @@ const handleLogin = async (formValues) => {
     if (currentUser) {
       localStorage.setItem('currentUser', JSON.stringify(currentUser));
     }
+await fetch("http://localhost:3000/api/users", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email: user.email }),
+      });
+
+      // إعادة توجيه لصفحة الـ dashboard أو الـ home
+     
+   
 
     navigate('/');
     localStorage.setItem("userEmail", currentUser.email);
@@ -103,7 +151,10 @@ const handleLogin = async (formValues) => {
         <p className={`${styles['login']}  mt-3`}>
           Don&apos;t have an account? <Link to="/register">Register</Link>
         </p>
+              <button onClick={loginWithGoogle} className={`${styles['loginG-btn']}  btn w-100 mt-4`}>Sign in with Google <i className="fa-brands fa-google"></i></button>
+
       </div>
+
     </div>
   );
 }

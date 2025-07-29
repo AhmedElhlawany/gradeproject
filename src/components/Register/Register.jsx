@@ -25,26 +25,20 @@ export default function Register() {
   setIsLoading(true);
   setApiError('');
   try {
-    // إنشاء مستخدم في Firebase
     await createUserWithEmailAndPassword(auth, values.email, values.password);
 
-    // تحضير بيانات المستخدم اللي هتتحفظ (بدون الباسورد لو تحب للأمان)
     const userData = {
       name: values.name,
       phone: values.phone,
       email: values.email,
     };
 
-    // جلب المستخدمين الموجودين بالفعل من localStorage (لو في)
     const existingUsers = JSON.parse(localStorage.getItem('users')) || [];
 
-    // إضافة المستخدم الجديد للـ array
     existingUsers.push(userData);
 
-    // حفظ الـ array في localStorage
     localStorage.setItem('users', JSON.stringify(existingUsers));
 
-    // كمان ممكن تحفظ المستخدم الحالي لوحده
     localStorage.setItem('currentUser', JSON.stringify(userData));
 
     alert("Registration successful!");

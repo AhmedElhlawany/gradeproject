@@ -16,7 +16,8 @@ export default function Profile() {
     <div className="col-md-6">  
        <h2>Welcome, {user.name}</h2>
 
-       <h4> <Link to="/myBookings">My Flights</Link></h4>
+       <h4> <Link to="/myBookings">booked Flights</Link></h4>
+       <h4> <Link to="/bookedHotels">Booked Hotels</Link></h4>
     </div>
     <div className="col-md-6">  
 <h2>General Information</h2>

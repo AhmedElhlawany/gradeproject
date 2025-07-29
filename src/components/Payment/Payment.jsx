@@ -4,7 +4,7 @@ import { FlightContext } from "../Context/FlightContext";
 import styles from "./Payment.module.css";
 
 export default function Payment() {
-  const { selectedFlight, numberOfPersons, user } = useContext(FlightContext);
+  const { selectedFlight, adults, child } = useContext(FlightContext);
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -16,6 +16,9 @@ export default function Payment() {
 
   const [isPaymentConfirmed, setIsPaymentConfirmed] = useState(false);
   const [error, setError] = useState("");
+
+  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+  const userEmail = currentUser?.email;
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -53,44 +56,72 @@ export default function Payment() {
     return null;
   };
 
- const handleSubmit = (e) => {
-  e.preventDefault();
-  const validationError = validateForm();
-  if (validationError) {
-    setError(validationError);
-    return;
-  }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const validationError = validateForm();
+    if (validationError) {
+      setError(validationError);
+      return;
+    }
 
-  // محاولة الحصول على البريد الإلكتروني من localStorage لو مش موجود في Context
-  const userKey = user?.email || localStorage.getItem("userEmail") || "guest";
+    if (!userEmail) {
+      setError("Please login to book a flight.");
+      return;
+    }
 
-  const savedBookings = JSON.parse(localStorage.getItem("bookings")) || {};
+    if (!selectedFlight?.id) {
+      setError("Invalid flight data.");
+      return;
+    }
 
-  const newBooking = {
-    ...selectedFlight,
-    numberOfPersons,
-    totalPrice: selectedFlight.price * numberOfPersons,
-    dateBooked: new Date().toISOString(),
+    try {
+      const res = await fetch(`http://localhost:3000/api/users/${encodeURIComponent(userEmail)}/bookings`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          flightId: selectedFlight.id,
+          adults,
+          children: child,
+        }),
+      });
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.error || "Failed to book flight");
+      }
+
+      setIsPaymentConfirmed(true);
+      setError("");
+    } catch (err) {
+      console.error("Error booking flight:", err);
+      setError(`Failed to book flight: ${err.message}`);
+    }
   };
 
-  savedBookings[userKey] = [...(savedBookings[userKey] || []), newBooking];
-  localStorage.setItem("bookings", JSON.stringify(savedBookings));
+  const handleCancelBooking = async () => {
+    if (!userEmail || !selectedFlight?.id) return;
 
-  setIsPaymentConfirmed(true);
-  setError("");
-};
+    try {
+      const res = await fetch(`http://localhost:3000/api/users/${encodeURIComponent(userEmail)}/cancel-booking`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ flightId: selectedFlight.id }),
+      });
 
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.error || "Failed to cancel booking");
+      }
 
-  const handleCancelBooking = () => {
-    const userKey = user?.email || "guest";
-    const savedBookings = JSON.parse(localStorage.getItem("bookings")) || {};
-    if (savedBookings[userKey]) {
-      savedBookings[userKey] = savedBookings[userKey].filter(
-        (f) => f.date !== selectedFlight.date || f.from !== selectedFlight.from
-      );
-      localStorage.setItem("bookings", JSON.stringify(savedBookings));
+      setIsPaymentConfirmed(false);
+    } catch (err) {
+      console.error("Error cancelling booking:", err);
+      setError(`Failed to cancel booking: ${err.message}`);
     }
-    setIsPaymentConfirmed(false);
   };
 
   const handleBackToFlights = () => navigate("/flights");
@@ -132,7 +163,7 @@ export default function Payment() {
               <p><strong>To:</strong> {selectedFlight.to}</p>
               <p><strong>Date:</strong> {selectedFlight.date}</p>
               <p><strong>Airline:</strong> {selectedFlight.airline}</p>
-              <p><strong>Price:</strong> ${selectedFlight.price * numberOfPersons}</p>
+              <p><strong>Price:</strong> ${selectedFlight.price * (adults + child * 0.5)}</p>
             </div>
 
             <h3 className={styles.subTitle}>Payment Information</h3>

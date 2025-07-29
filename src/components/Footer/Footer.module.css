@@ -46,5 +46,10 @@
 }
 .footer a:hover{
     color: #3db9ef;
-    transform: translateX(20px) !important;
+}
+.footer li{
+    transition: all 0.5s;
+}
+.footer li:hover{
+    transform: translateX(10px);
 }

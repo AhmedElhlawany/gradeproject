@@ -2,27 +2,34 @@ import React, { useEffect, useState } from 'react'
 import Style from './Home.module.css'
 import Airportpana from '../../assets/Departing-rafiki.png'
 import axios, { Axios } from 'axios';
+import { Link, Links } from 'react-router-dom';
+import Slider from 'react-slick';
 export default function Home() {
 
 
-  const [flights, setFlights] = useState([]);
   const [token, setToken] = useState("");
   const [Places, setPlaces] = useState([])
 
-  const client_id = "s7YKywfPV4vZaM0scicmt217efz3kWKz ";
-  const client_secret = "AUkxfV94aMiqcCWc";
-
-  const getAccessToken = async () => {
-    const response = await axios.post(
-      "https://test.api.amadeus.com/v1/security/oauth2/token",
-      new URLSearchParams({
-        grant_type: "client_credentials",
-        client_id,
-        client_secret,
-      })
-    );
-    setToken(response.data.access_token);
+  // const client_id = "s7YKywfPV4vZaM0scicmt217efz3kWKz ";
+  // const client_secret = "AUkxfV94aMiqcCWc";
+  const settings = {
+    slidesToShow: 4,
+    slidesToScroll: 1,
+    infinite: true,
+    autoplay: true,
+    autoplaySpeed: 2000,
   };
+  // const getAccessToken = async () => {
+  //   const response = await axios.post(
+  //     "https://test.api.amadeus.com/v1/security/oauth2/token",
+  //     new URLSearchParams({
+  //       grant_type: "client_credentials",
+  //       client_id,
+  //       client_secret,
+  //     })
+  //   );
+  //   setToken(response.data.access_token);
+  // };
   function getPlaces() {
     axios.get(`http://localhost:3000/api/places`).then(res => setPlaces(res.data));
 
@@ -31,7 +38,7 @@ export default function Home() {
 
 
   useEffect(() => {
-    getAccessToken();
+    // getAccessToken();
     getPlaces();
   }, []);
 
@@ -53,8 +60,8 @@ export default function Home() {
 
 
           <div className={`${Style["heroButtons"]}`}>
-            <button className={`me-3 btn ${Style['btn-book']} px-4`}>Book Now</button>
-            <button className='me-3 px-4 btn btn-secondary'>Explore</button>
+            <button className={`me-3 btn ${Style['btn-Hbook']} px-4`} > <Link to="/flights"> Book Now </Link></button>
+            <button className='me-3 px-4 btn btn-secondary'> <Link to="/hotels">Explore</Link></button>
           </div>
 
 
@@ -66,7 +73,7 @@ export default function Home() {
 
       <div className={`${Style['provide']}`}>
 
-        <div className="container py-5">
+        <div className="container">
           <div className="row">
             <div className="col-md-6 p-5">
               <img src={Airportpana} alt="" className='w-100' />
@@ -75,25 +82,38 @@ export default function Home() {
               <h2 className='pt-0'>We <span>provide</span> the best </h2>
 
               <ul>
-                <li>
-                  <i className="fa-solid fa-code-compare me-2"></i>
+                <li className='d-flex align-items-center'>
+                  <div className={`${Style['icondiv']}`}><i className="fa-solid fa-code-compare me-2"></i></div>
                   Search and Compare
                 </li>
-                <li>
-                  <i className="fa-solid fa-comment me-2"></i>
+                <li className='d-flex align-items-center'>
+                  <div className={`${Style['icondiv']}`}>
+                    <i className="fa-solid fa-comment me-2"></i>
+
+                  </div>
                   Customer reviews
                 </li>
-                <li>
-                  <i className="fa-solid fa-money-check me-2"></i>
+                <li className='d-flex align-items-center'>
+                  <div className={`${Style['icondiv']}`}>
+                    <i className="fa-solid fa-money-check me-2"></i>
+
+                  </div>
+
                   online check-in
 
                 </li>
-                <li>
-                  <i className="fa-solid fa-earth-americas me-2"></i>
+                <li className='d-flex align-items-center'>
+                  <div className={`${Style['icondiv']}`}>
+                    <i className="fa-solid fa-earth-americas me-2"></i>
+
+                  </div>
                   multi cities
                 </li>
-                <li>
-                  <i className="fa-solid fa-plane-departure me-2"></i>
+                <li className='d-flex align-items-center'>
+                  <div className={`${Style['icondiv']}`}>
+                    <i className="fa-solid fa-plane-departure me-2"></i>
+
+                  </div>
                   flight tracking
                 </li>
               </ul>
@@ -116,6 +136,9 @@ export default function Home() {
 
 
       <div >
+
+
+
         <div className="container">
 
 
@@ -124,25 +147,25 @@ export default function Home() {
 
           <p className={`text-center text-secondary`}>Discover breathtaking locations around the world. From iconic landmarks to hidden gems.</p>
 
-          <div className="row  py-5">
-            {Places.slice(0, 3).map((place) => (
-              <div key={place.id} className={`${Style['destinationsCard']} col-md-4 p-3`}>
+          <Slider {...settings}>
+            {Places.map((place) => (
+              <div key={place.id} className={`${Style['destinationsCard']} col-md-4 p-3`} >
                 <div className={`${Style['card']}`}>
                   <div className={`${Style['cardTop']} overflow-hidden d-flex align-items-center justify-content-center`}>
-                    <img src={place.image} className='w-100' alt="" />
+                    <img src={place.image} className='w-100 h-100' alt={place.city} />
 
                   </div>
                   <div className={`${Style['cardContent']}`}>
-                                        <h2>{place.city}</h2>
+                    <h2>{place.city}</h2>
 
                     <ul>
                       {place?.places?.map((place) => (
-                        <li key={place.id}><i className="fa-solid fa-camera"></i> {place.name}</li>
+                        <li key={place.id}><i className="fa-solid fa-location-dot"></i> {place.name}</li>
                       ))}
                     </ul>
                     <div className={`d-flex align-items-center justify-content-end pt-2`}>
 
-                      <button className={`${Style['explore']} w-100`}>Explore</button>
+                      <button className={`${Style['explore']} w-100`} > <Link to={'/flights'} className='text-decoration-none text-light'> Explore</Link> </button>
 
 
 
@@ -151,16 +174,16 @@ export default function Home() {
                 </div>
               </div>
             ))}
-
-          </div>
-
-
-
+          </Slider>
 
         </div>
+
+
+
+
       </div>
 
-     
+
     </>
   )
 }

@@ -1,0 +1,102 @@
+
+.container {
+  display: flex;
+  background: linear-gradient(135deg, #ffffff, #f0f9ff);
+  font-family: 'Poppins', sans-serif;
+  min-height: 100%; 
+  position: relative;
+
+}
+
+.sidebar {
+  width: 220px;
+  background: #ffffff;
+  box-shadow: 2px 0 10px rgba(0, 195, 255, 0.1);
+  padding: 20px;
+  min-height: 100vh;
+  
+}
+
+.sidebarMenu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  margin-top: 100px;
+  position:fixed;
+  
+}
+
+.sidebarLink {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #00c3ff;
+  font-size: 1.1rem;
+  font-weight: 500;
+  padding: 10px 15px;
+  text-decoration: none;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  transition: background-color 0.3s;
+}
+
+.sidebarLink:hover,
+.sidebarLink.active {
+  background-color: #00c3ff; 
+  color: #ffffff;
+}
+
+.sidebarIcon {
+  font-size: 1.2rem;
+}
+
+.mainContent {
+  margin-left: 0; 
+  padding: 70px 30px 30px 30px;
+  flex-grow: 1; 
+  width: calc(100% - 250px); 
+}
+
+
+
+.noData {
+  text-align: center;
+  padding: 50px;
+  color: #666;
+}
+
+.noData a {
+  color: #00c3ff;
+  text-decoration: none;
+}
+
+.noData a:hover {
+  color: #00c3ff; 
+}
+
+.dashboardFlightContainer{
+  height: 100%;
+}
+
+
+@media (max-width: 991px) {
+  .sidebar {
+    width: 200px;
+  }
+  .mainContent {
+    width: calc(100% - 200px);
+  }
+}
+
+@media (max-width: 767px) {
+  .sidebar {
+    width: 180px;
+  }
+  .mainContent {
+    width: calc(100% - 180px);
+    padding: 15px;
+  }
+  .headerTitle {
+    font-size: 1.5rem;
+  }
+}
