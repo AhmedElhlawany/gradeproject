@@ -138,8 +138,7 @@ export default function ViewFlights({ onFlightAdded }) {
               <th className={styles.thTo}>To</th>
               <th className={styles.thDeparture}>Departure</th>
               <th className={styles.thArrival}>Arrival</th>
-              <th className={styles.thDate}>Date</th>
-              <th className={styles.thReturnDate}>Return Date</th>
+              <th className={styles.thDate}>Date</th>            
               <th className={styles.thPrice}>Price</th>
               <th className={styles.thActions}>Actions</th>
             </tr>
@@ -154,7 +153,6 @@ export default function ViewFlights({ onFlightAdded }) {
                 <td>{flight.departureTime}</td>
                 <td>{flight.arrivalTime}</td>
                 <td>{flight.date}</td>
-                <td>{flight.returnDate || "N/A"}</td>
                 <td>${flight.price}</td>
                 <td>
                   <button
