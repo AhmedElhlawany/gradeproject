@@ -2,60 +2,40 @@ import React, { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { FlightContext } from "../Context/FlightContext";
 import FavoriteFlightCard from "../FavouriteCard/FavouriteCard";
+import { FavoritesContext } from "../Context/FavouriteContext";
 
 export default function FavoritesPage() {
-  const [favorites, setFavorites] = useState([]);
+  const { favorites, toggleFavorite } = useContext(FavoritesContext);
+  const { setSelectedFlight } = useContext(FlightContext);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const { setSelectedFlight } = useContext(FlightContext);
   const navigate = useNavigate();
 
   const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-  const userEmail = currentUser?.email;
+  const userId = currentUser?.id;
 
   useEffect(() => {
-    if (!userEmail) {
+    console.log("Favorites:", favorites);
+    if (!userId) {
+      setError("Please log in to view your favorites.");
       setLoading(false);
       return;
     }
-
-    fetch(`http://localhost:3000/api/users/${encodeURIComponent(userEmail)}/favorites`)
-      .then((res) => {
-        if (!res.ok) throw new Error("Failed to fetch favorites");
-        return res.json();
-      })
-      .then((favorites) => {
-        // تصفية الرحلات فقط
-        const flightsOnly = favorites.filter((f) => f.type === "flight");
-        setFavorites(flightsOnly);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error("Error fetching favorites:", err);
-        setError("Failed to load favorite flights. Please try again.");
-        setLoading(false);
-      });
-  }, [userEmail]);
+    setLoading(false);
+  }, [userId, favorites]);
 
   const removeFavorite = async (flightId) => {
-    if (!userEmail) return;
+    if (!userId) {
+      setError("Please log in to manage favorites.");
+      return;
+    }
 
     try {
-      const res = await fetch(
-        `http://localhost:3000/api/users/${encodeURIComponent(userEmail)}/favorites`,
-        {
-          method: "DELETE",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ id: flightId, type: "flight" }),
-        }
-      );
-      if (!res.ok) {
-        const errorData = await res.json();
-        throw new Error(errorData.error || "Failed to remove favorite");
+      const flight = favorites.find((f) => f.id === flightId && f.type === "flight");
+      if (!flight) {
+        throw new Error("Flight not found in favorites");
       }
-
-      // تحديث الـ state
-      setFavorites((prev) => prev.filter((f) => f.id !== flightId));
+      await toggleFavorite(flight);
     } catch (err) {
       console.error("Error removing favorite:", err);
       setError(`Failed to remove favorite: ${err.message}`);
@@ -63,11 +43,15 @@ export default function FavoritesPage() {
   };
 
   const handleBook = (flight) => {
+    console.log("Booking flight:", flight);
     setSelectedFlight(flight);
     navigate("/myflights");
   };
 
-  if (!userEmail) {
+  const flightFavorites = favorites.filter((f) => f.type === "flight");
+  console.log("Flight Favorites:", flightFavorites);
+
+  if (!userId) {
     return (
       <h2 className="text-center mt-5" style={{ paddingTop: "100px" }}>
         Please log in to view your favorites.
@@ -86,11 +70,11 @@ export default function FavoritesPage() {
   return (
     <div className="container my-5" style={{ paddingTop: "70px" }}>
       <h3 className="mb-4 pt-5">Favorite Flights</h3>
-      {favorites.length === 0 ? (
-        <p className="text-center">No favorite flights added yet.</p>
+      {flightFavorites.length === 0 ? (
+        <p className="text-center">No favorite flights added yet, or flight data is incomplete.</p>
       ) : (
         <div className="row">
-          {favorites.map((flight) => (
+          {flightFavorites.map((flight) => (
             <div key={flight.id} className="col-12 col-sm-12 col-md-12 col-lg-4 mb-4">
               <FavoriteFlightCard
                 flight={flight}

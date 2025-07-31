@@ -1,1 +1,7 @@
-.ProtectedRoute {}
+
+.toast-container{
+    position: relative;
+    width: 25%;
+    height: 20vh;
+  top: 20%;
+}

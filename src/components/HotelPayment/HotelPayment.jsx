@@ -4,15 +4,17 @@ import * as Yup from 'yup';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
+import axios from 'axios';
 
 export default function HotelPayment() {
   const { state } = useLocation();
   const navigate = useNavigate();
   const [isConfirmed, setIsConfirmed] = useState(false);
+  const [bookingId, setBookingId] = useState(null); // Store bookingId after submission
 
   const hotel = state?.hotel;
   const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-  const currentUserEmail = currentUser?.email;
+  const token = localStorage.getItem('token');
 
   if (!hotel) {
     return (
@@ -25,7 +27,7 @@ export default function HotelPayment() {
     );
   }
 
-  if (!currentUserEmail) {
+  if (!currentUser || !token) {
     return (
       <div className="container py-5 text-center">
         <h3>Please log in to book a hotel</h3>
@@ -43,10 +45,10 @@ export default function HotelPayment() {
 
   const formik = useFormik({
     initialValues: {
-      firstName: '',
-      lastName: '',
-      phone: '',
-      email: currentUserEmail || '',
+      firstName: currentUser.name?.split(' ')[0] || '',
+      lastName: currentUser.name?.split(' ')[1] || '',
+      phone: currentUser.phone || '',
+      email: currentUser.email || '',
       rooms: [{ type: '', count: 1 }],
       cardNumber: '',
       expiryDate: '',
@@ -88,9 +90,9 @@ export default function HotelPayment() {
         0
       );
 
-      const bookingId = uuidv4();
+      const newBookingId = uuidv4();
       const bookingData = {
-        bookingId,
+        bookingId: newBookingId,
         hotelId: hotel.id,
         hotelName: hotel.name,
         city: hotel.city,
@@ -107,72 +109,78 @@ export default function HotelPayment() {
       };
 
       try {
-        // تحديث عدد الغرف في الـ backend
+        // Update room availability in the backend
         for (const room of values.rooms) {
-          const response = await fetch(`http://localhost:3000/api/hotels/${hotel.id}/book`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
+          const response = await axios.post(
+            `http://localhost:3000/api/hotels/${hotel.id}/book`,
+            {
               roomType: room.type,
               quantity: room.count,
-            }),
-          });
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json',
+              },
+            }
+          );
 
-          if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.error || "Booking failed on server");
+          if (response.status !== 200) {
+            throw new Error(response.data.error || 'Booking failed on server');
           }
         }
 
-        // إضافة الحجز في bookedHotels
-        const bookingResponse = await fetch(
-          `http://localhost:3000/api/users/${encodeURIComponent(currentUserEmail)}/hotel-bookings`,
+        // Add booking to user's bookedHotels
+        const bookingResponse = await axios.post(
+          `http://localhost:3000/api/users/${currentUser.id}/hotel-bookings`,
+          bookingData,
           {
-            method: "POST",
             headers: {
-              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+              'Content-Type': 'application/json',
             },
-            body: JSON.stringify(bookingData),
           }
         );
 
-        if (!bookingResponse.ok) {
-          const errorData = await bookingResponse.json();
-          throw new Error(errorData.error || "Failed to save hotel booking");
+        if (bookingResponse.status !== 200) {
+          throw new Error(bookingResponse.data.error || 'Failed to save hotel booking');
         }
 
+        setBookingId(newBookingId); // Store bookingId for cancellation
         setIsConfirmed(true);
       } catch (error) {
-        alert(`Booking failed: ${error.message}`);
+        alert(`Booking failed: ${error.response?.data?.error || error.message}`);
       }
     },
   });
 
   const handleCancelBooking = async () => {
+    if (!bookingId) {
+      alert('No booking to cancel');
+      return;
+    }
+
     try {
-      const bookingId = formik.values.bookingId;
-      const response = await fetch(
-        `http://localhost:3000/api/users/${encodeURIComponent(currentUserEmail)}/cancel-hotel-booking`,
+      const response = await axios.post(
+        `http://localhost:3000/api/users/${currentUser.id}/cancel-hotel-booking`,
+        { bookingId },
         {
-          method: "POST",
           headers: {
-            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ bookingId }),
         }
       );
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || "Failed to cancel booking");
+      if (response.status !== 200) {
+        throw new Error(response.data.error || 'Failed to cancel booking');
       }
 
       setIsConfirmed(false);
+      setBookingId(null);
       navigate('/hotels');
     } catch (error) {
-      alert(`Cancel booking failed: ${error.message}`);
+      alert(`Cancel booking failed: ${error.response?.data?.error || error.message}`);
     }
   };
 

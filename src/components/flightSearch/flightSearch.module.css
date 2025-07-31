@@ -26,34 +26,15 @@
     background-color: #226a8a;
 }
 
-.flight-list table{
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-
-}
-
-.flight-list th, .flight-list td{
-    padding: 10px;
-    text-align: left;
-    border-bottom: 1px solid #ccc;
-}
-
-.flight-list th{
-    background-color: #de4e48;
-    color: #fff;
-}
-
-.flight-list td button{
-    padding: 5px 10px;
-    background-color: #de4e48;
-    color: #fff;
-    border: none;
+.dropdown-button {
+    padding: 10px 20px;
+    background-color: #fff !important;
+    color: #000 !important;
+    border: 1px solid #ccc !important;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
-.flight-list td button:hover{
-    background-color: #d8b6b3;
-}
+
+
 

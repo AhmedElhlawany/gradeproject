@@ -95,60 +95,7 @@ export default function WeatherCard({ city, date }) {
             </div>
           </div>
 
-          {/* Optional: activities area
-          <div className="col-md-12">
-            <div className="my-5 activities-area p-4 bg-light rounded">
-              <div className="d-flex gap-2 mb-3">
-                <FontAwesomeIcon
-                  icon={faHeart}
-                  style={{ fontSize: "24px", marginTop: 4 }}
-                />
-                <h4>Suggested Weather-Based Activities</h4>
-              </div>
-
-              <div className="row">
-                <div className="col-lg-4 my-2">
-                  <div className="card">
-                    <img
-                      src="https://source.unsplash.com/200x150/?hiking"
-                      className="card-img-top"
-                      alt="activity"
-                    />
-                    <div className="card-body">
-                      <p className="card-text">Perfect weather for hiking or outdoor walks!</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="col-lg-4 my-2">
-                  <div className="card">
-                    <img
-                      src="https://source.unsplash.com/200x150/?museum"
-                      className="card-img-top"
-                      alt="activity"
-                    />
-                    <div className="card-body">
-                      <p className="card-text">Visit indoor attractions like museums and galleries.</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="col-lg-4 my-2">
-                  <div className="card">
-                    <img
-                      src="https://source.unsplash.com/200x150/?cafe"
-                      className="card-img-top"
-                      alt="activity"
-                    />
-                    <div className="card-body">
-                      <p className="card-text">Chill in a cozy café and enjoy the view.</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div> */}
-
+         
         </div>
       </div>
     </div>

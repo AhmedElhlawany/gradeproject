@@ -1,138 +1,159 @@
-import React, { useEffect, useState } from "react";
-import styles from "./MyBookings.module.css";
+import React, { useEffect, useState } from 'react';
+import styles from './MyBookings.module.css';
+import axios from 'axios';
+import Swal from 'sweetalert2';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
-export default function MyBookings() {
-  const [favoriteFlights, setFavoriteFlights] = useState([]);
+export default function BookedFlights() {
   const [bookedFlights, setBookedFlights] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-  const userEmail = currentUser?.email;
+  const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
-    if (!userEmail) {
+    if (!currentUser || !token) {
       setLoading(false);
       return;
     }
 
-    // جلب الـ favorites والـ booked flights معًا
-    Promise.all([
-      fetch(`http://localhost:3000/api/users/${encodeURIComponent(userEmail)}/favorites`),
-      fetch(`http://localhost:3000/api/users/${encodeURIComponent(userEmail)}/bookings`),
-    ])
-      .then(([favRes, bookRes]) => {
-        if (!favRes.ok) throw new Error("Failed to fetch favorites");
-        if (!bookRes.ok) throw new Error("Failed to fetch bookings");
-        return Promise.all([favRes.json(), bookRes.json()]);
-      })
-      .then(([favorites, bookings]) => {
-        const flightsOnly = favorites.filter((f) => f.type === "flight");
-        setFavoriteFlights(flightsOnly);
-        setBookedFlights(bookings);
+    // Fetch booked flights from API
+    const fetchBookings = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:3000/api/users/${currentUser.id}/bookings`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+        setBookedFlights(response.data);
         setLoading(false);
-      })
-      .catch((err) => {
-        console.error("Error fetching data:", err);
-        setError("Failed to load data. Please try again.");
+      } catch (err) {
+        console.error('Error fetching booked flights:', err);
+        setError(err.response?.data?.error || 'Failed to load booked flights. Please try again.');
         setLoading(false);
-      });
-  }, [userEmail]);
-
-  const removeFavorite = async (flightId) => {
-    if (!userEmail) return;
-
-    try {
-      const res = await fetch(
-        `http://localhost:3000/api/users/${encodeURIComponent(userEmail)}/favorites`,
-        {
-          method: "DELETE",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ id: flightId, type: "flight" }),
-        }
-      );
-      if (!res.ok) {
-        const errorData = await res.json();
-        throw new Error(errorData.error || "Failed to remove favorite");
       }
+    };
 
-      // تحديث الـ state
-      setFavoriteFlights((prev) => prev.filter((f) => f.id !== flightId));
-    } catch (err) {
-      console.error("Error removing favorite:", err);
-      setError(`Failed to remove favorite: ${err.message}`);
-    }
-  };
+    fetchBookings();
+  }, [currentUser, token]);
 
   const cancelBooking = async (flightId) => {
-    if (!userEmail) return;
+    if (!currentUser || !token) return;
 
     try {
-      const res = await fetch(
-        `http://localhost:3000/api/users/${encodeURIComponent(userEmail)}/cancel-booking`,
+      const response = await axios.post(
+        `http://localhost:3000/api/users/${currentUser.id}/cancel-booking`,
+        { flightId },
         {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ flightId }),
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
         }
       );
-      if (!res.ok) {
-        const errorData = await res.json();
-        throw new Error(errorData.error || "Failed to cancel booking");
+
+      if (response.status !== 200) {
+        throw new Error(response.data.error || 'Failed to cancel booking');
       }
 
-      // تحديث الـ state
+      // Update state to remove cancelled booking
       setBookedFlights((prev) => prev.filter((f) => f.id !== flightId));
-    } catch (err) {
-      console.error("Error cancelling booking:", err);
-      setError(`Failed to cancel booking: ${err.message}`);
+      Swal.fire({
+        icon: 'success',
+        title: 'Booking Cancelled',
+        text: 'Your flight booking has been cancelled successfully.',
+        confirmButtonText: 'Ok',
+      });
+    } catch (error) {
+      console.error('Cancellation failed:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Cancellation Failed',
+        text: error.response?.data?.error || error.message,
+        confirmButtonText: 'Ok',
+      });
     }
   };
 
-  if (!userEmail) {
+  if (!currentUser || !token) {
     return (
-      <div className="container mt-5">
-        Please log in to see your favorites and bookings.
+      <div className="container mt-5 pt-5">
+        <h2 className="mb-4">Your Booked Flights</h2>
+        <p>Please log in to see your booked flights.</p>
       </div>
     );
   }
 
   if (loading) {
-    return <div className="container mt-5">Loading data...</div>;
+    return (
+      <div className="container mt-5 pt-5">
+        <h2 className="mb-4">Your Booked Flights</h2>
+        <p>Loading booked flights...</p>
+      </div>
+    );
   }
 
   if (error) {
-    return <div className="container mt-5 text-danger">{error}</div>;
+    return (
+      <div className="container mt-5 pt-5">
+        <h2 className="mb-4">Your Booked Flights</h2>
+        <p className="text-danger">{error}</p>
+      </div>
+    );
   }
 
   return (
     <div className="container mt-5 pt-5">
-
-      <h2 className={styles.sectionTitle}>My Booked Flights</h2>
+      <h2 className="mb-4">Your Booked Flights</h2>
       {bookedFlights.length === 0 ? (
         <p>No booked flights found.</p>
       ) : (
-        bookedFlights.map((flight, i) => (
-          <div key={i} className="card mb-3 p-3">
-            <p><strong>From:</strong> {flight.from}</p>
-            <p><strong>To:</strong> {flight.to}</p>
-            <p><strong>Date:</strong> {flight.date}</p>
-            <p><strong>Airline:</strong> {flight.airline}</p>
-            <p><strong>Flight Number:</strong> {flight.flightNumber}</p>
-            <p><strong>Adults:</strong> {flight.adults}</p>
-            <p><strong>Children:</strong> {flight.children}</p>
-            <p>
-              <strong>Total Price:</strong> $
-              {flight.price * (flight.adults + flight.children * 0.5)}
-            </p>
-            <button
-              className="btn btn-outline-danger"
-              onClick={() => cancelBooking(flight.id)}
-            >
-              Cancel Booking
-            </button>
-          </div>
-        ))
+        <div className="row">
+          {bookedFlights.map((flight) => (
+            <div key={flight.id} className="col-md-6 mb-4">
+              <div className={`card ${styles.card} p-3`}>
+                <div className="card-body">
+                  <p className="card-text">
+                    <strong>From:</strong> {flight.from}
+                  </p>
+                  <p className="card-text">
+                    <strong>To:</strong> {flight.to}
+                  </p>
+                  <p className="card-text">
+                    <strong>Date:</strong> {new Date(flight.date).toLocaleDateString()}
+                  </p>
+                  <p className="card-text">
+                    <strong>Airline:</strong> {flight.airline}
+                  </p>
+                  <p className="card-text">
+                    <strong>Flight Number:</strong> {flight.flightNumber}
+                  </p>
+                  <p className="card-text">
+                    <strong>Adults:</strong> {flight.adults}
+                  </p>
+                  <p className="card-text">
+                    <strong>Children:</strong> {flight.children}
+                  </p>
+                  <p className="card-text">
+                    <strong>Total Price:</strong> $
+                    {(flight.price * (flight.adults + flight.children * 0.5)).toFixed(2)}
+                  </p>
+                  <button
+                    className="btn btn-danger mt-2"
+                    onClick={() => cancelBooking(flight.id)}
+                  >
+                    Cancel Booking
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
       )}
     </div>
   );

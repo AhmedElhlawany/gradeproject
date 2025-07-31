@@ -10,26 +10,37 @@ export default function Home() {
   const [token, setToken] = useState("");
   const [Places, setPlaces] = useState([])
 
-  // const client_id = "s7YKywfPV4vZaM0scicmt217efz3kWKz ";
-  // const client_secret = "AUkxfV94aMiqcCWc";
+  
   const settings = {
     slidesToShow: 4,
     slidesToScroll: 1,
     infinite: true,
     autoplay: true,
     autoplaySpeed: 2000,
+    arrows: true,
   };
-  // const getAccessToken = async () => {
-  //   const response = await axios.post(
-  //     "https://test.api.amadeus.com/v1/security/oauth2/token",
-  //     new URLSearchParams({
-  //       grant_type: "client_credentials",
-  //       client_id,
-  //       client_secret,
-  //     })
-  //   );
-  //   setToken(response.data.access_token);
-  // };
+
+function getUsers() {
+  const token = localStorage.getItem("token"); 
+
+  axios
+    .get("http://localhost:3000/api/users", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then((res) => {console.log(res.data);
+      let userHotels =res.data.map((user) => console.log(
+       user.bookedHotels))
+      let userFlights =res.data.bookedFlights
+      console.log(userHotels,userFlights);
+      
+    })
+    .catch((err) => console.error("Error fetching users:", err.response?.data || err.message));
+}
+
+
+
   function getPlaces() {
     axios.get(`http://localhost:3000/api/places`).then(res => setPlaces(res.data));
 
@@ -40,6 +51,7 @@ export default function Home() {
   useEffect(() => {
     // getAccessToken();
     getPlaces();
+    getUsers();
   }, []);
 
   useEffect(() => {

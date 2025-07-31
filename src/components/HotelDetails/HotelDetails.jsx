@@ -83,7 +83,7 @@ export default function HotelDetails() {
 
               <p className="card-text">{hotel.description}</p>
 
-              <h4 className="text-warning mt-4">${hotel.availableRooms[0].price} <small className="text-muted fs-6">/ night</small></h4>
+              {/* <h4 className="text-warning mt-4">${hotel.availableRooms[0].price} <small className="text-muted fs-6">/ night</small></h4> */}
 
               <p className="mt-3">
                 <i className="fas fa-map-marker-alt me-2"></i>
@@ -93,7 +93,7 @@ export default function HotelDetails() {
  <strong className='me-4'>Available Rooms: </strong>
  <ul>
    {hotel.availableRooms.map((room, index) => (
-     <li key={index}><strong>{room.type}:</strong>  {room.quantity}</li>
+     <li key={index}><strong>{room.type}:</strong>  {room.price} $ /night</li>
    ))}
  </ul>
               </div>
