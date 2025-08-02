@@ -99,7 +99,6 @@ export default function Dashboard() {
           <Route index element={<OverView />} />
           <Route path="add-flights" element={<AddFlights />} />
           <Route path="overview" element={<OverView />} />
-          <Route path="view-flights" element={<viewFlights />} />
           <Route path="add-hotels" element={<AddHotels />} />
           <Route path="add-airlines" element={<AddAirlines />} />
           <Route path="view-flights" element={<ViewFlights />} />
