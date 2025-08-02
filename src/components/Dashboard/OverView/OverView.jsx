@@ -173,7 +173,6 @@ export default function OverView() {
 
   return (
     <div className="container py-4">
-      <h1 className="mb-4 text-primary">Profit Overview Dashboard</h1>
 
       <div className="row row-cols-1 row-cols-md-3 g-4 mb-4">
         <div className="col">
