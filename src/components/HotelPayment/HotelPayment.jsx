@@ -5,12 +5,13 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 export default function HotelPayment() {
   const { state } = useLocation();
   const navigate = useNavigate();
   const [isConfirmed, setIsConfirmed] = useState(false);
-  const [bookingId, setBookingId] = useState(null); // Store bookingId after submission
+  const [bookingId, setBookingId] = useState(null);
 
   const hotel = state?.hotel;
   const currentUser = JSON.parse(localStorage.getItem('currentUser'));
@@ -52,7 +53,6 @@ export default function HotelPayment() {
       rooms: [{ type: '', count: 1 }],
       checkIn: '',
       checkOut: '',
-
       cardNumber: '',
       expiryDate: '',
       cvv: '',
@@ -81,7 +81,6 @@ export default function HotelPayment() {
       checkOut: Yup.date()
         .min(Yup.ref('checkIn'), 'Check-out must be after check-in')
         .required('Check-out date is required'),
-
       cardNumber: Yup.string()
         .matches(/^\d{16}$/, 'Card number must be 16 digits')
         .required('Required'),
@@ -119,7 +118,6 @@ export default function HotelPayment() {
       };
 
       try {
-        // Update room availability in the backend
         for (const room of values.rooms) {
           const response = await axios.post(
             `http://localhost:3000/api/hotels/${hotel.id}/book`,
@@ -140,7 +138,6 @@ export default function HotelPayment() {
           }
         }
 
-        // Add booking to user's bookedHotels
         const bookingResponse = await axios.post(
           `http://localhost:3000/api/users/${currentUser.id}/hotel-bookings`,
           bookingData,
@@ -156,17 +153,34 @@ export default function HotelPayment() {
           throw new Error(bookingResponse.data.error || 'Failed to save hotel booking');
         }
 
-        setBookingId(newBookingId); // Store bookingId for cancellation
+        setBookingId(newBookingId);
         setIsConfirmed(true);
+        await Swal.fire({
+          title: 'Success!',
+          text: `Your booking at ${hotel.name} for $${totalCost.toFixed(2)} has been confirmed!`,
+          icon: 'success',
+          confirmButtonText: 'OK'
+        });
       } catch (error) {
-        alert(`Booking failed: ${error.response?.data?.error || error.message}`);
+        const errorMessage = error.response?.data?.error || error.message;
+        await Swal.fire({
+          title: 'Error!',
+          text: `Booking failed: ${errorMessage}`,
+          icon: 'error',
+          confirmButtonText: 'OK'
+        });
       }
     },
   });
 
   const handleCancelBooking = async () => {
     if (!bookingId) {
-      alert('No booking to cancel');
+      await Swal.fire({
+        title: 'Error!',
+        text: 'No booking to cancel',
+        icon: 'error',
+        confirmButtonText: 'OK'
+      });
       return;
     }
 
@@ -188,9 +202,21 @@ export default function HotelPayment() {
 
       setIsConfirmed(false);
       setBookingId(null);
+      await Swal.fire({
+        title: 'Success!',
+        text: 'Booking cancelled successfully!',
+        icon: 'success',
+        confirmButtonText: 'OK'
+      });
       navigate('/hotels');
     } catch (error) {
-      alert(`Cancel booking failed: ${error.response?.data?.error || error.message}`);
+      const errorMessage = error.response?.data?.error || error.message;
+      await Swal.fire({
+        title: 'Error!',
+        text: `Cancel booking failed: ${errorMessage}`,
+        icon: 'error',
+        confirmButtonText: 'OK'
+      });
     }
   };
 
@@ -376,33 +402,31 @@ export default function HotelPayment() {
               <h5>Total Cost: ${totalCost.toFixed(2)}</h5>
             </div>
 
+            <div className="col-md-6">
+              <label htmlFor="checkIn" className="form-label">Check-In Date</label>
+              <input
+                id="checkIn"
+                type="date"
+                className="form-control"
+                {...formik.getFieldProps('checkIn')}
+              />
+              {formik.touched.checkIn && formik.errors.checkIn && (
+                <div className="text-danger">{formik.errors.checkIn}</div>
+              )}
+            </div>
 
-<div className="col-md-6">
-  <label htmlFor="checkIn" className="form-label">Check-In Date</label>
-  <input
-    id="checkIn"
-    type="date"
-    className="form-control"
-    {...formik.getFieldProps('checkIn')}
-  />
-  {formik.touched.checkIn && formik.errors.checkIn && (
-    <div className="text-danger">{formik.errors.checkIn}</div>
-  )}
-</div>
-
-<div className="col-md-6">
-  <label htmlFor="checkOut" className="form-label">Check-Out Date</label>
-  <input
-    id="checkOut"
-    type="date"
-    className="form-control"
-    {...formik.getFieldProps('checkOut')}
-  />
-  {formik.touched.checkOut && formik.errors.checkOut && (
-    <div className="text-danger">{formik.errors.checkOut}</div>
-  )}
-</div>
-
+            <div className="col-md-6">
+              <label htmlFor="checkOut" className="form-label">Check-Out Date</label>
+              <input
+                id="checkOut"
+                type="date"
+                className="form-control"
+                {...formik.getFieldProps('checkOut')}
+              />
+              {formik.touched.checkOut && formik.errors.checkOut && (
+                <div className="text-danger">{formik.errors.checkOut}</div>
+              )}
+            </div>
 
             <div className="col-md-6">
               <label htmlFor="cardNumber" className="form-label">

@@ -14,7 +14,6 @@ export default function FavoriteFlightCard({ flight, onRemove, onBook }) {
           </div>
           <div className="ms-2">
             <h5 className="mb-0">{flight.airline}</h5>
-            <small>{flight.flightNumber}</small>
           </div>
         </div>
         <div className="d-flex flex-row align-items-center flex-grow-1 justify-content-between">

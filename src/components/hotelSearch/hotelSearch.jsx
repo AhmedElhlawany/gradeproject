@@ -415,9 +415,9 @@ const HotelBooking = () => {
                   <div className="card h-100 shadow-sm border-0 overflow-hidden">
                     <div className="overflow-hidden position-relative" style={{ height: "200px" }}>
                       <img src={hotel.image} className="w-100" style={{ height: "100%" }} alt="" />
-                      <span className="badge bg-light bg-opacity-50 fw-normal text-dark position-absolute top-0 end-0 m-2">
+                      {/* <span className="badge bg-light bg-opacity-50 fw-normal text-dark position-absolute top-0 end-0 m-2">
                         {hotel.availableRooms[0].quantity} Rooms
-                      </span>
+                      </span> */}
                     </div>
                     <div className="card-body pb-5 mb-2">
                       <div className="d-flex justify-content-between">
