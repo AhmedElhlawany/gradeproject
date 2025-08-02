@@ -20,6 +20,7 @@ export default function OverView() {
     hotelProfit: 0,
     monthlyProfits: {},
   });
+  const [userBookings, setUserBookings] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -42,14 +43,19 @@ export default function OverView() {
         const data = await res.json();
         const users = data || [];
         console.log('Users:', users);
-        console.log("data " , data);
-        
-        
+        console.log('Data:', data);
+
         let flightProfit = 0;
         let hotelProfit = 0;
         const monthlyProfits = {};
+        const userBookingsData = {};
 
         users.forEach((user) => {
+          const userIdentifier = user.name || user.email || `User ${user.id}`;
+          const flightCount = (user.bookedFlights || []).length;
+          const hotelCount = (user.bookedHotels || []).length;
+          userBookingsData[userIdentifier] = flightCount + hotelCount;
+
           (user.bookedFlights || []).forEach((flight) => {
             const profit = flight.price * (flight.adults + flight.children) * 0.1;
             flightProfit += profit;
@@ -72,6 +78,7 @@ export default function OverView() {
         console.log('Flight Profit:', flightProfit);
         console.log('Hotel Profit:', hotelProfit);
         console.log('Monthly Profits:', monthlyProfits);
+        console.log('User Bookings:', userBookingsData);
 
         setProfitData({
           totalProfit: flightProfit + hotelProfit,
@@ -79,7 +86,7 @@ export default function OverView() {
           hotelProfit,
           monthlyProfits,
         });
-
+        setUserBookings(userBookingsData);
         setLoading(false);
       } catch (err) {
         console.error('Error fetching data:', err);
@@ -120,6 +127,19 @@ export default function OverView() {
     ],
   };
 
+  const userChartData = {
+    labels: Object.keys(userBookings),
+    datasets: [
+      {
+        label: 'Total Bookings (Flights + Hotels)',
+        data: Object.values(userBookings),
+        backgroundColor: 'rgba(153, 102, 255, 0.6)',
+        borderColor: 'rgba(153, 102, 255, 1)',
+        borderWidth: 1,
+      },
+    ],
+  };
+
   if (loading) {
     return (
       <div className="container py-4 text-center">
@@ -139,8 +159,21 @@ export default function OverView() {
     );
   }
 
+  if (
+    profitData.totalProfit === 0 &&
+    Object.keys(profitData.monthlyProfits).length === 0 &&
+    Object.keys(userBookings).length === 0
+  ) {
+    return (
+      <div className="container py-4 text-center">
+        <p className="text-muted h5">No booking data or users available to display.</p>
+      </div>
+    );
+  }
+
   return (
     <div className="container py-4">
+      <h1 className="mb-4 text-primary">Profit Overview Dashboard</h1>
 
       <div className="row row-cols-1 row-cols-md-3 g-4 mb-4">
         <div className="col">
@@ -188,6 +221,36 @@ export default function OverView() {
               </div>
             </div>
           </div>
+
+
+          {/*  */}
+                   <div className="card shadow-sm mt-3">
+            <div className="card-body">
+              <h2 className="card-title h5 mb-3">User Booking Activity</h2>
+              <div style={{ position: 'relative' }}>
+                <Bar
+                  data={userChartData}
+                  options={{
+                    responsive: true,
+                    plugins: {
+                      legend: { position: 'top' },
+                      title: { display: true, text: 'Bookings per User' },
+                    },
+                    scales: {
+                      y: {
+                        beginAtZero: true,
+                        ticks: {
+                          stepSize: 1,
+                        },
+                      },
+                    },
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+
+          {/*  */}
         </div>
         <div className="col">
           <div className="card shadow-sm">
@@ -207,6 +270,9 @@ export default function OverView() {
               </div>
             </div>
           </div>
+        </div>
+        <div className="col">
+         
         </div>
       </div>
     </div>
