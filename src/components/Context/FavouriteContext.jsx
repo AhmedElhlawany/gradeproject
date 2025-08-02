@@ -8,11 +8,13 @@ export const FavoritesProvider = ({ children }) => {
   const userId = parseInt(currentUser?.id);
 
   useEffect(() => {
+
     if (!userId || !localStorage.getItem('token')) {
       console.error('No userId or token found');
       setFavorites([]);
       return;
     }
+
 
     const fetchFavorites = async () => {
       try {
@@ -50,7 +52,21 @@ export const FavoritesProvider = ({ children }) => {
       }
     };
 
-    fetchFavorites();
+const handleStorageChange = () => {
+    const updatedUser = JSON.parse(localStorage.getItem('currentUser'));
+    const updatedUserId = parseInt(updatedUser?.id);
+
+    if (!updatedUserId || !localStorage.getItem('token')) {
+      setFavorites([]);
+      return;
+    }
+
+    fetchFavorites(updatedUserId);
+  };
+ window.addEventListener('storage', handleStorageChange);
+  handleStorageChange(); // initial run
+
+  return () => window.removeEventListener('storage', handleStorageChange);
   }, [userId]);
 
   const toggleFavorite = async (flight) => {
