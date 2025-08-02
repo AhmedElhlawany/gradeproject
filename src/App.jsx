@@ -39,6 +39,10 @@ import "slick-carousel/slick/slick-theme.css";
 
 import FlightContextProvider from './components/Context/FlightContext';
 import { FavoritesProvider } from './components/Context/FavouriteContext';
+import Users from './components/Dashboard/Users/Users';
+import UsersBookedFlights from './components/Dashboard/UsersBookedFlights/UsersBookedFlights';
+import UsersBookedHotels from './components/Dashboard/UsersBookedHotels/UsersBookedHotels';
+import OverView from './components/Dashboard/OverView/OverView';
 
 const adminroutes = createBrowserRouter([
   {
@@ -53,12 +57,16 @@ const adminroutes = createBrowserRouter([
           </Suspense>
         ),
         children: [
-          { element: <Navigate to="view-flights" replace /> },
+          { element: <Navigate to="overview" replace /> },
           { path: 'add-flights', element: <AddFlights /> },
+          { path: 'overview', element: <OverView /> },
           { path: 'add-hotels', element: <AddHotels /> },
           { path: 'add-airlines', element: <AddAirlines /> },
           { path: 'view-flights', element: <ViewFlights /> },
           { path: 'view-hotels', element: <ViewHotels /> },
+          { path: 'users', element: <Users /> },
+          { path: 'usersbookedflights', element: <UsersBookedFlights /> },
+          { path: 'usersbookedhotels', element: <UsersBookedHotels /> },
         ],
       },
       { path: 'login', element: <Login /> },

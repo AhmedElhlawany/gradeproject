@@ -1,0 +1,27 @@
+
+
+.tablebookedflights {
+     width: 100%;
+  border-collapse: collapse;
+  font-family: 'Arial', sans-serif;
+  border-radius: 10px;
+  overflow: hidden;
+  text-align: center;
+}
+
+
+.tablebookedflights thead {
+    background-color: #00c3ff !important;
+    
+}
+.tablebookedflights thead  tr{
+    background-color: #00c3ff !important;
+    
+}
+.tablebookedflights th {
+    background-color: #00c3ff !important;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #ccc;
+}

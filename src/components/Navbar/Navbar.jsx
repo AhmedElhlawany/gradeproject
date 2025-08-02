@@ -68,32 +68,8 @@ export default function Navbar() {
           </ul>
 
           <ul className="navbar-nav ms-auto">
-            {JSON.parse(localStorage.getItem('currentUser'))? (
-              <>
-                <li className="nav-item">
-                  <NavLink
-                    to="/favorite"
-                    className={({ isActive }) =>
-                      `${style['nav-link']} d-flex align-items-center pt-3 text-dark p-2 mx-2 fs-5 ${
-                        isActive ? style['active-link'] : ''
-                      }`
-                    }
-                  >
-                    <i className={`fa-solid fa-heart ${style['profile-icon']}`}></i>
-                  </NavLink>
-                </li>
-                <li className="nav-item">
-                  <NavLink
-                    to="/profile"
-                    className={({ isActive }) =>
-                      `${style['nav-link']} d-flex align-items-center pt-3 text-dark p-2 mx-2 fs-5 ${
-                        isActive ? style['active-link'] : ''
-                      }`
-                    }
-                  >
-                    <i className={`fa-regular fa-user ${style['profile-icon']}`}></i>
-                  </NavLink>
-                </li>
+            {JSON.parse(localStorage.getItem('currentUser')) ? (
+              JSON.parse(localStorage.getItem('currentUser')).email === 'ahmedelhalawany429@gmail.com' ? (
                 <li className="nav-item">
                   <button
                     onClick={handleLogout}
@@ -102,7 +78,42 @@ export default function Navbar() {
                     Logout
                   </button>
                 </li>
-              </>
+              ) : (
+                <>
+                  <li className="nav-item">
+                    <NavLink
+                      to="/favorite"
+                      className={({ isActive }) =>
+                        `${style['nav-link']} d-flex align-items-center pt-3 text-dark p-2 mx-2 fs-5 ${
+                          isActive ? style['active-link'] : ''
+                        }`
+                      }
+                    >
+                      <i className={`fa-solid fa-heart ${style['profile-icon']}`}></i>
+                    </NavLink>
+                  </li>
+                  <li className="nav-item">
+                    <NavLink
+                      to="/profile"
+                      className={({ isActive }) =>
+                        `${style['nav-link']} d-flex align-items-center pt-3 text-dark p-2 mx-2 fs-5 ${
+                          isActive ? style['active-link'] : ''
+                        }`
+                      }
+                    >
+                      <i className={`fa-regular fa-user ${style['profile-icon']}`}></i>
+                    </NavLink>
+                  </li>
+                  <li className="nav-item">
+                    <button
+                      onClick={handleLogout}
+                      className={`${style['nav-link']} text-dark p-2 mx-2 fs-5 btn`}
+                    >
+                      Logout
+                    </button>
+                  </li>
+                </>
+              )
             ) : (
               <>
                 <li className="nav-item">

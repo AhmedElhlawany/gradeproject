@@ -50,6 +50,9 @@ export default function HotelPayment() {
       phone: currentUser.phone || '',
       email: currentUser.email || '',
       rooms: [{ type: '', count: 1 }],
+      checkIn: '',
+      checkOut: '',
+
       cardNumber: '',
       expiryDate: '',
       cvv: '',
@@ -74,6 +77,11 @@ export default function HotelPayment() {
           })
         )
         .min(1, 'At least one room selection is required'),
+      checkIn: Yup.date().required('Check-in date is required'),
+      checkOut: Yup.date()
+        .min(Yup.ref('checkIn'), 'Check-out must be after check-in')
+        .required('Check-out date is required'),
+
       cardNumber: Yup.string()
         .matches(/^\d{16}$/, 'Card number must be 16 digits')
         .required('Required'),
@@ -106,6 +114,8 @@ export default function HotelPayment() {
         phone: values.phone,
         email: values.email,
         bookingDate: new Date().toISOString(),
+        checkIn: values.checkIn,
+        checkOut: values.checkOut,
       };
 
       try {
@@ -325,8 +335,8 @@ export default function HotelPayment() {
                       max={
                         formik.values.rooms[index].type
                           ? hotel.availableRooms.find(
-                              (r) => r.type === formik.values.rooms[index].type
-                            )?.quantity || 1
+                            (r) => r.type === formik.values.rooms[index].type
+                          )?.quantity || 1
                           : 1
                       }
                       {...formik.getFieldProps(`rooms[${index}].count`)}
@@ -365,6 +375,34 @@ export default function HotelPayment() {
             <div className="col-12">
               <h5>Total Cost: ${totalCost.toFixed(2)}</h5>
             </div>
+
+
+<div className="col-md-6">
+  <label htmlFor="checkIn" className="form-label">Check-In Date</label>
+  <input
+    id="checkIn"
+    type="date"
+    className="form-control"
+    {...formik.getFieldProps('checkIn')}
+  />
+  {formik.touched.checkIn && formik.errors.checkIn && (
+    <div className="text-danger">{formik.errors.checkIn}</div>
+  )}
+</div>
+
+<div className="col-md-6">
+  <label htmlFor="checkOut" className="form-label">Check-Out Date</label>
+  <input
+    id="checkOut"
+    type="date"
+    className="form-control"
+    {...formik.getFieldProps('checkOut')}
+  />
+  {formik.touched.checkOut && formik.errors.checkOut && (
+    <div className="text-danger">{formik.errors.checkOut}</div>
+  )}
+</div>
+
 
             <div className="col-md-6">
               <label htmlFor="cardNumber" className="form-label">

@@ -6,21 +6,15 @@ import Footer from '../Footer/Footer'
 import style from './Layout.module.css'
 
 export default function Layout() {
+  const isAdmin = JSON.parse(localStorage.getItem('currentUser'))?.email === 'ahmedelhalawany429@gmail.com';
 
-  
-
-
-
-    return (
+  return (
     <>
-    <Navbar/>
-
+      { <Navbar />}
       <div className={` mx-auto ${style['layout']}`}>
         <Outlet></Outlet>
       </div>
-    
-    <Footer/>
-
+      {!isAdmin && <Footer />}
     </>
-  )
+  );
 }

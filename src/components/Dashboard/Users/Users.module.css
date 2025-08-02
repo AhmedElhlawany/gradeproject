@@ -1,0 +1,141 @@
+.container {
+ width: 100%;
+  margin: 0 auto;
+  padding: 20px 0;
+}
+.tableHeader{
+    background-color: #00c3ff !important;
+}
+.tableHeader tr{
+    background-color: #00c3ff !important;
+}
+.headerTitle {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.tableWrapper {
+  overflow-x: auto;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+.userTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Arial', sans-serif;
+  border-radius: 10px;
+  overflow: hidden;
+  
+}
+
+.userTable th,
+.userTable td {
+  padding: 12px 10px;
+  text-align: center;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.userTable th {
+  background-color: #00c3ff;
+  color: #ffffff;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  letter-spacing: 0.05em;
+}
+
+.thAirline { width: 12%; }
+.thuserNumber { width: 10%; }
+.thFrom { width: 10%; }
+.thTo { width: 10%; }
+.thDeparture { width: 10%; }
+.thArrival { width: 10%; }
+.thDate { width: 10%; }
+.thReturnDate { width: 10%; }
+.thPrice { width: 8%; }
+.thActions { width: 10%; }
+
+.userTable tr {
+  transition: background-color 0.3s ease;
+}
+
+.userTable tr:hover {
+  background-color: #f5f7fa;
+}
+
+.userTable td {
+  color: #333;
+  font-size: 0.95rem;
+}
+
+.userTable tr:last-child td {
+  border-bottom: none;
+}
+
+.loading {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #1a3c34;
+  padding: 20px;
+}
+
+.error {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #e34a59;
+  padding: 20px;
+}
+
+.empty {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #666;
+  padding: 20px;
+}
+
+.editButton {
+  background: transparent;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 8px;
+}
+
+.deleteButton {
+  background: transparent;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.editIcon {
+  font-size: 1rem;
+  color: #00c3ff;
+  transition: color 0.3s ease;
+}
+
+.editButton:hover .editIcon {
+  color: #0096c7;
+}
+
+.deleteIcon {
+  font-size: 1rem;
+  color: #dc3545;
+  transition: color 0.3s ease;
+}
+
+.deleteButton:hover .deleteIcon {
+  color: #c82333;
+}
+
