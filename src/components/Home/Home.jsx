@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import Style from './Home.module.css'
 import Airportpana from '../../assets/Departing-rafiki.png'
-import axios, { Axios } from 'axios';
-import { Link, Links } from 'react-router-dom';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
 import Slider from 'react-slick';
 export default function Home() {
 
@@ -17,7 +17,7 @@ export default function Home() {
     infinite: true,
     autoplay: true,
     autoplaySpeed: 2000,
-    arrows: true,
+    dots: true,
   };
 
 function getUsers() {
@@ -151,7 +151,7 @@ function getUsers() {
 
 
 
-        <div className="container">
+        <div className="container pb-5">
 
 
           <h2 className={`${Style['popular']} text-center`}>Popular <span>Destinations</span></h2>
@@ -159,35 +159,34 @@ function getUsers() {
 
           <p className={`text-center text-secondary`}>Discover breathtaking locations around the world. From iconic landmarks to hidden gems.</p>
 
-          <Slider {...settings}>
-            {Places.map((place) => (
-              <div key={place.id} className={`${Style['destinationsCard']} col-md-4 p-3`} >
-                <div className={`${Style['card']}`}>
-                  <div className={`${Style['cardTop']} overflow-hidden d-flex align-items-center justify-content-center`}>
-                    <img src={place.image} className='w-100 h-100' alt={place.city} />
-
-                  </div>
-                  <div className={`${Style['cardContent']}`}>
-                    <h2>{place.city}</h2>
-
-                    <ul>
-                      {place?.places?.map((place) => (
-                        <li key={place.id}><i className="fa-solid fa-location-dot"></i> {place.name}</li>
-                      ))}
-                    </ul>
-                    <div className={`d-flex align-items-center justify-content-end pt-2`}>
-
-                      <button className={`${Style['explore']} w-100`} > <Link to={'/flights'} className='text-decoration-none text-light'> Explore</Link> </button>
-
-
-
-                    </div>
-                  </div>
-                </div>
-              </div>
+ <Slider {...settings}>
+  {Places.map((place) => (
+    <div key={place.id} className={`${Style['destinationsCard']} p-3`}>
+      <div className={Style['card']}>
+        <div className={`${Style['cardTop']} overflow-hidden d-flex align-items-center justify-content-center`}>
+          <img src={place.image} className="w-100 h-100" alt={`Image of ${place.city}`} />
+        </div>
+        <div className={Style['cardContent']}>
+          <h2>{place.city}</h2>
+          <ul>
+            {place?.places?.map((subPlace) => (
+              <li key={subPlace.id}>
+                <i className="fa-solid fa-location-dot"></i> {subPlace.name}
+              </li>
             ))}
-          </Slider>
+          </ul>
+          <div className="d-flex align-items-center justify-content-end pt-2">
+            <Link to="/flights" className={`${Style['explore']} w-100 btn btn-primary text-decoration-none text-light`}>
+              Explore
+            </Link>
+          </div>
+        </div>
+      </div>
+    </div>
+  ))}
+</Slider>
 
+         
         </div>
 
 

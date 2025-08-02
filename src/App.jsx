@@ -34,6 +34,8 @@ import AddFlights from './components/Dashboard/AddFlights/AddFlights';
 import AddHotels from './components/Dashboard/AddHotels/AddHotels';
 import AddAirlines from './components/Dashboard/AddAirLine/AddAirlines';
 import ViewHotels from './components/Dashboard/ViewHotels/ViewHotels';
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 import FlightContextProvider from './components/Context/FlightContext';
 import { FavoritesProvider } from './components/Context/FavouriteContext';
