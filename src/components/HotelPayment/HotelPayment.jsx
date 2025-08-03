@@ -17,6 +17,15 @@ export default function HotelPayment() {
   const currentUser = JSON.parse(localStorage.getItem('currentUser'));
   const token = localStorage.getItem('token');
 
+  // Define important dates for discount with reasons
+  const importantDates = [
+    { date: '2025-12-24', reason: 'Christmas Eve' },
+    { date: '2025-12-25', reason: 'Christmas Day' },
+    { date: '2025-12-31', reason: "New Year's Eve" },
+    { date: '2026-01-01', reason: "New Year's Day" },
+    { date: '2025-02-14', reason: "Valentine's Day" },
+  ];
+
   if (!hotel) {
     return (
       <div className="container py-5 text-center">
@@ -92,10 +101,18 @@ export default function HotelPayment() {
         .required('Required'),
     }),
     onSubmit: async (values) => {
-      const totalCost = values.rooms.reduce(
+      let totalCost = values.rooms.reduce(
         (sum, room) => sum + (prices[room.type] || 0) * room.count,
         0
       );
+
+      // Apply 10% discount if check-in date is an important date
+      const checkInDate = new Date(values.checkIn).toISOString().split('T')[0];
+      const specialDate = importantDates.find((d) => d.date === checkInDate);
+      const isSpecialDate = !!specialDate;
+      if (isSpecialDate) {
+        totalCost *= 0.9; // Apply 10% discount
+      }
 
       const newBookingId = uuidv4();
       const bookingData = {
@@ -115,6 +132,7 @@ export default function HotelPayment() {
         bookingDate: new Date().toISOString(),
         checkIn: values.checkIn,
         checkOut: values.checkOut,
+        discountApplied: isSpecialDate ? `10% ${specialDate.reason} discount` : 'None',
       };
 
       try {
@@ -157,7 +175,7 @@ export default function HotelPayment() {
         setIsConfirmed(true);
         await Swal.fire({
           title: 'Success!',
-          text: `Your booking at ${hotel.name} for $${totalCost.toFixed(2)} has been confirmed!`,
+          text: `Your booking at ${hotel.name} for $${totalCost.toFixed(2)}${isSpecialDate ? ` (10% ${specialDate.reason} discount applied)` : ''} has been confirmed!`,
           icon: 'success',
           confirmButtonText: 'OK'
         });
@@ -225,6 +243,12 @@ export default function HotelPayment() {
     0
   );
 
+  // Calculate discounted total for display
+  const checkInDate = formik.values.checkIn ? new Date(formik.values.checkIn).toISOString().split('T')[0] : '';
+  const specialDate = importantDates.find((d) => d.date === checkInDate);
+  const isSpecialDate = !!specialDate;
+  const displayTotal = isSpecialDate ? totalCost * 0.9 : totalCost;
+
   const addRoomSelection = () => {
     formik.setFieldValue('rooms', [...formik.values.rooms, { type: '', count: 1 }]);
   };
@@ -244,7 +268,8 @@ export default function HotelPayment() {
         <div className="text-center">
           <h2>Booking Confirmed!</h2>
           <p>
-            Your booking at {hotel.name} for ${totalCost.toFixed(2)} has been confirmed.
+            Your booking at {hotel.name} for ${displayTotal.toFixed(2)}
+            {isSpecialDate ? ` (10% ${specialDate.reason} discount applied)` : ''} has been confirmed.
           </p>
           <div className="d-flex justify-content-center gap-3 mt-4">
             <button className="btn btn-primary" onClick={() => navigate('/hotels')}>
@@ -399,7 +424,10 @@ export default function HotelPayment() {
             </div>
 
             <div className="col-12">
-              <h5>Total Cost: ${totalCost.toFixed(2)}</h5>
+              <h5>
+                Total Cost: ${displayTotal.toFixed(2)}
+                {isSpecialDate ? ` (10% ${specialDate.reason} discount )` : ''}
+              </h5>
             </div>
 
             <div className="col-md-6">

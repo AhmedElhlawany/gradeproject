@@ -8,13 +8,10 @@ export const FavoritesProvider = ({ children }) => {
   const userId = parseInt(currentUser?.id);
 
   useEffect(() => {
-
     if (!userId || !localStorage.getItem('token')) {
-      console.error('No userId or token found');
       setFavorites([]);
       return;
     }
-
 
     const fetchFavorites = async () => {
       try {
@@ -52,62 +49,86 @@ export const FavoritesProvider = ({ children }) => {
       }
     };
 
-const handleStorageChange = () => {
-    const updatedUser = JSON.parse(localStorage.getItem('currentUser'));
-    const updatedUserId = parseInt(updatedUser?.id);
+    const handleStorageChange = () => {
+      const updatedUser = JSON.parse(localStorage.getItem('currentUser'));
+      const updatedUserId = parseInt(updatedUser?.id);
 
-    if (!updatedUserId || !localStorage.getItem('token')) {
-      setFavorites([]);
-      return;
-    }
+      if (!updatedUserId || !localStorage.getItem('token')) {
+        setFavorites([]);
+        return;
+      }
 
-    fetchFavorites(updatedUserId);
-  };
- window.addEventListener('storage', handleStorageChange);
-  handleStorageChange(); // initial run
+      fetchFavorites();
+    };
 
-  return () => window.removeEventListener('storage', handleStorageChange);
+    window.addEventListener('storage', handleStorageChange);
+    handleStorageChange(); // initial run
+
+    return () => window.removeEventListener('storage', handleStorageChange);
   }, [userId]);
 
-  const toggleFavorite = async (flight) => {
+  const toggleFavorite = async (item) => {
     if (!userId || !localStorage.getItem('token')) {
-      alert('You must be logged in to favorite flights.');
+      alert('You must be logged in to favorite items.');
       return;
     }
 
     try {
       const token = localStorage.getItem('token');
       const endpoint = `http://localhost:3000/api/users/${userId}/favorites`;
-      const isFavorited = favorites.some(f => f.id === flight.id && f.type === 'flight');
+      const isFavorited = favorites.some(f => f.id === item.id && f.type === item.type);
 
       let payload;
       if (!isFavorited) {
-        const resFlight = await fetch(`http://localhost:3000/api/flights/${flight.id}`, {
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-        });
-        if (!resFlight.ok) {
-          throw new Error('Failed to fetch flight details');
+        if (item.type === 'flight') {
+          const resFlight = await fetch(`http://localhost:3000/api/flights/${item.id}`, {
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json',
+            },
+          });
+          if (!resFlight.ok) {
+            throw new Error('Failed to fetch flight details');
+          }
+          const flightDetails = await resFlight.json();
+          payload = {
+            favoriteId: item.id,
+            type: 'flight',
+            airline: flightDetails.airline || 'Unknown Airline',
+            flightNumber: flightDetails.flightNumber || 'N/A',
+            from: flightDetails.from || 'Unknown',
+            to: flightDetails.to || 'Unknown',
+            departureTime: flightDetails.departureTime || 'N/A',
+            arrivalTime: flightDetails.arrivalTime || 'N/A',
+            date: flightDetails.date || 'N/A',
+            price: flightDetails.price || 'N/A',
+          };
+        } else if (item.type === 'hotel') {
+          const resHotel = await fetch(`http://localhost:3000/api/hotels/${item.id}`, {
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json',
+            },
+          });
+          if (!resHotel.ok) {
+            throw new Error('Failed to fetch hotel details');
+          }
+          const hotelDetails = await resHotel.json();
+          payload = {
+            favoriteId: item.id,
+            type: 'hotel',
+            name: hotelDetails.name || 'Unknown Hotel',
+            city: hotelDetails.city || 'Unknown',
+            rate: hotelDetails.rate || 0,
+            image: hotelDetails.image || '',
+            amenities: hotelDetails.amenities || [],
+            availableRooms: hotelDetails.availableRooms || [{ price: 'N/A', quantity: 0 }],
+          };
         }
-        const flightDetails = await resFlight.json();
-        payload = {
-          favoriteId: flight.id,
-          type: 'flight',
-          airline: flightDetails.airline || 'Unknown Airline',
-          flightNumber: flightDetails.flightNumber || 'N/A',
-          from: flightDetails.from || 'Unknown',
-          to: flightDetails.to || 'Unknown',
-          departureTime: flightDetails.departureTime || 'N/A',
-          arrivalTime: flightDetails.arrivalTime || 'N/A',
-          date: flightDetails.date || 'N/A',
-          price: flightDetails.price || 'N/A',
-        };
       } else {
         payload = {
-          favoriteId: flight.id,
-          type: 'flight',
+          favoriteId: item.id,
+          type: item.type,
         };
       }
 

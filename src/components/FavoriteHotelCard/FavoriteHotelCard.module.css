@@ -1,0 +1,25 @@
+.FavoriteHotelCard {}
+
+.favoriteBtn{
+    background-color: transparent;
+
+    border: none;
+    cursor: pointer;
+    padding: 6px;
+    margin-left: 10px;
+}
+
+.bookBtn{
+    background-color: #1bcfff;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.5s ease;
+}
+
+.bookBtn:hover{
+    background-color: #0099cc;
+}

@@ -6,14 +6,11 @@ import { useFormik } from 'formik';
 import styles from './Login.module.css';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
-import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
-import { auth } from '../../firebase';
 
 export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const [apiError, setApiError] = useState('');
   const navigate = useNavigate();
-  const provider = new GoogleAuthProvider();
 
   const validationSchema = Yup.object({
     email: Yup.string().email('Email is invalid').required('Email is required'),
@@ -41,11 +38,22 @@ export default function Login() {
         email: response.data.user.email,
         name: response.data.user.name,
         phone: response.data.user.phone,
+        profilePhoto: response.data.user.profilePhoto || '', // Include profilePhoto
       }));
       localStorage.setItem('userEmail', response.data.user.email);
-JSON.parse(localStorage.getItem('currentUser'))?.email === "ahmedelhalawany429@gmail.com"?
-navigate('/dashboard'):
-      navigate('/');
+if(        JSON.parse(localStorage.getItem('currentUser'))?.email === "ahmedelhalawany429@gmail.com"){
+      navigate(
+          '/dashboard/overview',{replace: true})
+          setTimeout(() => {
+                      window.location.reload();
+}, 0);
+          
+        }
+      else{
+        navigate(
+          '/',{replace: true})
+          window.location.reload();
+      }
     } catch (error) {
       setApiError(error.response?.data?.error || 'Invalid email or password');
     } finally {
@@ -53,34 +61,6 @@ navigate('/dashboard'):
     }
   };
 
-  const loginWithGoogle = async () => {
-    try {
-      const result = await signInWithPopup(auth, provider);
-      const user = result.user;
-
-      // Send Google user data to backend for registration/login
-      const response = await axios.post('http://localhost:3000/api/google-login', {
-        email: user.email,
-        name: user.displayName || 'Google User',
-        phone: user.phoneNumber || '', // Google may not provide phone number
-      });
-
-      // Store JWT token and user data in localStorage
-      localStorage.setItem('token', response.data.token);
-      localStorage.setItem('currentUser', JSON.stringify({
-        id: response.data.user.id,
-        email: response.data.user.email,
-        name: response.data.user.name,
-        phone: response.data.user.phone,
-      }));
-      localStorage.setItem('userId', response.data.user.id);
-
-      navigate('/');
-    } catch (error) {
-      console.error('Google sign-in error:', error);
-      setApiError(error.response?.data?.error || 'Google sign-in failed');
-    }
-  };
 
   const formik = useFormik({
     initialValues: {
@@ -136,12 +116,17 @@ navigate('/dashboard'):
             {isLoading ? 'Logging in...' : 'Login'}
           </button>
         </form>
-        <p className={`${styles['login']} mt-3`}>
+        <div className='d-flex justify-content-between'>
+<p className={`${styles['login']} mt-3`}>
           Don&apos;t have an account? <Link to="/register">Register</Link>
         </p>
-        <button onClick={loginWithGoogle} className={`${styles['loginG-btn']} btn w-100 mt-4`}>
-          Sign in with Google <i className="fa-brands fa-google"></i>
-        </button>
+
+        <p className={`${styles['login']} mt-3`}>
+          <Link to="/forgotpassword">Forgot Password?</Link>
+        </p>
+        </div>
+        
+       
       </div>
     </div>
   );

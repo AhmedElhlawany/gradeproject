@@ -28,7 +28,6 @@ import FaQs from './components/FAQs/FAQs';
 import HotelDetails from './components/HotelDetails/HotelDetails';
 import HotelPayment from './components/HotelPayment/HotelPayment';
 import BoookedHotels from './components/BoookedHotels/BoookedHotels';
-import Dashboard from './components/Dashboard/Dashboard/Dashboard';
 import ViewFlights from './components/Dashboard/ViewFlights/ViewFlights';
 import AddFlights from './components/Dashboard/AddFlights/AddFlights';
 import AddHotels from './components/Dashboard/AddHotels/AddHotels';
@@ -43,6 +42,9 @@ import Users from './components/Dashboard/Users/Users';
 import UsersBookedFlights from './components/Dashboard/UsersBookedFlights/UsersBookedFlights';
 import UsersBookedHotels from './components/Dashboard/UsersBookedHotels/UsersBookedHotels';
 import OverView from './components/Dashboard/OverView/OverView';
+import Dashboard from './components/Dashboard/Dashboard/Dashboard';
+import ForgotPassword from './components/ForgotPassword/ForgotPassword';
+import ResetPassword from './components/ResetPassword/ResetPassword';
 
 const adminroutes = createBrowserRouter([
   {
@@ -50,14 +52,16 @@ const adminroutes = createBrowserRouter([
     element: <Layout />,
     children: [
       {
-        path: 'dashboard',
+        path: '/dashboard/*',
         element: (
+          <ProtectedRoute>
           <Suspense fallback={<div>Loading...</div>}>
             <Dashboard />
           </Suspense>
+</ProtectedRoute>
         ),
         children: [
-          { element: <Navigate to="overview" replace /> },
+          { index: true, element: <Navigate to="overview" replace /> }, 
           { path: 'add-flights', element: <AddFlights /> },
           { path: 'overview', element: <OverView /> },
           { path: 'add-hotels', element: <AddHotels /> },
@@ -69,12 +73,15 @@ const adminroutes = createBrowserRouter([
           { path: 'usersbookedhotels', element: <UsersBookedHotels /> },
         ],
       },
+      { path: 'forgotpassword', element: <ForgotPassword /> },
+      { path: 'resetpassword', element: <ResetPassword /> },
       { path: 'login', element: <Login /> },
       { path: 'register', element: <Register /> },
       { path: '*', element: <Notfound /> },
     ],
   },
 ]);
+
 
 const userroutes = createBrowserRouter([
   {
@@ -98,6 +105,8 @@ const userroutes = createBrowserRouter([
       { path: 'place/:id', element: <ProtectedRoute><PlaceDetails /></ProtectedRoute> },
       { path: 'hoteldetails/:id', element: <ProtectedRoute><HotelDetails /></ProtectedRoute> },
       { path: 'FAQs', element: <ProtectedRoute><FaQs /></ProtectedRoute> },
+      { path: 'forgotpassword', element: <ForgotPassword /> },
+      { path: 'reset-password', element: <ResetPassword /> },
       { path: 'login', element: <Login /> },
       { path: 'register', element: <Register /> },
       { path: '*', element: <Notfound /> },

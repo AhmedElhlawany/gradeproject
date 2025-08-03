@@ -1,5 +1,5 @@
 import { FaPlane, FaHotel, FaGlobe, FaList } from "react-icons/fa";
-import { Link, useLocation, Routes, Route } from "react-router-dom";
+import { Link, useLocation, Routes, Route, Outlet } from "react-router-dom";
 import styles from "./Dashboard.module.css";
 import AddFlights from "../AddFlights/AddFlights";
 import AddHotels from "../AddHotels/AddHotels";
@@ -95,27 +95,30 @@ export default function Dashboard() {
       </nav>
 
       <main className={styles.mainContent}>
-        <Routes>
-          <Route index element={<OverView />} />
-          <Route path="add-flights" element={<AddFlights />} />
-          <Route path="overview" element={<OverView />} />
-          <Route path="add-hotels" element={<AddHotels />} />
-          <Route path="add-airlines" element={<AddAirlines />} />
-          <Route path="view-flights" element={<ViewFlights />} />
-          <Route path="view-hotels" element={<ViewHotels />} />
-          <Route path="users" element={<Users />} />
-          <Route path="usersbookedflights" element={<UsersBookedFlights />} />
-          <Route path="usersbookedhotels" element={<UsersBookedHotels />} />
-          <Route
-            path="*"
-            element={
-              <div className={styles.noData}>
-                <h1>404 - Page Not Found</h1>
-                <Link to="/dashboard/view-flights">Go to View Flights</Link>
-              </div>
-            }
-          />
-        </Routes>
+        {/* <Routes>
+      <Route index element={<OverView />} />
+      <Route path="/dashboard" element={<OverView />} />
+      <Route path="add-flights" element={<AddFlights />} />
+      <Route path="overview" element={<OverView />} />
+      <Route path="add-hotels" element={<AddHotels />} />
+      <Route path="add-airlines" element={<AddAirlines />} />
+      <Route path="view-flights" element={<ViewFlights />} />
+      <Route path="view-hotels" element={<ViewHotels />} />
+      <Route path="users" element={<Users />} />
+      <Route path="usersbookedflights" element={<UsersBookedFlights />} />
+      <Route path="usersbookedhotels" element={<UsersBookedHotels />} />
+      <Route
+        path="*"
+        element={
+          <div className={styles.noData}>
+            <h1>404 - Page Not Found</h1>
+            <Link to="/dashboard/view-flights">Go to View Flights</Link>
+          </div>
+        }
+      />
+    </Routes> */}
+
+    <Outlet ></Outlet>
       </main>
     </div>
   );
