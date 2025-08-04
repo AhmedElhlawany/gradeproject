@@ -1,4 +1,4 @@
-
+/* 
 .container {
   background: linear-gradient(135deg, #ffffff, #e6f7ff);
   font-family: "Poppins", sans-serif;
@@ -92,4 +92,11 @@
   .headerTitle {
     font-size: 1.5rem;
   }
+} */
+
+
+.sectionTitle {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
 }

@@ -51,12 +51,12 @@ export default function AddFlights({ onFlightAdded }) {
     const today = new Date("2025-07-27T15:31:00+03:00");
     const currentYear = 2025;
     const selectedDate = flightForm.date ? new Date(flightForm.date) : null;
-    const selectedReturnDate = flightForm.returnDate ? new Date(flightForm.returnDate) : null;
+    // const selectedReturnDate = flightForm.returnDate ? new Date(flightForm.returnDate) : null;
 
     if (!flightForm.from) newErrors.from = "Origin city is required";
     if (!flightForm.to) newErrors.to = "Destination city is required";
     if (!flightForm.date) newErrors.date = "Departure date is required";
-    if (!flightForm.returnDate) newErrors.returnDate = "Return date is required";
+    // if (!flightForm.returnDate) newErrors.returnDate = "Return date is required";
     if (!flightForm.price) newErrors.price = "Price is required";
     if (!flightForm.airline) newErrors.airline = "Airline is required";
     if (!flightForm.departureTime) newErrors.departureTime = "Departure time is required";
@@ -67,10 +67,10 @@ export default function AddFlights({ onFlightAdded }) {
       if (selectedDate.getFullYear() < currentYear) newErrors.date = "Year cannot be in the past";
     }
 
-    if (flightForm.returnDate && selectedDate) {
-      if (selectedReturnDate <= selectedDate) newErrors.returnDate = "Return date must be after departure date";
-      if (selectedReturnDate.getFullYear() < currentYear) newErrors.returnDate = "Year cannot be in the past";
-    }
+    // if (flightForm.returnDate && selectedDate) {
+    //   if (selectedReturnDate <= selectedDate) newErrors.returnDate = "Return date must be after departure date";
+    //   if (selectedReturnDate.getFullYear() < currentYear) newErrors.returnDate = "Year cannot be in the past";
+    // }
 
     if (flightForm.departureTime && flightForm.arrivalTime) {
       const [depHours, depMinutes] = flightForm.departureTime.split(":").map(Number);
@@ -113,7 +113,6 @@ export default function AddFlights({ onFlightAdded }) {
       from: flightForm.from,
       to: flightForm.to,
       date: flightForm.date,
-      returnDate: flightForm.returnDate,
       departureTime: flightForm.departureTime,
       arrivalTime: flightForm.arrivalTime,
       price: parseFloat(flightForm.price),
@@ -176,33 +175,29 @@ export default function AddFlights({ onFlightAdded }) {
           <div className="row">
             <div className="col-md-6">
               <label className={styles.formLabel}>From</label>
-              <select
-                name="from"
-                value={flightForm.from}
-                onChange={handleFlightChange}
-                className={`${styles.formControl} ${showErrors && errors.from ? styles.isInvalid : ""}`}
-              >
-                <option value="">Select City</option>
-                {cities.map((city) => (
-                  <option key={city} value={city}>{city}</option>
-                ))}
-              </select>
+             <input
+  type="text"
+  name="from"
+  value={flightForm.from}
+  onChange={handleFlightChange}
+  className={`${styles.formControl} ${showErrors && errors.from ? styles.isInvalid : ""}`}
+  placeholder="Enter origin city"
+/>
+
               {showErrors && errors.from && <div className={styles.invalidFeedback}>{errors.from}</div>}
             </div>
 
             <div className="col-md-6">
               <label className={styles.formLabel}>To</label>
-              <select
-                name="to"
-                value={flightForm.to}
-                onChange={handleFlightChange}
-                className={`${styles.formControl} ${showErrors && errors.to ? styles.isInvalid : ""}`}
-              >
-                <option value="">Select City</option>
-                {cities.map((city) => (
-                  <option key={city} value={city}>{city}</option>
-                ))}
-              </select>
+             <input
+  type="text"
+  name="to"
+  value={flightForm.to}
+  onChange={handleFlightChange}
+  className={`${styles.formControl} ${showErrors && errors.to ? styles.isInvalid : ""}`}
+  placeholder="Enter destination city"
+/>
+
               {showErrors && errors.to && <div className={styles.invalidFeedback}>{errors.to}</div>}
             </div>
           </div>
@@ -220,7 +215,7 @@ export default function AddFlights({ onFlightAdded }) {
               {showErrors && errors.date && <div className={styles.invalidFeedback}>{errors.date}</div>}
             </div>
 
-            <div className="col-md-6">
+            {/* <div className="col-md-6">
               <label className={styles.formLabel}>Return Date</label>
               <input
                 type="date"
@@ -230,7 +225,7 @@ export default function AddFlights({ onFlightAdded }) {
                 className={`${styles.formControl} ${showErrors && errors.returnDate ? styles.isInvalid : ""}`}
               />
               {showErrors && errors.returnDate && <div className={styles.invalidFeedback}>{errors.returnDate}</div>}
-            </div>
+            </div> */}
           </div>
 
           <div className="row">

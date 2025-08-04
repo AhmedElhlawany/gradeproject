@@ -30,7 +30,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  color: #00c3ff;
+  color: #000;
   font-size: 1.1rem;
   font-weight: 500;
   padding: 10px 15px;
@@ -52,7 +52,7 @@
 
 .mainContent {
   margin-left: 0; 
-  padding: 30px;
+  padding: 70px 30px 30px 30px;
   flex-grow: 1; 
   width: calc(100% - 250px); 
 }
@@ -81,19 +81,19 @@
 
 @media (max-width: 991px) {
   .sidebar {
-    width: 200px;
+    width: 220px;
   }
   .mainContent {
-    width: calc(100% - 200px);
+    width: calc(100% - 220px);
   }
 }
 
 @media (max-width: 767px) {
   .sidebar {
-    width: 180px;
+    width: 220px;
   }
   .mainContent {
-    width: calc(100% - 180px);
+    width: calc(100% - 220px);
     padding: 15px;
   }
   .headerTitle {

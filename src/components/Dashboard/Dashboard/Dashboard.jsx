@@ -1,11 +1,15 @@
 import { FaPlane, FaHotel, FaGlobe, FaList } from "react-icons/fa";
-import { Link, useLocation, Routes, Route } from "react-router-dom";
+import { Link, useLocation, Routes, Route, Outlet } from "react-router-dom";
 import styles from "./Dashboard.module.css";
 import AddFlights from "../AddFlights/AddFlights";
 import AddHotels from "../AddHotels/AddHotels";
 import AddAirlines from "../AddAirLine/AddAirlines";
 import ViewFlights from "../ViewFlights/ViewFlights";
 import ViewHotels from "../ViewHotels/ViewHotels";
+import Users from "../Users/Users";
+import UsersBookedFlights from "../UsersBookedFlights/UsersBookedFlights";
+import UsersBookedHotels from "../UsersBookedHotels/UsersBookedHotels";
+import OverView from "../OverView/OverView";
 
 export default function Dashboard() {
   const location = useLocation();
@@ -14,6 +18,14 @@ export default function Dashboard() {
     <div className={styles.container}>
       <nav className={styles.sidebar}>
         <ul className={styles.sidebarMenu}>
+          <li>
+            <Link
+              to="/dashboard/overview"
+              className={`${styles.sidebarLink} ${location.pathname === "/dashboard/overview" ? styles.active : ""}`}
+            >
+              <FaPlane className={styles.sidebarIcon} /> Overview
+            </Link>
+          </li>
           <li>
             <Link
               to="/dashboard/add-flights"
@@ -35,7 +47,7 @@ export default function Dashboard() {
               to="/dashboard/add-airlines"
               className={`${styles.sidebarLink} ${location.pathname === "/dashboard/add-airlines" ? styles.active : ""}`}
             >
-              <FaGlobe className={styles.sidebarIcon} /> Add Airlines
+              <FaGlobe className={styles.sidebarIcon} />Airlines
             </Link>
           </li>
           <li>
@@ -54,28 +66,59 @@ export default function Dashboard() {
               <FaList className={styles.sidebarIcon} /> View Hotels
             </Link>
           </li>
+          <li>
+            <Link
+              to="/dashboard/users"
+              className={`${styles.sidebarLink} ${location.pathname === "/dashboard/users" ? styles.active : ""}`}
+            >
+              <FaList className={styles.sidebarIcon} />Users
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/dashboard/usersbookedflights"
+              className={`${styles.sidebarLink} ${location.pathname === "/dashboard/usersbookedflights" ? styles.active : ""}`}
+            >
+              <FaList className={styles.sidebarIcon} />Booked FLights
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/dashboard/usersbookedhotels"
+              className={`${styles.sidebarLink} ${location.pathname === "/dashboard/usersbookedhotels" ? styles.active : ""}`}
+            >
+              <FaList className={styles.sidebarIcon} />Booked Hotels
+            </Link>
+          </li>
        
         </ul>
       </nav>
 
       <main className={styles.mainContent}>
-        <Routes>
-          <Route index element={<ViewFlights />} />
-          <Route path="add-flights" element={<AddFlights />} />
-          <Route path="add-hotels" element={<AddHotels />} />
-          <Route path="add-airlines" element={<AddAirlines />} />
-          <Route path="view-flights" element={<ViewFlights />} />
-          <Route path="view-hotels" element={<ViewHotels />} />
-          <Route
-            path="*"
-            element={
-              <div className={styles.noData}>
-                <h1>404 - Page Not Found</h1>
-                <Link to="/dashboard/view-flights">Go to View Flights</Link>
-              </div>
-            }
-          />
-        </Routes>
+        {/* <Routes>
+      <Route index element={<OverView />} />
+      <Route path="/dashboard" element={<OverView />} />
+      <Route path="add-flights" element={<AddFlights />} />
+      <Route path="overview" element={<OverView />} />
+      <Route path="add-hotels" element={<AddHotels />} />
+      <Route path="add-airlines" element={<AddAirlines />} />
+      <Route path="view-flights" element={<ViewFlights />} />
+      <Route path="view-hotels" element={<ViewHotels />} />
+      <Route path="users" element={<Users />} />
+      <Route path="usersbookedflights" element={<UsersBookedFlights />} />
+      <Route path="usersbookedhotels" element={<UsersBookedHotels />} />
+      <Route
+        path="*"
+        element={
+          <div className={styles.noData}>
+            <h1>404 - Page Not Found</h1>
+            <Link to="/dashboard/view-flights">Go to View Flights</Link>
+          </div>
+        }
+      />
+    </Routes> */}
+
+    <Outlet ></Outlet>
       </main>
     </div>
   );

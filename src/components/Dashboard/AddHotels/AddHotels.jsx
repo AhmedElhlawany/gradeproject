@@ -400,18 +400,7 @@ export default function AddHotels() {
               <div className={styles.invalidFeedback}>{errors.amenities}</div>
             </div>
           </div>
-          <div className={`${styles.formRow} row`}>
-            <div className="col-md-12">
-              <label className={styles.formLabel}>On Sale</label>
-              <input
-                type="checkbox"
-                name="onSale"
-                checked={hotelForm.onSale}
-                onChange={handleHotelChange}
-                className={styles.checkboxInput}
-              />
-            </div>
-          </div>
+         
           <div className={`${styles.formRow} row`}>
             <div className="col-md-12 mb-3">
               <label className={styles.formLabel}>Available Rooms</label>
