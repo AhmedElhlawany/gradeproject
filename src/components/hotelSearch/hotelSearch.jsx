@@ -1,12 +1,13 @@
 import React, { useEffect, useState, useContext } from "react";
 import { Hotel, MapPin, Star, Heart } from "lucide-react";
+import Swal from "sweetalert2";
 import style from "./hotelSearch.module.css";
 import { useNavigate } from "react-router-dom";
 import { FlightContext } from "../Context/FlightContext";
 import { FavoritesContext } from "../Context/FavouriteContext";
 
 const HotelBooking = () => {
-  const { hotel, setHotel } = useContext(FlightContext);
+  const { bookedHotel, setBookedHotel } = useContext(FlightContext);
   const { favorites, toggleFavorite } = useContext(FavoritesContext);
   const [selectedCity, setSelectedCity] = useState("");
   const [hotels, setHotels] = useState([]);
@@ -63,13 +64,38 @@ const HotelBooking = () => {
   const handleToggleFavorite = async (hotel) => {
     try {
       await toggleFavorite({ ...hotel, type: "hotel" });
+      const isFavorited = favorites.some((f) => f.id === hotel.id && f.type === "hotel");
+      Swal.fire({
+        icon: isFavorited ? "info" : "success",
+        title: isFavorited ? "Removed from Favorites" : " Added to Favorites!",
+        text: isFavorited
+          ? `${hotel.name} has been removed from your favorites.`
+          : `${hotel.name} has been added to your favorites.`,
+        showConfirmButton: true,
+        confirmButtonText: "OK",
+        customClass: {
+          confirmButton: `btn ${style['conbtn']}`,
+        },
+        buttonsStyling: false,
+      });
     } catch (err) {
       console.error("Error toggling favorite:", err);
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Failed to update favorites. Please try again.",
+        showConfirmButton: true,
+        confirmButtonText: "OK",
+        customClass: {
+          confirmButton: "btn btn-primary",
+        },
+        buttonsStyling: false,
+      });
     }
   };
 
   const handleBooking = (hotel) => {
-    setHotel(hotel);
+    setBookedHotel(hotel);
     navigate(`/hotelDetails/${hotel.id}`);
   };
 
@@ -178,7 +204,7 @@ const HotelBooking = () => {
                           onChange={() => handleAmenityChange(amenity)}
                           id={`amenity-${amenity}`}
                         />
-                        <label className="form-check-label" htmlFor={`amenity-${amenity}`}>
+                        <label className="form-check-label text-dark" htmlFor={`amenity-${amenity}`}>
                           {amenity}
                         </label>
                       </div>
@@ -202,8 +228,8 @@ const HotelBooking = () => {
                       >
                         <Heart
                           size={24}
-                          fill={favorites.some((f) => f.id === hotel.id && f.type === "hotel") ? "red" : "none"}
-                          color="red"
+                          fill={favorites.some((f) => f.id === hotel.id && f.type === "hotel") ? "#1bcfff" : "none"}
+                          color="#1bcfff"
                         />
                       </button>
                     </div>

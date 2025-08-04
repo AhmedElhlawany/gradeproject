@@ -139,9 +139,6 @@ export default function BookedHotels() {
                     <strong>Phone:</strong> {hotel.phone}
                   </p>
                   <p className="card-text">
-                    <strong>Email:</strong> {hotel.email}
-                  </p>
-                  <p className="card-text">
                     <strong>Booking Date:</strong>{' '}
                     {new Date(hotel.bookingDate).toLocaleDateString()}
                   </p>

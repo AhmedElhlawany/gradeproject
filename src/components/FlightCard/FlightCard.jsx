@@ -76,7 +76,10 @@ export default function FlightCard({
         title: 'Success!',
         text: isFavorited ? 'Flight removed from favorites' : 'Flight added to favorites',
         icon: 'success',
-        confirmButtonText: 'OK'
+        confirmButtonText: 'OK',
+        customClass: {
+                  confirmButton: `btn ${styles['conbtn']}`,
+                }
       });
     } catch (error) {
       console.error("Error toggling favorite:", error);
@@ -139,7 +142,7 @@ export default function FlightCard({
       </div>
 
       <button
-        className={styles.favoriteBtn}
+        className={styles.favoritefBtn}
         onClick={handleFavoriteToggle}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}

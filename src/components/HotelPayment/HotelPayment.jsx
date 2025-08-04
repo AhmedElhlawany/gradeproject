@@ -6,7 +6,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-
+import styles from './HotelPayment.module.css';
 export default function HotelPayment() {
   const { state } = useLocation();
   const navigate = useNavigate();
@@ -504,7 +504,7 @@ export default function HotelPayment() {
             </div>
 
             <div className="col-12">
-              <button className="btn btn-primary" type="submit">
+              <button className={`btn ${styles['btn-hpay']}`} type="submit">
                 Confirm Booking
               </button>
             </div>

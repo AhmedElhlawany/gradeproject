@@ -107,7 +107,20 @@
   display: inline-block;
   margin-top: 5px;
 }
-
+.conbtn{
+  background-color: #3db9ef;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  width: 100%;
+}
+.conbtn:hover {
+  background-color: #0099cc;
+}
 .bookBtn {
   background-color: #1bcfff;
   color: white;
@@ -118,8 +131,9 @@
   cursor: pointer;
 }
 
-.favoriteBtn {
+.favoritefBtn {
   background: none;
+  background-color: transparent !important;
   border: none;
   cursor: pointer;
   padding: 6px;

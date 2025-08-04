@@ -1,1 +1,17 @@
 .Profile {}
+
+.editbtn{
+    background-color: #1bcfff;
+    color: white;
+}
+.editbtn:hover{
+    background-color: #0099cc;
+}
+
+.savebtn{
+    background-color: #1bcfff;
+    color: white;
+}
+.savebtn:hover{
+    background-color: #0099cc;
+}

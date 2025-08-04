@@ -101,6 +101,20 @@
 .bookBtn:hover {
   background-color: #0099cc;
 }
+.conbtn{
+  background-color: #3db9ef;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  width: 100%;
+}
+.conbtn:hover {
+  background-color: #0099cc;
+}
 .bookdiv{
   bottom: 10px;
   left: 10px;

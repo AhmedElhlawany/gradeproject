@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-// import 'bootstrap/dist/css/bootstrap.min.css';
-// import 'bootstrap-icons/font/bootstrap-icons.css';
+import styles from './Profile.module.css';
+
+
 
 export default function Profile() {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('currentUser')));
@@ -240,21 +241,7 @@ export default function Profile() {
                 </div>
               )}
             </div>
-            <button
-              className="btn btn-primary mb-3"
-              onClick={() => setShowEditModal(true)}
-            >
-              Edit Profile
-            </button>
-            <h4>
-              <Link to="/myBookings">Booked Flights</Link>
-            </h4>
-            <h4>
-              <Link to="/bookedHotels">Booked Hotels</Link>
-            </h4>
-          </div>
-          <div className="col-md-6">
-            <h2>General Information</h2>
+             <h4>General Information</h4>
             <p>
               <strong>Name:</strong> {user.name}
             </p>
@@ -264,7 +251,40 @@ export default function Profile() {
             <p>
               <strong>Phone:</strong> {user.phone}
             </p>
+            <button
+              className={`btn mb-3 ${styles['editbtn']}`}
+              onClick={() => setShowEditModal(true)}
+            >
+              Edit Profile
+            </button>
+          
           </div>
+
+<div className="col-md-6">
+  <ul className="nav nav-tabs">
+    <li className="nav-item">
+      <NavLink
+        to="/myBookings"
+        className={({ isActive }) =>
+          "nav-link" + (isActive ? " active" : "")
+        }
+      >
+        Booked Flights
+      </NavLink>
+    </li>
+    <li className="nav-item">
+      <NavLink
+        to="/bookedHotels"
+        className={({ isActive }) =>
+          "nav-link" + (isActive ? " active" : "")
+        }
+      >
+        Booked Hotels
+      </NavLink>
+    </li>
+  </ul>
+</div>
+
         </div>
       </div>
 
@@ -317,6 +337,7 @@ export default function Profile() {
                     className="form-control"
                     id="email"
                     name="email"
+                    disabled
                     value={formik.values.email}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
@@ -351,7 +372,7 @@ export default function Profile() {
                 >
                   Close
                 </button>
-                <button type="submit" className="btn btn-primary" disabled={formik.isSubmitting}>
+                <button type="submit" className={`btn ${styles['savebtn']}`} disabled={formik.isSubmitting}>
                   {formik.isSubmitting ? 'Saving...' : 'Save changes'}
                 </button>
               </div>
