@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { FaEdit, FaTrash, FaFilter } from "react-icons/fa";
+import { FaEdit, FaTrash, FaFilter, FaTimes } from "react-icons/fa";
 import styles from "./Users.module.css";
 
 export default function Users() {
@@ -66,6 +66,10 @@ export default function Users() {
     setFilters({ name: "", email: "", phone: "" });
   };
 
+  const handleClearInput = (name) => {
+    setFilters((prev) => ({ ...prev, [name]: "" }));
+  };
+
   const handleSaveEdit = async () => {
     const token = localStorage.getItem("token");
     try {
@@ -128,30 +132,78 @@ export default function Users() {
         {showFilters && (
           <div className={styles.filterContainer}>
             <div className={styles.filterGroup}>
-              <input
-                type="text"
-                name="name"
-                placeholder="Filter by Name"
-                value={filters.name}
-                onChange={handleFilterChange}
-                className={styles.filterInput}
-              />
-              <input
-                type="text"
-                name="email"
-                placeholder="Filter by Email"
-                value={filters.email}
-                onChange={handleFilterChange}
-                className={styles.filterInput}
-              />
-              <input
-                type="text"
-                name="phone"
-                placeholder="Filter by Phone"
-                value={filters.phone}
-                onChange={handleFilterChange}
-                className={styles.filterInput}
-              />
+              <div className={styles.filterItem}>
+                <label htmlFor="name" className={styles.filterLabel}>Name</label>
+                <div className={styles.inputWrapper}>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    placeholder="Filter by Name"
+                    value={filters.name}
+                    onChange={handleFilterChange}
+                    className={styles.filterInput}
+                  />
+                  {filters.name && (
+                    <button
+                      type="button"
+                      className={styles.clearInputButton}
+                      onClick={() => handleClearInput("name")}
+                      aria-label="Clear Name Filter"
+                    >
+                      <FaTimes className={styles.clearIcon} />
+                    </button>
+                  )}
+                </div>
+              </div>
+              <div className={styles.filterItem}>
+                <label htmlFor="email" className={styles.filterLabel}>Email</label>
+                <div className={styles.inputWrapper}>
+                  <input
+                    type="text"
+                    id="email"
+                    name="email"
+                    placeholder="Filter by Email"
+                    value={filters.email}
+                    onChange={handleFilterChange}
+                    className={styles.filterInput}
+                  />
+                  {filters.email && (
+                    <button
+                      type="button"
+                      className={styles.clearInputButton}
+                      onClick={() => handleClearInput("email")}
+                      aria-label="Clear Email Filter"
+                    >
+                      <FaTimes className={styles.clearIcon} />
+                    </button>
+                  )}
+                </div>
+              </div>
+              <div className={styles.filterItem}>
+                <label htmlFor="phone" className={styles.filterLabel}>Phone</label>
+                <div className={styles.inputWrapper}>
+                  <input
+                    type="text"
+                    id="phone"
+                    name="phone"
+                    placeholder="Filter by Phone"
+                    value={filters.phone}
+                    onChange={handleFilterChange}
+                    className={styles.filterInput}
+                  />
+                  {filters.phone && (
+                    <button
+                      type="button"
+                      className={styles.clearInputButton}
+                      onClick={() => handleClearInput("phone")}
+                      aria-label="Clear Phone Filter"
+                    >
+                      <FaTimes className={styles.clearIcon} />
+                    </button>
+                  )}
+                </div>
+              </div>
             </div>
             <button
               className={styles.clearButton}

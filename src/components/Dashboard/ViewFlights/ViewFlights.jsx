@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styles from "./ViewFlights.module.css";
-import { FaEdit, FaTrash, FaFilter } from "react-icons/fa";
+import { FaEdit, FaTrash, FaFilter, FaTimes } from "react-icons/fa";
 import EditFlightModal from "../EditFlightModal/EditFlightModal";
 import Swal from "sweetalert2";
 
@@ -110,6 +110,10 @@ export default function ViewFlights({ onFlightAdded }) {
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
     setFilters(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleClearInput = (name) => {
+    setFilters(prev => ({ ...prev, [name]: "" }));
   };
 
   const clearFilters = () => {
@@ -222,63 +226,175 @@ export default function ViewFlights({ onFlightAdded }) {
           {showFilters && (
             <div className={styles.filterContainer}>
               <div className={styles.filterGroup}>
-                <input
-                  type="text"
-                  name="airline"
-                  placeholder="Filter by Airline"
-                  value={filters.airline}
-                  onChange={handleFilterChange}
-                  className={styles.filterInput}
-                />
-                <input
-                  type="number"
-                  name="flightNumber"
-                  placeholder="Filter by Flight Number"
-                  value={filters.flightNumber}
-                  onChange={handleFilterChange}
-                  className={styles.filterInput}
-                  min="1"
-                />
-                <input
-                  type="text"
-                  name="from"
-                  placeholder="Filter by Departure City"
-                  value={filters.from}
-                  onChange={handleFilterChange}
-                  className={styles.filterInput}
-                />
-                <input
-                  type="text"
-                  name="to"
-                  placeholder="Filter by Destination City"
-                  value={filters.to}
-                  onChange={handleFilterChange}
-                  className={styles.filterInput}
-                />
-                <input
-                  type="date"
-                  name="date"
-                  placeholder="Filter by Date"
-                  value={filters.date}
-                  onChange={handleFilterChange}
-                  className={styles.filterInput}
-                />
-                <input
-                  type="number"
-                  name="minPrice"
-                  placeholder="Min Price"
-                  value={filters.minPrice}
-                  onChange={handleFilterChange}
-                  className={styles.filterInput}
-                />
-                <input
-                  type="number"
-                  name="maxPrice"
-                  placeholder="Max Price"
-                  value={filters.maxPrice}
-                  onChange={handleFilterChange}
-                  className={styles.filterInput}
-                />
+                <div className={styles.filterItem}>
+                  <label htmlFor="airline" className={styles.filterLabel}>Airline</label>
+                  <div className={styles.inputWrapper}>
+                    <input
+                      type="text"
+                      id="airline"
+                      name="airline"
+                      placeholder="Filter by Airline"
+                      value={filters.airline}
+                      onChange={handleFilterChange}
+                      className={styles.filterInput}
+                    />
+                    {filters.airline && (
+                      <button
+                        type="button"
+                        className={styles.clearInputButton}
+                        onClick={() => handleClearInput("airline")}
+                        aria-label="Clear Airline Filter"
+                      >
+                        <FaTimes className={styles.clearIcon} />
+                      </button>
+                    )}
+                  </div>
+                </div>
+                <div className={styles.filterItem}>
+                  <label htmlFor="flightNumber" className={styles.filterLabel}>Flight Number</label>
+                  <div className={styles.inputWrapper}>
+                    <input
+                      type="number"
+                      id="flightNumber"
+                      name="flightNumber"
+                      placeholder="Filter by Flight Number"
+                      value={filters.flightNumber}
+                      onChange={handleFilterChange}
+                      className={styles.filterInput}
+                      min="1"
+                    />
+                    {filters.flightNumber && (
+                      <button
+                        type="button"
+                        className={styles.clearInputButton}
+                        onClick={() => handleClearInput("flightNumber")}
+                        aria-label="Clear Flight Number Filter"
+                      >
+                        <FaTimes className={styles.clearIcon} />
+                      </button>
+                    )}
+                  </div>
+                </div>
+                <div className={styles.filterItem}>
+                  <label htmlFor="from" className={styles.filterLabel}>From</label>
+                  <div className={styles.inputWrapper}>
+                    <input
+                      type="text"
+                      id="from"
+                      name="from"
+                      placeholder="Filter by Departure City"
+                      value={filters.from}
+                      onChange={handleFilterChange}
+                      className={styles.filterInput}
+                    />
+                    {filters.from && (
+                      <button
+                        type="button"
+                        className={styles.clearInputButton}
+                        onClick={() => handleClearInput("from")}
+                        aria-label="Clear Departure City Filter"
+                      >
+                        <FaTimes className={styles.clearIcon} />
+                      </button>
+                    )}
+                  </div>
+                </div>
+                <div className={styles.filterItem}>
+                  <label htmlFor="to" className={styles.filterLabel}>To</label>
+                  <div className={styles.inputWrapper}>
+                    <input
+                      type="text"
+                      id="to"
+                      name="to"
+                      placeholder="Filter by Destination City"
+                      value={filters.to}
+                      onChange={handleFilterChange}
+                      className={styles.filterInput}
+                    />
+                    {filters.to && (
+                      <button
+                        type="button"
+                        className={styles.clearInputButton}
+                        onClick={() => handleClearInput("to")}
+                        aria-label="Clear Destination City Filter"
+                      >
+                        <FaTimes className={styles.clearIcon} />
+                      </button>
+                    )}
+                  </div>
+                </div>
+                <div className={strings.filterItem}>
+                  <label htmlFor="date" className={styles.filterLabel}>Date</label>
+                  <div className={styles.inputWrapper}>
+                    <input
+                      type="date"
+                      id="date"
+                      name="date"
+                      placeholder="Filter by Date"
+                      value={filters.date}
+                      onChange={handleFilterChange}
+                      className={styles.dateInput}
+                    />
+                    {filters.date && (
+                      <button
+                        type="button"
+                        className={styles.clearDateButton}
+                        onClick={() => handleClearInput("date")}
+                        aria-label="Clear Date Filter"
+                      >
+                        <FaTimes className={styles.clearIcon} />
+                      </button>
+                    )}
+                  </div>
+                </div>
+                <div className={styles.filterItem}>
+                  <label htmlFor="minPrice" className={styles.filterLabel}>Min Price</label>
+                  <div className={styles.inputWrapper}>
+                    <input
+                      type="number"
+                      id="minPrice"
+                      name="minPrice"
+                      placeholder="Min Price"
+                      value={filters.minPrice}
+                      onChange={handleFilterChange}
+                      className={styles.filterInput}
+                    />
+                    {filters.minPrice && (
+                      <button
+                        type="button"
+                        className={styles.clearInputButton}
+                        onClick={() => handleClearInput("minPrice")}
+                        aria-label="Clear Min Price Filter"
+                      >
+                        <FaTimes className={styles.clearIcon} />
+                      </button>
+                    )}
+                  </div>
+                </div>
+                <div className={styles.filterItem}>
+                  <label htmlFor="maxPrice" className={styles.filterLabel}>Max Price</label>
+                  <div className={styles.inputWrapper}>
+                    <input
+                      type="number"
+                      id="maxPrice"
+                      name="maxPrice"
+                      placeholder="Max Price"
+                      value={filters.maxPrice}
+                      onChange={handleFilterChange}
+                      className={styles.filterInput}
+                    />
+                    {filters.maxPrice && (
+                      <button
+                        type="button"
+                        className={styles.clearInputButton}
+                        onClick={() => handleClearInput("maxPrice")}
+                        aria-label="Clear Max Price Filter"
+                      >
+                        <FaTimes className={styles.clearIcon} />
+                      </button>
+                    )}
+                  </div>
+                </div>
               </div>
               <button
                 className={styles.clearButton}
@@ -309,63 +425,175 @@ export default function ViewFlights({ onFlightAdded }) {
           {showFilters && (
             <div className={styles.filterContainer}>
               <div className={styles.filterGroup}>
-                <input
-                  type="text"
-                  name="airline"
-                  placeholder="Filter by Airline"
-                  value={filters.airline}
-                  onChange={handleFilterChange}
-                  className={styles.filterInput}
-                />
-                <input
-                  type="number"
-                  name="flightNumber"
-                  placeholder="Filter by Flight Number"
-                  value={filters.flightNumber}
-                  onChange={handleFilterChange}
-                  className={styles.filterInput}
-                  min="1"
-                />
-                <input
-                  type="text"
-                  name="from"
-                  placeholder="Filter by Departure City"
-                  value={filters.from}
-                  onChange={handleFilterChange}
-                  className={styles.filterInput}
-                />
-                <input
-                  type="text"
-                  name="to"
-                  placeholder="Filter by Destination City"
-                  value={filters.to}
-                  onChange={handleFilterChange}
-                  className={styles.filterInput}
-                />
-                <input
-                  type="date"
-                  name="date"
-                  placeholder="Filter by Date"
-                  value={filters.date}
-                  onChange={handleFilterChange}
-                  className={styles.filterInput}
-                />
-                <input
-                  type="number"
-                  name="minPrice"
-                  placeholder="Min Price"
-                  value={filters.minPrice}
-                  onChange={handleFilterChange}
-                  className={styles.filterInput}
-                />
-                <input
-                  type="number"
-                  name="maxPrice"
-                  placeholder="Max Price"
-                  value={filters.maxPrice}
-                  onChange={handleFilterChange}
-                  className={styles.filterInput}
-                />
+                <div className={styles.filterItem}>
+                  <label htmlFor="airline" className={styles.filterLabel}>Airline</label>
+                  <div className={styles.inputWrapper}>
+                    <input
+                      type="text"
+                      id="airline"
+                      name="airline"
+                      placeholder="Filter by Airline"
+                      value={filters.airline}
+                      onChange={handleFilterChange}
+                      className={styles.filterInput}
+                    />
+                    {filters.airline && (
+                      <button
+                        type="button"
+                        className={styles.clearInputButton}
+                        onClick={() => handleClearInput("airline")}
+                        aria-label="Clear Airline Filter"
+                      >
+                        <FaTimes className={styles.clearIcon} />
+                      </button>
+                    )}
+                  </div>
+                </div>
+                <div className={styles.filterItem}>
+                  <label htmlFor="flightNumber" className={styles.filterLabel}>Flight Number</label>
+                  <div className={styles.inputWrapper}>
+                    <input
+                      type="number"
+                      id="flightNumber"
+                      name="flightNumber"
+                      placeholder="Filter by Flight Number"
+                      value={filters.flightNumber}
+                      onChange={handleFilterChange}
+                      className={styles.filterInput}
+                      min="1"
+                    />
+                    {filters.flightNumber && (
+                      <button
+                        type="button"
+                        className={styles.clearInputButton}
+                        onClick={() => handleClearInput("flightNumber")}
+                        aria-label="Clear Flight Number Filter"
+                      >
+                        <FaTimes className={styles.clearIcon} />
+                      </button>
+                    )}
+                  </div>
+                </div>
+                <div className={styles.filterItem}>
+                  <label htmlFor="from" className={styles.filterLabel}>From</label>
+                  <div className={styles.inputWrapper}>
+                    <input
+                      type="text"
+                      id="from"
+                      name="from"
+                      placeholder="Filter by Departure City"
+                      value={filters.from}
+                      onChange={handleFilterChange}
+                      className={styles.filterInput}
+                    />
+                    {filters.from && (
+                      <button
+                        type="button"
+                        className={styles.clearInputButton}
+                        onClick={() => handleClearInput("from")}
+                        aria-label="Clear Departure City Filter"
+                      >
+                        <FaTimes className={styles.clearIcon} />
+                      </button>
+                    )}
+                  </div>
+                </div>
+                <div className={styles.filterItem}>
+                  <label htmlFor="to" className={styles.filterLabel}>To</label>
+                  <div className={styles.inputWrapper}>
+                    <input
+                      type="text"
+                      id="to"
+                      name="to"
+                      placeholder="Filter by Destination City"
+                      value={filters.to}
+                      onChange={handleFilterChange}
+                      className={styles.filterInput}
+                    />
+                    {filters.to && (
+                      <button
+                        type="button"
+                        className={styles.clearInputButton}
+                        onClick={() => handleClearInput("to")}
+                        aria-label="Clear Destination City Filter"
+                      >
+                        <FaTimes className={styles.clearIcon} />
+                      </button>
+                    )}
+                  </div>
+                </div>
+                <div className={styles.filterItem}>
+                  <label htmlFor="date" className={styles.filterLabel}>Date</label>
+                  <div className={styles.inputWrapper}>
+                    <input
+                      type="date"
+                      id="date"
+                      name="date"
+                      placeholder="Filter by Date"
+                      value={filters.date}
+                      onChange={handleFilterChange}
+                      className={styles.dateInput}
+                    />
+                    {filters.date && (
+                      <button
+                        type="button"
+                        className={styles.clearDateButton}
+                        onClick={() => handleClearInput("date")}
+                        aria-label="Clear Date Filter"
+                      >
+                        <FaTimes className={styles.clearIcon} />
+                      </button>
+                    )}
+                  </div>
+                </div>
+                <div className={styles.filterItem}>
+                  <label htmlFor="minPrice" className={styles.filterLabel}>Min Price</label>
+                  <div className={styles.inputWrapper}>
+                    <input
+                      type="number"
+                      id="minPrice"
+                      name="minPrice"
+                      placeholder="Min Price"
+                      value={filters.minPrice}
+                      onChange={handleFilterChange}
+                      className={styles.filterInput}
+                    />
+                    {filters.minPrice && (
+                      <button
+                        type="button"
+                        className={styles.clearInputButton}
+                        onClick={() => handleClearInput("minPrice")}
+                        aria-label="Clear Min Price Filter"
+                      >
+                        <FaTimes className={styles.clearIcon} />
+                      </button>
+                    )}
+                  </div>
+                </div>
+                <div className={styles.filterItem}>
+                  <label htmlFor="maxPrice" className={styles.filterLabel}>Max Price</label>
+                  <div className={styles.inputWrapper}>
+                    <input
+                      type="number"
+                      id="maxPrice"
+                      name="maxPrice"
+                      placeholder="Max Price"
+                      value={filters.maxPrice}
+                      onChange={handleFilterChange}
+                      className={styles.filterInput}
+                    />
+                    {filters.maxPrice && (
+                      <button
+                        type="button"
+                        className={styles.clearInputButton}
+                        onClick={() => handleClearInput("maxPrice")}
+                        aria-label="Clear Max Price Filter"
+                      >
+                        <FaTimes className={styles.clearIcon} />
+                      </button>
+                    )}
+                  </div>
+                </div>
               </div>
               <button
                 className={styles.clearButton}
@@ -395,63 +623,175 @@ export default function ViewFlights({ onFlightAdded }) {
         {showFilters && (
           <div className={styles.filterContainer}>
             <div className={styles.filterGroup}>
-              <input
-                type="text"
-                name="airline"
-                placeholder="Filter by Airline"
-                value={filters.airline}
-                onChange={handleFilterChange}
-                className={styles.filterInput}
-              />
-              <input
-                type="number"
-                name="flightNumber"
-                placeholder="Filter by Flight Number"
-                value={filters.flightNumber}
-                onChange={handleFilterChange}
-                className={styles.filterInput}
-                min="1"
-              />
-              <input
-                type="text"
-                name="from"
-                placeholder="Filter by Departure City"
-                value={filters.from}
-                onChange={handleFilterChange}
-                className={styles.filterInput}
-              />
-              <input
-                type="text"
-                name="to"
-                placeholder="Filter by Destination City"
-                value={filters.to}
-                onChange={handleFilterChange}
-                className={styles.filterInput}
-              />
-              <input
-                type="date"
-                name="date"
-                placeholder="Filter by Date"
-                value={filters.date}
-                onChange={handleFilterChange}
-                className={styles.filterInput}
-              />
-              <input
-                type="number"
-                name="minPrice"
-                placeholder="Min Price"
-                value={filters.minPrice}
-                onChange={handleFilterChange}
-                className={styles.filterInput}
-              />
-              <input
-                type="number"
-                name="maxPrice"
-                placeholder="Max Price"
-                value={filters.maxPrice}
-                onChange={handleFilterChange}
-                className={styles.filterInput}
-              />
+              <div className={styles.filterItem}>
+                <label htmlFor="airline" className={styles.filterLabel}>Airline</label>
+                <div className={styles.inputWrapper}>
+                  <input
+                    type="text"
+                    id="airline"
+                    name="airline"
+                    placeholder="Filter by Airline"
+                    value={filters.airline}
+                    onChange={handleFilterChange}
+                    className={styles.filterInput}
+                  />
+                  {filters.airline && (
+                    <button
+                      type="button"
+                      className={styles.clearInputButton}
+                      onClick={() => handleClearInput("airline")}
+                      aria-label="Clear Airline Filter"
+                    >
+                      <FaTimes className={styles.clearIcon} />
+                    </button>
+                  )}
+                </div>
+              </div>
+              <div className={styles.filterItem}>
+                <label htmlFor="flightNumber" className={styles.filterLabel}>Flight Number</label>
+                <div className={styles.inputWrapper}>
+                  <input
+                    type="number"
+                    id="flightNumber"
+                    name="flightNumber"
+                    placeholder="Filter by Flight Number"
+                    value={filters.flightNumber}
+                    onChange={handleFilterChange}
+                    className={styles.filterInput}
+                    min="1"
+                  />
+                  {filters.flightNumber && (
+                    <button
+                      type="button"
+                      className={styles.clearInputButton}
+                      onClick={() => handleClearInput("flightNumber")}
+                      aria-label="Clear Flight Number Filter"
+                    >
+                      <FaTimes className={styles.clearIcon} />
+                    </button>
+                  )}
+                </div>
+              </div>
+              <div className={styles.filterItem}>
+                <label htmlFor="from" className={styles.filterLabel}>From</label>
+                <div className={styles.inputWrapper}>
+                  <input
+                    type="text"
+                    id="from"
+                    name="from"
+                    placeholder="Filter by Departure City"
+                    value={filters.from}
+                    onChange={handleFilterChange}
+                    className={styles.filterInput}
+                  />
+                  {filters.from && (
+                    <button
+                      type="button"
+                      className={styles.clearInputButton}
+                      onClick={() => handleClearInput("from")}
+                      aria-label="Clear Departure City Filter"
+                    >
+                      <FaTimes className={styles.clearIcon} />
+                    </button>
+                  )}
+                </div>
+              </div>
+              <div className={styles.filterItem}>
+                <label htmlFor="to" className={styles.filterLabel}>To</label>
+                <div className={styles.inputWrapper}>
+                  <input
+                    type="text"
+                    id="to"
+                    name="to"
+                    placeholder="Filter by Destination City"
+                    value={filters.to}
+                    onChange={handleFilterChange}
+                    className={styles.filterInput}
+                  />
+                  {filters.to && (
+                    <button
+                      type="button"
+                      className={styles.clearInputButton}
+                      onClick={() => handleClearInput("to")}
+                      aria-label="Clear Destination City Filter"
+                    >
+                      <FaTimes className={styles.clearIcon} />
+                    </button>
+                  )}
+                </div>
+              </div>
+              <div className={styles.filterItem}>
+                <label htmlFor="date" className={styles.filterLabel}>Date</label>
+                <div className={styles.inputWrapper}>
+                  <input
+                    type="date"
+                    id="date"
+                    name="date"
+                    placeholder="Filter by Date"
+                    value={filters.date}
+                    onChange={handleFilterChange}
+                    className={styles.dateInput}
+                  />
+                  {filters.date && (
+                    <button
+                      type="button"
+                      className={styles.clearDateButton}
+                      onClick={() => handleClearInput("date")}
+                      aria-label="Clear Date Filter"
+                    >
+                      <FaTimes className={styles.clearIcon} />
+                    </button>
+                  )}
+                </div>
+              </div>
+              <div className={styles.filterItem}>
+                <label htmlFor="minPrice" className={styles.filterLabel}>Min Price</label>
+                <div className={styles.inputWrapper}>
+                  <input
+                    type="number"
+                    id="minPrice"
+                    name="minPrice"
+                    placeholder="Min Price"
+                    value={filters.minPrice}
+                    onChange={handleFilterChange}
+                    className={styles.filterInput}
+                  />
+                  {filters.minPrice && (
+                    <button
+                      type="button"
+                      className={styles.clearInputButton}
+                      onClick={() => handleClearInput("minPrice")}
+                      aria-label="Clear Min Price Filter"
+                    >
+                      <FaTimes className={styles.clearIcon} />
+                    </button>
+                  )}
+                </div>
+              </div>
+              <div className={styles.filterItem}>
+                <label htmlFor="maxPrice" className={styles.filterLabel}>Max Price</label>
+                <div className={styles.inputWrapper}>
+                  <input
+                    type="number"
+                    id="maxPrice"
+                    name="maxPrice"
+                    placeholder="Max Price"
+                    value={filters.maxPrice}
+                    onChange={handleFilterChange}
+                    className={styles.filterInput}
+                  />
+                  {filters.maxPrice && (
+                    <button
+                      type="button"
+                      className={styles.clearInputButton}
+                      onClick={() => handleClearInput("maxPrice")}
+                      aria-label="Clear Max Price Filter"
+                    >
+                      <FaTimes className={styles.clearIcon} />
+                    </button>
+                  )}
+                </div>
+              </div>
             </div>
             <button
               className={styles.clearButton}

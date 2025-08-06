@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { FaEdit, FaTrash, FaFilter } from "react-icons/fa";
+import { FaEdit, FaTrash, FaFilter, FaTimes } from "react-icons/fa";
 import styles from "./ViewHotels.module.css";
 import Swal from "sweetalert2";
 import EditHotelModal from "../EditHotelsModal/EditHotelModal";
@@ -112,6 +112,10 @@ export default function ViewHotels() {
     });
   };
 
+  const handleClearInput = (name) => {
+    setFilters(prev => ({ ...prev, [name]: "" }));
+  };
+
   const handleDelete = async (hotelId, hotelName) => {
     const result = await Swal.fire({
       title: "Are you sure?",
@@ -182,57 +186,153 @@ export default function ViewHotels() {
           {showFilters && (
             <div className={styles.filterContainer}>
               <div className={styles.filterGroup}>
-                <input
-                  type="text"
-                  name="name"
-                  placeholder="Filter by Name"
-                  value={filters.name}
-                  onChange={handleFilterChange}
-                  className={styles.filterInput}
-                />
-                <input
-                  type="text"
-                  name="city"
-                  placeholder="Filter by City"
-                  value={filters.city}
-                  onChange={handleFilterChange}
-                  className={styles.filterInput}
-                />
-                <input
-                  type="number"
-                  name="rate"
-                  placeholder="Filter by Rate"
-                  value={filters.rate}
-                  onChange={handleFilterChange}
-                  className={styles.filterInput}
-                  min="0"
-                  max="5"
-                  step="0.1"
-                />
-                <input
-                  type="text"
-                  name="phone"
-                  placeholder="Filter by Phone"
-                  value={filters.phone}
-                  onChange={handleFilterChange}
-                  className={styles.filterInput}
-                />
-                <input
-                  type="text"
-                  name="email"
-                  placeholder="Filter by Email"
-                  value={filters.email}
-                  onChange={handleFilterChange}
-                  className={styles.filterInput}
-                />
-                <input
-                  type="text"
-                  name="amenities"
-                  placeholder="Filter by Amenities"
-                  value={filters.amenities}
-                  onChange={handleFilterChange}
-                  className={styles.filterInput}
-                />
+                <div className={styles.filterItem}>
+                  <label htmlFor="name" className={styles.filterLabel}>Name</label>
+                  <div className={styles.inputWrapper}>
+                    <input
+                      type="text"
+                      id="name"
+                      name="name"
+                      placeholder="Filter by Name"
+                      value={filters.name}
+                      onChange={handleFilterChange}
+                      className={styles.filterInput}
+                    />
+                    {filters.name && (
+                      <button
+                        type="button"
+                        className={styles.clearInputButton}
+                        onClick={() => handleClearInput("name")}
+                        aria-label="Clear Name Filter"
+                      >
+                        <FaTimes className={styles.clearIcon} />
+                      </button>
+                    )}
+                  </div>
+                </div>
+                <div className={styles.filterItem}>
+                  <label htmlFor="city" className={styles.filterLabel}>City</label>
+                  <div className={styles.inputWrapper}>
+                    <input
+                      type="text"
+                      id="city"
+                      name="city"
+                      placeholder="Filter by City"
+                      value={filters.city}
+                      onChange={handleFilterChange}
+                      className={styles.filterInput}
+                    />
+                    {filters.city && (
+                      <button
+                        type="button"
+                        className={styles.clearInputButton}
+                        onClick={() => handleClearInput("city")}
+                        aria-label="Clear City Filter"
+                      >
+                        <FaTimes className={styles.clearIcon} />
+                      </button>
+                    )}
+                  </div>
+                </div>
+                <div className={styles.filterItem}>
+                  <label htmlFor="rate" className={styles.filterLabel}>Rate</label>
+                  <div className={styles.inputWrapper}>
+                    <input
+                      type="number"
+                      id="rate"
+                      name="rate"
+                      placeholder="Filter by Rate"
+                      value={filters.rate}
+                      onChange={handleFilterChange}
+                      className={styles.filterInput}
+                      min="0"
+                      max="5"
+                      step="0.1"
+                    />
+                    {filters.rate && (
+                      <button
+                        type="button"
+                        className={styles.clearInputButton}
+                        onClick={() => handleClearInput("rate")}
+                        aria-label="Clear Rate Filter"
+                      >
+                        <FaTimes className={styles.clearIcon} />
+                      </button>
+                    )}
+                  </div>
+                </div>
+                <div className={styles.filterItem}>
+                  <label htmlFor="phone" className={styles.filterLabel}>Phone</label>
+                  <div className={styles.inputWrapper}>
+                    <input
+                      type="text"
+                      id="phone"
+                      name="phone"
+                      placeholder="Filter by Phone"
+                      value={filters.phone}
+                      onChange={handleFilterChange}
+                      className={styles.filterInput}
+                    />
+                    {filters.phone && (
+                      <button
+                        type="button"
+                        className={styles.clearInputButton}
+                        onClick={() => handleClearInput("phone")}
+                        aria-label="Clear Phone Filter"
+                      >
+                        <FaTimes className={styles.clearIcon} />
+                      </button>
+                    )}
+                  </div>
+                </div>
+                <div className={styles.filterItem}>
+                  <label htmlFor="email" className={styles.filterLabel}>Email</label>
+                  <div className={styles.inputWrapper}>
+                    <input
+                      type="text"
+                      id="email"
+                      name="email"
+                      placeholder="Filter by Email"
+                      value={filters.email}
+                      onChange={handleFilterChange}
+                      className={styles.filterInput}
+                    />
+                    {filters.email && (
+                      <button
+                        type="button"
+                        className={styles.clearInputButton}
+                        onClick={() => handleClearInput("email")}
+                        aria-label="Clear Email Filter"
+                      >
+                        <FaTimes className={styles.clearIcon} />
+                      </button>
+                    )}
+                  </div>
+                </div>
+                <div className={styles.filterItem}>
+                  <label htmlFor="amenities" className={styles.filterLabel}>Amenities</label>
+                  <div className={styles.inputWrapper}>
+                    <input
+                      type="text"
+                      id="amenities"
+                      name="amenities"
+                      placeholder="Filter by Amenities"
+                      value={filters.amenities}
+                      onChange={handleFilterChange}
+                      className={styles.filterInput}
+                    />
+                    {filters.amenities && (
+                      <button
+                        type="button"
+                        className={styles.clearInputButton}
+                        onClick={() => handleClearInput("amenities")}
+                        aria-label="Clear Amenities Filter"
+                      >
+                        <FaTimes className={styles.clearIcon} />
+                      </button>
+                    )}
+                  </div>
+                </div>
               </div>
               <button
                 className={styles.clearButton}
@@ -263,57 +363,153 @@ export default function ViewHotels() {
           {showFilters && (
             <div className={styles.filterContainer}>
               <div className={styles.filterGroup}>
-                <input
-                  type="text"
-                  name="name"
-                  placeholder="Filter by Name"
-                  value={filters.name}
-                  onChange={handleFilterChange}
-                  className={styles.filterInput}
-                />
-                <input
-                  type="text"
-                  name="city"
-                  placeholder="Filter by City"
-                  value={filters.city}
-                  onChange={handleFilterChange}
-                  className={styles.filterInput}
-                />
-                <input
-                  type="number"
-                  name="rate"
-                  placeholder="Filter by Rate"
-                  value={filters.rate}
-                  onChange={handleFilterChange}
-                  className={styles.filterInput}
-                  min="0"
-                  max="5"
-                  step="0.1"
-                />
-                <input
-                  type="text"
-                  name="phone"
-                  placeholder="Filter by Phone"
-                  value={filters.phone}
-                  onChange={handleFilterChange}
-                  className={styles.filterInput}
-                />
-                <input
-                  type="text"
-                  name="email"
-                  placeholder="Filter by Email"
-                  value={filters.email}
-                  onChange={handleFilterChange}
-                  className={styles.filterInput}
-                />
-                <input
-                  type="text"
-                  name="amenities"
-                  placeholder="Filter by Amenities"
-                  value={filters.amenities}
-                  onChange={handleFilterChange}
-                  className={styles.filterInput}
-                />
+                <div className={styles.filterItem}>
+                  <label htmlFor="name" className={styles.filterLabel}>Name</label>
+                  <div className={styles.inputWrapper}>
+                    <input
+                      type="text"
+                      id="name"
+                      name="name"
+                      placeholder="Filter by Name"
+                      value={filters.name}
+                      onChange={handleFilterChange}
+                      className={styles.filterInput}
+                    />
+                    {filters.name && (
+                      <button
+                        type="button"
+                        className={styles.clearInputButton}
+                        onClick={() => handleClearInput("name")}
+                        aria-label="Clear Name Filter"
+                      >
+                        <FaTimes className={styles.clearIcon} />
+                      </button>
+                    )}
+                  </div>
+                </div>
+                <div className={styles.filterItem}>
+                  <label htmlFor="city" className={styles.filterLabel}>City</label>
+                  <div className={styles.inputWrapper}>
+                    <input
+                      type="text"
+                      id="city"
+                      name="city"
+                      placeholder="Filter by City"
+                      value={filters.city}
+                      onChange={handleFilterChange}
+                      className={styles.filterInput}
+                    />
+                    {filters.city && (
+                      <button
+                        type="button"
+                        className={styles.clearInputButton}
+                        onClick={() => handleClearInput("city")}
+                        aria-label="Clear City Filter"
+                      >
+                        <FaTimes className={styles.clearIcon} />
+                      </button>
+                    )}
+                  </div>
+                </div>
+                <div className={styles.filterItem}>
+                  <label htmlFor="rate" className={styles.filterLabel}>Rate</label>
+                  <div className={styles.inputWrapper}>
+                    <input
+                      type="number"
+                      id="rate"
+                      name="rate"
+                      placeholder="Filter by Rate"
+                      value={filters.rate}
+                      onChange={handleFilterChange}
+                      className={styles.filterInput}
+                      min="0"
+                      max="5"
+                      step="0.1"
+                    />
+                    {filters.rate && (
+                      <button
+                        type="button"
+                        className={styles.clearInputButton}
+                        onClick={() => handleClearInput("rate")}
+                        aria-label="Clear Rate Filter"
+                      >
+                        <FaTimes className={styles.clearIcon} />
+                      </button>
+                    )}
+                  </div>
+                </div>
+                <div className={styles.filterItem}>
+                  <label htmlFor="phone" className={styles.filterLabel}>Phone</label>
+                  <div className={styles.inputWrapper}>
+                    <input
+                      type="text"
+                      id="phone"
+                      name="phone"
+                      placeholder="Filter by Phone"
+                      value={filters.phone}
+                      onChange={handleFilterChange}
+                      className={styles.filterInput}
+                    />
+                    {filters.phone && (
+                      <button
+                        type="button"
+                        className={styles.clearInputButton}
+                        onClick={() => handleClearInput("phone")}
+                        aria-label="Clear Phone Filter"
+                      >
+                        <FaTimes className={styles.clearIcon} />
+                      </button>
+                    )}
+                  </div>
+                </div>
+                <div className={styles.filterItem}>
+                  <label htmlFor="email" className={styles.filterLabel}>Email</label>
+                  <div className={styles.inputWrapper}>
+                    <input
+                      type="text"
+                      id="email"
+                      name="email"
+                      placeholder="Filter by Email"
+                      value={filters.email}
+                      onChange={handleFilterChange}
+                      className={styles.filterInput}
+                    />
+                    {filters.email && (
+                      <button
+                        type="button"
+                        className={styles.clearInputButton}
+                        onClick={() => handleClearInput("email")}
+                        aria-label="Clear Email Filter"
+                      >
+                        <FaTimes className={styles.clearIcon} />
+                      </button>
+                    )}
+                  </div>
+                </div>
+                <div className={styles.filterItem}>
+                  <label htmlFor="amenities" className={styles.filterLabel}>Amenities</label>
+                  <div className={styles.inputWrapper}>
+                    <input
+                      type="text"
+                      id="amenities"
+                      name="amenities"
+                      placeholder="Filter by Amenities"
+                      value={filters.amenities}
+                      onChange={handleFilterChange}
+                      className={styles.filterInput}
+                    />
+                    {filters.amenities && (
+                      <button
+                        type="button"
+                        className={styles.clearInputButton}
+                        onClick={() => handleClearInput("amenities")}
+                        aria-label="Clear Amenities Filter"
+                      >
+                        <FaTimes className={styles.clearIcon} />
+                      </button>
+                    )}
+                  </div>
+                </div>
               </div>
               <button
                 className={styles.clearButton}
@@ -343,57 +539,153 @@ export default function ViewHotels() {
         {showFilters && (
           <div className={styles.filterContainer}>
             <div className={styles.filterGroup}>
-              <input
-                type="text"
-                name="name"
-                placeholder="Filter by Name"
-                value={filters.name}
-                onChange={handleFilterChange}
-                className={styles.filterInput}
-              />
-              <input
-                type="text"
-                name="city"
-                placeholder="Filter by City"
-                value={filters.city}
-                onChange={handleFilterChange}
-                className={styles.filterInput}
-              />
-              <input
-                type="number"
-                name="rate"
-                placeholder="Filter by Rate"
-                value={filters.rate}
-                onChange={handleFilterChange}
-                className={styles.filterInput}
-                min="0"
-                max="5"
-                step="0.1"
-              />
-              <input
-                type="text"
-                name="phone"
-                placeholder="Filter by Phone"
-                value={filters.phone}
-                onChange={handleFilterChange}
-                className={styles.filterInput}
-              />
-              <input
-                type="text"
-                name="email"
-                placeholder="Filter by Email"
-                value={filters.email}
-                onChange={handleFilterChange}
-                className={styles.filterInput}
-              />
-              <input
-                type="text"
-                name="amenities"
-                placeholder="Filter by Amenities"
-                value={filters.amenities}
-                onChange={handleFilterChange}
-                className={styles.filterInput}
-              />
+              <div className={styles.filterItem}>
+                <label htmlFor="name" className={styles.filterLabel}>Name</label>
+                <div className={styles.inputWrapper}>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    placeholder="Filter by Name"
+                    value={filters.name}
+                    onChange={handleFilterChange}
+                    className={styles.filterInput}
+                  />
+                  {filters.name && (
+                    <button
+                      type="button"
+                      className={styles.clearInputButton}
+                      onClick={() => handleClearInput("name")}
+                      aria-label="Clear Name Filter"
+                    >
+                      <FaTimes className={styles.clearIcon} />
+                    </button>
+                  )}
+                </div>
+              </div>
+              <div className={styles.filterItem}>
+                <label htmlFor="city" className={styles.filterLabel}>City</label>
+                <div className={styles.inputWrapper}>
+                  <input
+                    type="text"
+                    id="city"
+                    name="city"
+                    placeholder="Filter by City"
+                    value={filters.city}
+                    onChange={handleFilterChange}
+                    className={styles.filterInput}
+                  />
+                  {filters.city && (
+                    <button
+                      type="button"
+                      className={styles.clearInputButton}
+                      onClick={() => handleClearInput("city")}
+                      aria-label="Clear City Filter"
+                    >
+                      <FaTimes className={styles.clearIcon} />
+                    </button>
+                  )}
+                </div>
+              </div>
+              <div className={styles.filterItem}>
+                <label htmlFor="rate" className={styles.filterLabel}>Rate</label>
+                <div className={styles.inputWrapper}>
+                  <input
+                    type="number"
+                    id="rate"
+                    name="rate"
+                    placeholder="Filter by Rate"
+                    value={filters.rate}
+                    onChange={handleFilterChange}
+                    className={styles.filterInput}
+                    min="0"
+                    max="5"
+                    step="0.1"
+                  />
+                  {filters.rate && (
+                    <button
+                      type="button"
+                      className={styles.clearInputButton}
+                      onClick={() => handleClearInput("rate")}
+                      aria-label="Clear Rate Filter"
+                    >
+                      <FaTimes className={styles.clearIcon} />
+                    </button>
+                  )}
+                </div>
+              </div>
+              <div className={styles.filterItem}>
+                <label htmlFor="phone" className={styles.filterLabel}>Phone</label>
+                <div className={styles.inputWrapper}>
+                  <input
+                    type="text"
+                    id="phone"
+                    name="phone"
+                    placeholder="Filter by Phone"
+                    value={filters.phone}
+                    onChange={handleFilterChange}
+                    className={styles.filterInput}
+                  />
+                  {filters.phone && (
+                    <button
+                      type="button"
+                      className={styles.clearInputButton}
+                      onClick={() => handleClearInput("phone")}
+                      aria-label="Clear Phone Filter"
+                    >
+                      <FaTimes className={styles.clearIcon} />
+                    </button>
+                  )}
+                </div>
+              </div>
+              <div className={styles.filterItem}>
+                <label htmlFor="email" className={styles.filterLabel}>Email</label>
+                <div className={styles.inputWrapper}>
+                  <input
+                    type="text"
+                    id="email"
+                    name="email"
+                    placeholder="Filter by Email"
+                    value={filters.email}
+                    onChange={handleFilterChange}
+                    className={styles.filterInput}
+                  />
+                  {filters.email && (
+                    <button
+                      type="button"
+                      className={styles.clearInputButton}
+                      onClick={() => handleClearInput("email")}
+                      aria-label="Clear Email Filter"
+                    >
+                      <FaTimes className={styles.clearIcon} />
+                    </button>
+                  )}
+                </div>
+              </div>
+              <div className={styles.filterItem}>
+                <label htmlFor="amenities" className={styles.filterLabel}>Amenities</label>
+                <div className={styles.inputWrapper}>
+                  <input
+                    type="text"
+                    id="amenities"
+                    name="amenities"
+                    placeholder="Filter by Amenities"
+                    value={filters.amenities}
+                    onChange={handleFilterChange}
+                    className={styles.filterInput}
+                  />
+                  {filters.amenities && (
+                    <button
+                      type="button"
+                      className={styles.clearInputButton}
+                      onClick={() => handleClearInput("amenities")}
+                      aria-label="Clear Amenities Filter"
+                    >
+                      <FaTimes className={styles.clearIcon} />
+                    </button>
+                  )}
+                </div>
+              </div>
             </div>
             <button
               className={styles.clearButton}

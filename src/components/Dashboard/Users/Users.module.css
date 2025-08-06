@@ -52,13 +52,34 @@
   margin-bottom: 10px;
 }
 
-.filterInput {
+.filterItem {
   flex: 1;
   min-width: 150px;
+  display: flex;
+  flex-direction: column;
+}
+
+.filterLabel {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.inputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.filterInput {
   padding: 8px;
   border: 1px solid #ced4da;
   border-radius: 4px;
   font-size: 0.95rem;
+  width: 100%;
+  box-sizing: border-box;
+  padding-right: 30px; 
 }
 
 .filterInput:focus {
@@ -66,6 +87,27 @@
   border-color: #00c3ff;
   box-shadow: 0 0 5px rgba(0, 195, 255, 0.3);
 }
+
+.clearInputButton {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.clearIcon {
+  font-size: 0.9rem;
+  color: #666;
+  transition: color 0.3s ease;
+}
+
 
 .clearButton {
   padding: 8px 16px;

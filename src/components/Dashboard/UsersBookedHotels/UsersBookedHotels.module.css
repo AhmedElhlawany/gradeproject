@@ -1,1 +1,267 @@
-.UsersBookedHotels {}
+.container {
+  width: 100%;
+  margin: 0 auto;
+  padding: 20px 0;
+}
+
+.headerTitle {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.filterSection {
+  margin-bottom: 20px;
+}
+
+.filterToggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background-color: #00c3ff;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.filterToggle:hover {
+  background-color: #0096c7;
+}
+
+.filterIcon {
+  font-size: 1rem;
+}
+
+.filterContainer {
+  margin-top: 15px;
+  padding: 15px;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.filterGroup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.filterItem {
+  flex: 1;
+  min-width: 150px;
+  display: flex;
+  flex-direction: column;
+}
+
+.filterLabel {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.inputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.filterInput {
+  padding: 8px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  width: 100%;
+  box-sizing: border-box;
+  padding-right: 30px;
+}
+
+.filterInput:focus {
+  outline: none;
+  border-color: #00c3ff;
+  box-shadow: 0 0 5px rgba(0, 195, 255, 0.3);
+}
+
+.dateInput {
+  padding: 8px 30px 8px 8px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  width: 100%;
+  box-sizing: border-box;
+  appearance: none; 
+}
+
+.dateInput::-webkit-calendar-picker-indicator {
+  position: absolute;
+  right: 8px; 
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+  z-index: 1; 
+}
+
+.dateInput:focus {
+  outline: none;
+  border-color: #00c3ff;
+  box-shadow: 0 0 5px rgba(0, 195, 255, 0.3);
+}
+
+.clearInputButton {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.clearDateButton {
+  position: absolute;
+  right: 24px; 
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2; 
+}
+
+.clearIcon {
+  font-size: 0.9rem;
+  color: #666;
+  transition: color 0.3s ease;
+}
+
+.clearButton {
+  padding: 8px 16px;
+  background-color: #dc3545;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+  margin-top: 5px;
+}
+
+.clearButton:hover {
+  background-color: #c82333;
+}
+
+.tableWrapper {
+  overflow-x: auto;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+.tablebookedhotels {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.tablebookedhotels th,
+.tablebookedhotels td {
+  padding: 12px 10px;
+  text-align: center;
+  border-bottom: 1px solid #e0e0e0;
+  border-left: none;
+  border-right: none;
+  min-width: 80px;
+}
+
+.tablebookedhotels th {
+  background-color: #00c3ff;
+  color: #ffffff;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  letter-spacing: 0.05em;
+}
+
+.tablebookedhotels tr {
+  transition: background-color 0.3s ease;
+}
+
+.tablebookedhotels tr:hover {
+  background-color: #f5f7fa;
+}
+
+.tablebookedhotels td {
+  color: #333;
+  font-size: 0.95rem;
+}
+
+.tablebookedhotels tr:last-child td {
+  border-bottom: none;
+}
+
+.empty {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #666;
+  padding: 20px;
+}
+
+.editButton {
+  background: transparent;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 8px;
+}
+
+.editIcon {
+  font-size: 1rem;
+  color: #00c3ff;
+  transition: color 0.3s ease;
+}
+
+.editButton:hover .editIcon {
+  color: #0096c7;
+}
+
+.deleteButton {
+  background: transparent;
+  border: none;
+  padding: 8px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.deleteIcon {
+  font-size: 1rem;
+  color: #dc3545;
+  transition: color 0.3s ease;
+}
+
+.deleteButton:hover .deleteIcon {
+  color: #c82333;
+}

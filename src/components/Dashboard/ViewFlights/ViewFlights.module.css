@@ -58,12 +58,32 @@
   margin-bottom: 15px;
 }
 
+.filterItem {
+  display: flex;
+  flex-direction: column;
+}
+
+.filterLabel {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.inputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
 .filterInput {
   padding: 10px;
   border: 1px solid #e0e0e0;
   border-radius: 8px;
   font-size: 0.95rem;
   width: 100%;
+  box-sizing: border-box;
+  padding-right: 30px; 
   transition: border-color 0.3s ease;
 }
 
@@ -71,6 +91,66 @@
   outline: none;
   border-color: #00c3ff;
   box-shadow: 0 0 5px rgba(0, 195, 255, 0.3);
+}
+
+.dateInput {
+  padding: 10px 30px 10px 10px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  width: 100%;
+  box-sizing: border-box;
+  appearance: none; 
+}
+
+.dateInput::-webkit-calendar-picker-indicator {
+  position: absolute;
+  right: 8px; 
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+  z-index: 1; 
+}
+
+.dateInput:focus {
+  outline: none;
+  border-color: #00c3ff;
+  box-shadow: 0 0 5px rgba(0, 195, 255, 0.3);
+}
+
+.clearInputButton {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.clearDateButton {
+  position: absolute;
+  right: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2; 
+}
+
+.clearIcon {
+  font-size: 0.9rem;
+  color: #666;
+  transition: color 0.3s ease;
 }
 
 .clearButton {
