@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import axios from 'axios';
+import Style from './ProtectedRoute.module.css'
 
 export default function ProtectedRoute({ children }) {
   const [checking, setChecking] = useState(true);
@@ -49,6 +50,9 @@ export default function ProtectedRoute({ children }) {
         icon: 'warning',
         title: 'You should login first',
         confirmButtonText: 'Ok',
+         customClass: {
+                  confirmButton: `btn ${Style['conbtn']}`,
+                }
       });
     }
   }, [showAlert]);

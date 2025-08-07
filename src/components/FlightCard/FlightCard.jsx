@@ -5,14 +5,16 @@ import { FavoritesContext } from "../Context/FavouriteContext";
 import Swal from 'sweetalert2';
 
 export default function FlightCard({
-  id,
+  id=2001,
   airline = "Emirates",
   flightNumber = "Flight #1",
   from = "Cairo",
   to = "Dubai",
+  fromAirport ="CAI",
+  toAirport ="DXB",
   departureTime = "09:00",
   arrivalTime = "13:30",
-  date = "2025-07-20",
+  date = "2025-09-20",
   price = 350,
   onBook,
 }) {
@@ -41,7 +43,10 @@ export default function FlightCard({
         title: 'Error!',
         text: 'Please login to use favorites',
         icon: 'error',
-        confirmButtonText: 'OK'
+        confirmButtonText: 'OK',
+        customClass: {
+                  confirmButton: `btn ${styles['conbtn']}`,
+                }
       });
       return;
     }
@@ -51,7 +56,10 @@ export default function FlightCard({
         title: 'Error!',
         text: 'Invalid flight data. Please try again.',
         icon: 'error',
-        confirmButtonText: 'OK'
+        confirmButtonText: 'OK',
+        customClass: {
+                  confirmButton: `btn ${styles['conbtn']}`,
+                }
       });
       return;
     }
@@ -111,8 +119,13 @@ export default function FlightCard({
 
         <div className={styles.route}>
           <span className={styles.city}>{from}</span>
-          <span className={styles.dash}>----------------------------</span>
+          <span className={styles.dash}>--------------</span>
           <span className={styles.city}>{to}</span>
+          <div className={styles.route}>
+            <span className="fw-normal">{fromAirport}</span>
+            <span className={styles.dash}>--------------</span>
+            <span className="fw-normal">{toAirport}</span>
+          </div>
         </div>
 
         <div className={styles.timeBlock}>

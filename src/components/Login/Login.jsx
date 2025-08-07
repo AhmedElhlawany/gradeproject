@@ -46,7 +46,7 @@ if(        JSON.parse(localStorage.getItem('currentUser'))?.email === "ahmedelha
           '/dashboard/overview',{replace: true})
           setTimeout(() => {
                       window.location.reload();
-}, 0);
+}, 1);
           
         }
       else{

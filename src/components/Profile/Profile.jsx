@@ -266,7 +266,7 @@ export default function Profile() {
       <NavLink
         to="/myBookings"
         className={({ isActive }) =>
-          "nav-link" + (isActive ? " active" : "")
+          "nav-link fw-bold" + (isActive ? " active" : "")
         }
       >
         Booked Flights
@@ -276,7 +276,7 @@ export default function Profile() {
       <NavLink
         to="/bookedHotels"
         className={({ isActive }) =>
-          "nav-link" + (isActive ? " active" : "")
+          "nav-link fw-bold" + (isActive ? " active" : "")
         }
       >
         Booked Hotels

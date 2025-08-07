@@ -45,6 +45,7 @@ import OverView from './components/Dashboard/OverView/OverView';
 import Dashboard from './components/Dashboard/Dashboard/Dashboard';
 import ForgotPassword from './components/ForgotPassword/ForgotPassword';
 import ResetPassword from './components/ResetPassword/ResetPassword';
+import BookingForm from './components/BookingForm/BookingForm';
 
 const adminroutes = createBrowserRouter([
   {
@@ -103,8 +104,9 @@ const userroutes = createBrowserRouter([
       { path: 'contactUs', element: <ProtectedRoute><Contact /></ProtectedRoute> },
       { path: 'aboutUs', element: <ProtectedRoute><About /></ProtectedRoute> },
       { path: 'place/:id', element: <ProtectedRoute><PlaceDetails /></ProtectedRoute> },
-      { path: 'hoteldetails/:id', element: <ProtectedRoute><HotelDetails /></ProtectedRoute> },
+      { path: 'hoteldetails/:id', element: <HotelDetails /> },
       { path: 'FAQs', element: <ProtectedRoute><FaQs /></ProtectedRoute> },
+      { path: 'booking-form', element: <ProtectedRoute><BookingForm /></ProtectedRoute> },
       { path: 'forgotpassword', element: <ForgotPassword /> },
       { path: 'reset-password', element: <ResetPassword /> },
       { path: 'login', element: <Login /> },

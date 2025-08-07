@@ -225,7 +225,7 @@ export default function OverView() {
           <div className="card h-100 shadow-sm">
             <div className="card-body">
               <h2 className="card-title h5"> <i className="fa-solid fa-hotel me-2"></i> Hotel Profit</h2>
-              <p className="card-text text-danger fs-4">${profitData.hotelProfit.toFixed(2)}</p>
+              <p className="card-text  fs-4">${profitData.hotelProfit.toFixed(2)}</p>
             </div>
           </div>
         </div>
@@ -233,7 +233,7 @@ export default function OverView() {
           <div className="card h-100 shadow-sm">
             <div className="card-body">
               <h2 className="card-title h5"> <i className="fa-solid fa-users me-2"></i> Number of users</h2>
-              <p className="card-text text-danger fs-4">{Object.keys(userBookings).length} users</p>
+              <p className="card-text  fs-4">{Object.keys(userBookings).length} users</p>
             </div>
           </div>
         </div>
@@ -241,7 +241,7 @@ export default function OverView() {
           <div className="card h-100 shadow-sm">
             <div className="card-body">
               <h2 className="card-title h5"> <i className="fa-solid fa-hotel me-2"></i> Number of Hotels</h2>
-              <p className="card-text text-danger fs-4">{noHotels} Hotels</p>
+              <p className="card-text  fs-4">{noHotels} Hotels</p>
             </div>
           </div>
         </div>

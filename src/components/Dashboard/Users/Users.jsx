@@ -1,15 +1,28 @@
 import React, { useEffect, useState } from "react";
-import { FaEdit, FaTrash } from "react-icons/fa";
+import { FaEdit, FaTrash, FaFilter, FaTimes } from "react-icons/fa";
 import styles from "./Users.module.css";
+
 export default function Users() {
   const [users, setUsers] = useState([]);
+  const [filteredUsers, setFilteredUsers] = useState([]);
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
   const [editForm, setEditForm] = useState({ name: "", email: "", phone: "" });
+  const [filters, setFilters] = useState({ name: "", email: "", phone: "" });
+  const [showFilters, setShowFilters] = useState(false);
 
   useEffect(() => {
     fetchUsers();
   }, []);
+
+  useEffect(() => {
+    const filtered = users.filter(user => 
+      user.name.toLowerCase().includes(filters.name.toLowerCase()) &&
+      user.email.toLowerCase().includes(filters.email.toLowerCase()) &&
+      user.phone.toLowerCase().includes(filters.phone.toLowerCase())
+    );
+    setFilteredUsers(filtered);
+  }, [users, filters]);
 
   const fetchUsers = async () => {
     const token = localStorage.getItem("token");
@@ -22,6 +35,7 @@ export default function Users() {
       if (!res.ok) throw new Error("Unauthorized");
       const data = await res.json();
       setUsers(data);
+      setFilteredUsers(data);
     } catch (err) {
       console.error("Error fetching users:", err);
       alert("Failed to fetch users");
@@ -41,6 +55,19 @@ export default function Users() {
   const handleEditChange = (e) => {
     const { name, value } = e.target;
     setEditForm((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleFilterChange = (e) => {
+    const { name, value } = e.target;
+    setFilters((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleClearFilters = () => {
+    setFilters({ name: "", email: "", phone: "" });
+  };
+
+  const handleClearInput = (name) => {
+    setFilters((prev) => ({ ...prev, [name]: "" }));
   };
 
   const handleSaveEdit = async () => {
@@ -92,24 +119,119 @@ export default function Users() {
   };
 
   return (
-    <div className="container mt-4">
-      <h2>All Users</h2>
-      <div className="table-responsive mt-3">
-        <table className={`table table-bordered table-striped ${styles.userTable}`}>
-          <thead className={`${styles.tableHeader}`}>
-            <tr>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Phone</th>
-              <th>Favorites</th>
-              <th>Booked Flights</th>
-              <th>Booked Hotels</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {users.length > 0 ? (
-              users.map((user) => (
+    <div className={styles.container}>
+      <h1 className={styles.headerTitle}>All Users</h1>
+      <div className={styles.filterSection}>
+        <button
+          className={styles.filterToggle}
+          onClick={() => setShowFilters(!showFilters)}
+        >
+          <FaFilter className={styles.filterIcon} />
+          {showFilters ? "Hide Filters" : "Show Filters"}
+        </button>
+        {showFilters && (
+          <div className={styles.filterContainer}>
+            <div className={styles.filterGroup}>
+              <div className={styles.filterItem}>
+                <label htmlFor="name" className={styles.filterLabel}>Name</label>
+                <div className={styles.inputWrapper}>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    placeholder="Filter by Name"
+                    value={filters.name}
+                    onChange={handleFilterChange}
+                    className={styles.filterInput}
+                  />
+                  {filters.name && (
+                    <button
+                      type="button"
+                      className={styles.clearInputButton}
+                      onClick={() => handleClearInput("name")}
+                      aria-label="Clear Name Filter"
+                    >
+                      <FaTimes className={styles.clearIcon} />
+                    </button>
+                  )}
+                </div>
+              </div>
+              <div className={styles.filterItem}>
+                <label htmlFor="email" className={styles.filterLabel}>Email</label>
+                <div className={styles.inputWrapper}>
+                  <input
+                    type="text"
+                    id="email"
+                    name="email"
+                    placeholder="Filter by Email"
+                    value={filters.email}
+                    onChange={handleFilterChange}
+                    className={styles.filterInput}
+                  />
+                  {filters.email && (
+                    <button
+                      type="button"
+                      className={styles.clearInputButton}
+                      onClick={() => handleClearInput("email")}
+                      aria-label="Clear Email Filter"
+                    >
+                      <FaTimes className={styles.clearIcon} />
+                    </button>
+                  )}
+                </div>
+              </div>
+              <div className={styles.filterItem}>
+                <label htmlFor="phone" className={styles.filterLabel}>Phone</label>
+                <div className={styles.inputWrapper}>
+                  <input
+                    type="text"
+                    id="phone"
+                    name="phone"
+                    placeholder="Filter by Phone"
+                    value={filters.phone}
+                    onChange={handleFilterChange}
+                    className={styles.filterInput}
+                  />
+                  {filters.phone && (
+                    <button
+                      type="button"
+                      className={styles.clearInputButton}
+                      onClick={() => handleClearInput("phone")}
+                      aria-label="Clear Phone Filter"
+                    >
+                      <FaTimes className={styles.clearIcon} />
+                    </button>
+                  )}
+                </div>
+              </div>
+            </div>
+            <button
+              className={styles.clearButton}
+              onClick={handleClearFilters}
+            >
+              Clear Filters
+            </button>
+          </div>
+        )}
+      </div>
+      <div className={styles.tableWrapper}>
+        {filteredUsers.length === 0 ? (
+          <div className={styles.empty}>No users available for the selected filters.</div>
+        ) : (
+          <table className={styles.userTable}>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Favorites</th>
+                <th>Booked Flights</th>
+                <th>Booked Hotels</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredUsers.map((user) => (
                 <tr key={user.id}>
                   <td>{user.name}</td>
                   <td>{user.email}</td>
@@ -118,25 +240,28 @@ export default function Users() {
                   <td>{user.bookedFlights.length}</td>
                   <td>{user.bookedHotels.length}</td>
                   <td>
-                    <button className="btn  btn-sm me-2" onClick={() => openEditModal(user)}>
+                    <button
+                      className={styles.editButton}
+                      onClick={() => openEditModal(user)}
+                      title="Edit User"
+                    >
                       <FaEdit className={styles.editIcon} />
                     </button>
-                    <button className="btn   btn-sm" onClick={() => handleDeleteUser(user.id)}>
+                    <button
+                      className={styles.deleteButton}
+                      onClick={() => handleDeleteUser(user.id)}
+                      title="Delete User"
+                    >
                       <FaTrash className={styles.deleteIcon} />
                     </button>
                   </td>
                 </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="7" className="text-center">No users found.</td>
-              </tr>
-            )}
-          </tbody>
-        </table>
+              ))}
+            </tbody>
+          </table>
+        )}
       </div>
 
-      {/* Edit Modal */}
       {showEditModal && (
         <div className="modal d-block" tabIndex="-1" style={{ backgroundColor: "rgba(0,0,0,0.5)" }}>
           <div className="modal-dialog">

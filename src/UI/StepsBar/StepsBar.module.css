@@ -1,0 +1,48 @@
+.stepsContainer {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.step {
+  flex: 1;
+  position: relative;
+}
+
+.stepCircle {
+  width: 40px;
+  height: 40px;
+  background-color: #dee2e6;
+  color: #6c757d;
+  font-weight: bold;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.active {
+  background-color: #3db9ef;
+  color: white;
+  
+}
+
+.connector {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  width: 100%;
+  height: 4px;
+  background-color: #dee2e6;
+  z-index: -1;
+}
+
+.activeConnector {
+  background-color: #3db9ef;
+}
+
+.activeText{
+  color: #3db9ef;
+}
+
+.now{
+  border: 2px solid #3db9ef;
+  color: #3db9ef;
+  background-color: #fefefe;
+}

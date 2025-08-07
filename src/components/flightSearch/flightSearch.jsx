@@ -285,7 +285,7 @@ export default function FlightSearch() {
               <div className="mb-4">
                 <h4 className="h6 mb-2">Airlines</h4>
                 {uniqueAirlines.map(airline => (
-                  <div key={airline} className="form-check">
+                  <div key={airline?.id} className="form-check">
                     <input
                       type="checkbox"
                       className="form-check-input"
@@ -348,7 +348,7 @@ export default function FlightSearch() {
               </div>
               {filteredFlights.length > 0 ? (
                 <div className={`container ${Style['flight-list']}`}>
-                  {filteredFlights.map((flight, index) => (
+                  {filteredFlights.slice(1).map((flight, index) => (
                     <FlightCard
                       key={flight.id}
                       id={flight.id}
@@ -356,6 +356,8 @@ export default function FlightSearch() {
                       flightNumber={`Flight #${index + 1}`}
                       from={flight.from}
                       to={flight.to}
+                      toAirport={flight?.toAirport?.code}
+                      fromAirport={flight?.fromAirport?.code}
                       date={flight.date}
                       departureTime={flight.departureTime}
                       arrivalTime={flight.arrivalTime}

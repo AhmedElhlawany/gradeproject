@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { Navigate, useNavigate } from 'react-router-dom';
+import styles from './ResetPassword.module.css';
 
 export default function ResetPassword() {
   const [email, setEmail] = useState('');
@@ -8,7 +10,7 @@ export default function ResetPassword() {
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-
+const Navigate=useNavigate()
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     setToken(params.get('token') || '');
@@ -40,6 +42,16 @@ export default function ResetPassword() {
         setMessage(data.message);
         setNewPassword('');
         setConfirmPassword('');
+         await Swal.fire({
+                title: 'Success!',
+                text: 'Booking cancelled successfully!',
+                icon: 'success',
+                confirmButtonText: 'OK',
+                customClass: {
+                  confirmButton: `btn ${styles['conbtn']}`,
+                }
+              });
+        Navigate('/login');
       } else {
         setError(data.error);
       }

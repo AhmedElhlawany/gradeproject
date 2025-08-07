@@ -1,1 +1,37 @@
-.Notfound {}
+.notfound-bg {
+  background-color: #fefefe !important;
+  color: #222;
+}
+
+.btn-custom {
+  background-color: #0099cc;
+  color: #fefefe;
+  transition: background-color 0.3s ease;
+}
+
+.btn-custom:hover {
+  background-color: #3db9ef;
+  color: #fff;
+}
+
+.text-primary {
+  color: #3db9ef !important;
+}
+
+.text-info {
+  color: #0099cc !important;
+}
+
+.bounce {
+  animation: bounce 1s infinite;
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}

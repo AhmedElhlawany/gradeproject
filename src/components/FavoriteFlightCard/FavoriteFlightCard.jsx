@@ -37,7 +37,7 @@ export default function FavoriteFlightCard({ flight, onRemove, onBook }) {
 
         <div className={styles.route}>
           <span className={styles.city}>{from}</span>
-          <span className={styles.dash}>----------------------------</span>
+          {/* <span className={styles.dash}>----------------------------</span> */}
           <span className={styles.city}>{to}</span>
         </div>
 

@@ -28,10 +28,11 @@
   color: #6c757d;
   line-height: 1.6;
   margin-bottom: 20px;
+  display: flex;
 }
 
 .flightDetails p {
-  margin: 5px 0;
+  margin: 15px ;
 }
 
 .confirmation {

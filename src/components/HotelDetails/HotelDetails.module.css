@@ -41,14 +41,68 @@
     font-size: 0.9rem;
     cursor: pointer;
     transition: background-color 0.3s;
-    width: 100%;
+    width: 11%;
+    margin-top: 60px;
+    display: block;
+    margin-left: auto;
 }
 .bookHotel-button:hover {
     background-color: #0099cc;
 }
-
+.conbtn{
+  background-color: #3db9ef;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  width: 100%;
+}
+.conbtn:hover {
+  background-color: #0099cc;
+}
 .HDicon{
     color: #3db9ef;
     font-size: 1.5rem;
     margin-right: 10px;
+}
+.room-card{
+    background-color: #fdfdfd;
+    border-radius: 12px;
+    box-shadow: 0 1px 5px #768489;
+    font-family: sans-serif;
+    margin: 20px 0;
+    border-collapse: collapse;
+  overflow: hidden; /* optional */
+}
+.room-card thead tr th{
+    background-color: #3db9ef;
+    color: #fff;
+}
+
+.amenity-badge{
+  background-color: #edf1f3;
+  color: #222;
+  font-size: 16px;
+  border: 1px solid #10628a;
+  border-radius: 8px;
+  padding: 4px 8px;
+  margin-right: 8px;
+  margin-bottom: 8px;
+}
+
+
+.room-table{
+  position: relative;
+  padding: 0;
+}
+.room-table .bookHotel-button{
+  display: block;
+  position: sticky;
+  top: 70px;
+}
+td{
+  padding: 20px;
 }

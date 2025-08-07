@@ -87,7 +87,7 @@ const HotelBooking = () => {
         showConfirmButton: true,
         confirmButtonText: "OK",
         customClass: {
-          confirmButton: "btn btn-primary",
+          confirmButton: `btn ${style['conbtn']}`,
         },
         buttonsStyling: false,
       });

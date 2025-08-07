@@ -68,6 +68,9 @@ export default function BookedFlights() {
         title: 'Booking Cancelled',
         text: 'Your flight booking has been cancelled successfully.',
         confirmButtonText: 'Ok',
+         customClass: {
+                  confirmButton: `btn ${styles['conbtn']}`,
+                }
       });
     } catch (error) {
       console.error('Cancellation failed:', error);
@@ -76,6 +79,9 @@ export default function BookedFlights() {
         title: 'Cancellation Failed',
         text: error.response?.data?.error || error.message,
         confirmButtonText: 'Ok',
+         customClass: {
+                  confirmButton: `btn ${styles['conbtn']}`,
+                }
       });
     }
   };
@@ -109,14 +115,14 @@ export default function BookedFlights() {
 
   return (
     <div className="container mt-5 pt-5">
-      <h2 className="mb-4">Your Booked Flights</h2>
+      <h2 className="mb-4 text-center">Your Booked Flights</h2>
       {bookedFlights.length === 0 ? (
         <p>No booked flights found.</p>
       ) : (
         <div className="row">
           {bookedFlights.map((flight) => (
-            <div key={flight.id} className="col-md-6 mb-4">
-              <div className={`card ${styles.card} p-3`}>
+            <div key={flight.id} className="col-md-4 mb-4">
+              <div className={`card ${styles.card} p-3 shadow`}>
                 <div className="card-body">
                   <p className="card-text">
                     <strong>From:</strong> {flight.from}

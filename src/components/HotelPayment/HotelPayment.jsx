@@ -1,3 +1,6 @@
+
+
+
 import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -7,6 +10,8 @@ import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import styles from './HotelPayment.module.css';
+import StepsBar from '../../UI/StepsBar/StepsBar';
+
 export default function HotelPayment() {
   const { state } = useLocation();
   const navigate = useNavigate();
@@ -14,10 +19,11 @@ export default function HotelPayment() {
   const [bookingId, setBookingId] = useState(null);
 
   const hotel = state?.hotel;
+  const selectedRooms = state?.selectedRooms;
+  const userDetails = state?.userDetails;
   const currentUser = JSON.parse(localStorage.getItem('currentUser'));
   const token = localStorage.getItem('token');
 
-  // Define important dates for discount with reasons
   const importantDates = [
     { date: '2025-12-24', reason: 'Christmas Eve' },
     { date: '2025-12-25', reason: 'Christmas Day' },
@@ -26,10 +32,10 @@ export default function HotelPayment() {
     { date: '2025-02-14', reason: "Valentine's Day" },
   ];
 
-  if (!hotel) {
+  if (!hotel || !selectedRooms || !userDetails) {
     return (
       <div className="container py-5 text-center">
-        <h3>Hotel data not found</h3>
+        <h3>Booking data not found</h3>
         <button className="btn btn-primary mt-3" onClick={() => navigate(-1)}>
           ← Back
         </button>
@@ -48,48 +54,13 @@ export default function HotelPayment() {
     );
   }
 
-  const prices = hotel.availableRooms.reduce((acc, room) => {
-    acc[room.type] = room.price;
-    return acc;
-  }, {});
-
   const formik = useFormik({
     initialValues: {
-      firstName: currentUser.name?.split(' ')[0] || '',
-      lastName: currentUser.name?.split(' ')[1] || '',
-      phone: currentUser.phone || '',
-      email: currentUser.email || '',
-      rooms: [{ type: '', count: 1 }],
-      checkIn: '',
-      checkOut: '',
       cardNumber: '',
       expiryDate: '',
       cvv: '',
     },
     validationSchema: Yup.object({
-      firstName: Yup.string().required('Required'),
-      lastName: Yup.string().required('Required'),
-      phone: Yup.string().required('Required'),
-      email: Yup.string().email('Invalid email').required('Required'),
-      rooms: Yup.array()
-        .of(
-          Yup.object({
-            type: Yup.string().required('Room type is required'),
-            count: Yup.number()
-              .min(1, 'At least one room is required')
-              .test('max-rooms', 'Exceeds available rooms', function (value) {
-                const roomType = this.parent.type;
-                const room = hotel.availableRooms.find((r) => r.type === roomType);
-                return roomType && room ? value <= room.quantity : true;
-              })
-              .required('Number of rooms is required'),
-          })
-        )
-        .min(1, 'At least one room selection is required'),
-      checkIn: Yup.date().required('Check-in date is required'),
-      checkOut: Yup.date()
-        .min(Yup.ref('checkIn'), 'Check-out must be after check-in')
-        .required('Check-out date is required'),
       cardNumber: Yup.string()
         .matches(/^\d{16}$/, 'Card number must be 16 digits')
         .required('Required'),
@@ -101,17 +72,16 @@ export default function HotelPayment() {
         .required('Required'),
     }),
     onSubmit: async (values) => {
-      let totalCost = values.rooms.reduce(
-        (sum, room) => sum + (prices[room.type] || 0) * room.count,
+      let totalCost = selectedRooms.reduce(
+    (sum, room) => sum + room.price * room.count * numberOfNights,
         0
       );
 
-      // Apply 10% discount if check-in date is an important date
-      const checkInDate = new Date(values.checkIn).toISOString().split('T')[0];
+      const checkInDate = new Date(userDetails.checkIn).toISOString().split('T')[0];
       const specialDate = importantDates.find((d) => d.date === checkInDate);
       const isSpecialDate = !!specialDate;
       if (isSpecialDate) {
-        totalCost *= 0.9; // Apply 10% discount
+        totalCost *= 0.9; 
       }
 
       const newBookingId = uuidv4();
@@ -120,23 +90,23 @@ export default function HotelPayment() {
         hotelId: hotel.id,
         hotelName: hotel.name,
         city: hotel.city,
-        rooms: values.rooms.map((room) => ({
+        rooms: selectedRooms.map((room) => ({
           type: room.type,
           count: room.count,
-          price: prices[room.type],
+          price: room.price,
         })),
-        totalCost,
-        fullName: `${values.firstName} ${values.lastName}`,
-        phone: values.phone,
-        email: values.email,
+        totalCost  ,
+        fullName: `${userDetails.firstName} ${userDetails.lastName}`,
+        phone: userDetails.phone,
+        email: userDetails.email,
         bookingDate: new Date().toISOString(),
-        checkIn: values.checkIn,
-        checkOut: values.checkOut,
+        checkIn: userDetails.checkIn,
+        checkOut: userDetails.checkOut,
         discountApplied: isSpecialDate ? `10% ${specialDate.reason} discount` : 'None',
       };
 
       try {
-        for (const room of values.rooms) {
+        for (const room of selectedRooms) {
           const response = await axios.post(
             `http://localhost:3000/api/hotels/${hotel.id}/book`,
             {
@@ -177,7 +147,10 @@ export default function HotelPayment() {
           title: 'Success!',
           text: `Your booking at ${hotel.name} for $${totalCost.toFixed(2)}${isSpecialDate ? ` (10% ${specialDate.reason} discount applied)` : ''} has been confirmed!`,
           icon: 'success',
-          confirmButtonText: 'OK'
+          confirmButtonText: 'OK',
+           customClass: {
+                                    confirmButton: `btn ${styles['conbtn']}`,
+                                  }
         });
       } catch (error) {
         const errorMessage = error.response?.data?.error || error.message;
@@ -185,7 +158,7 @@ export default function HotelPayment() {
           title: 'Error!',
           text: `Booking failed: ${errorMessage}`,
           icon: 'error',
-          confirmButtonText: 'OK'
+          confirmButtonText: 'OK',
         });
       }
     },
@@ -197,7 +170,7 @@ export default function HotelPayment() {
         title: 'Error!',
         text: 'No booking to cancel',
         icon: 'error',
-        confirmButtonText: 'OK'
+        confirmButtonText: 'OK',
       });
       return;
     }
@@ -224,7 +197,7 @@ export default function HotelPayment() {
         title: 'Success!',
         text: 'Booking cancelled successfully!',
         icon: 'success',
-        confirmButtonText: 'OK'
+        confirmButtonText: 'OK',
       });
       navigate('/hotels');
     } catch (error) {
@@ -233,43 +206,39 @@ export default function HotelPayment() {
         title: 'Error!',
         text: `Cancel booking failed: ${errorMessage}`,
         icon: 'error',
-        confirmButtonText: 'OK'
+        confirmButtonText: 'OK',
       });
     }
   };
 
-  const totalCost = formik.values.rooms.reduce(
-    (sum, room) => sum + (prices[room.type] || 0) * room.count,
+  const checkIn = new Date(userDetails.checkIn).getTime();
+const checkOut = new Date(userDetails.checkOut).getTime();
+const numberOfNights = Number((checkOut - checkIn) / (1000 * 60 * 60 * 24));
+
+  const totalCost = selectedRooms.reduce(
+    (sum, room) => sum + room.price * room.count * numberOfNights,
     0
   );
-
-  // Calculate discounted total for display
-  const checkInDate = formik.values.checkIn ? new Date(formik.values.checkIn).toISOString().split('T')[0] : '';
+  const checkInDate = userDetails.checkIn
+    ? new Date(userDetails.checkIn).toISOString().split('T')[0]
+    : '';
   const specialDate = importantDates.find((d) => d.date === checkInDate);
   const isSpecialDate = !!specialDate;
-  const displayTotal = isSpecialDate ? totalCost * 0.9 : totalCost;
+  const displayTotal = isSpecialDate ? totalCost * 0.9  : totalCost ;
+  
+ 
 
-  const addRoomSelection = () => {
-    formik.setFieldValue('rooms', [...formik.values.rooms, { type: '', count: 1 }]);
-  };
-
-  const removeRoomSelection = (index) => {
-    if (formik.values.rooms.length > 1) {
-      const newRooms = formik.values.rooms.filter((_, i) => i !== index);
-      formik.setFieldValue('rooms', newRooms);
-    }
-  };
-
-  const availableRoomTypes = hotel.availableRooms.filter((room) => room.quantity > 0);
 
   return (
     <div className="container mt-4 py-5">
+      <StepsBar currentStep={3} /> 
       {isConfirmed ? (
         <div className="text-center">
           <h2>Booking Confirmed!</h2>
           <p>
             Your booking at {hotel.name} for ${displayTotal.toFixed(2)}
-            {isSpecialDate ? ` (10% ${specialDate.reason} discount applied)` : ''} has been confirmed.
+            {isSpecialDate ? ` (10% ${specialDate.reason} discount applied)` : ''} has been
+            confirmed.
           </p>
           <div className="d-flex justify-content-center gap-3 mt-4">
             <button className="btn btn-primary" onClick={() => navigate('/hotels')}>
@@ -282,180 +251,52 @@ export default function HotelPayment() {
         </div>
       ) : (
         <>
-          <h2 className="mb-4 pt-3">Book Your Room at {hotel.name}</h2>
-          <form onSubmit={formik.handleSubmit} className="row g-3">
+          <div className={`container  ${styles['payment-container']}`}>
+            <h2 className="mb-4 pt-3">Payment for {hotel.name}</h2>
+          <h4>Booking Details</h4>
+          <div className="mb-4 row">
+            
             <div className="col-md-6">
-              <label htmlFor="firstName" className="form-label">
-                First Name
-              </label>
-              <input
-                id="firstName"
-                className="form-control"
-                {...formik.getFieldProps('firstName')}
-                aria-required="true"
-              />
-              {formik.touched.firstName && formik.errors.firstName && (
-                <div className="text-danger">{formik.errors.firstName}</div>
-              )}
+              <p>
+              <strong>Name:</strong> {userDetails.firstName} {userDetails.lastName}
+            </p>
             </div>
-
-            <div className="col-md-6">
-              <label htmlFor="lastName" className="form-label">
-                Last Name
-              </label>
-              <input
-                id="lastName"
-                className="form-control"
-                {...formik.getFieldProps('lastName')}
-                aria-required="true"
-              />
-              {formik.touched.lastName && formik.errors.lastName && (
-                <div className="text-danger">{formik.errors.lastName}</div>
-              )}
-            </div>
-
-            <div className="col-md-6">
-              <label htmlFor="phone" className="form-label">
-                Phone
-              </label>
-              <input
-                id="phone"
-                className="form-control"
-                {...formik.getFieldProps('phone')}
-                aria-required="true"
-              />
-              {formik.touched.phone && formik.errors.phone && (
-                <div className="text-danger">{formik.errors.phone}</div>
-              )}
-            </div>
-
-            <div className="col-md-6">
-              <label htmlFor="email" className="form-label">
-                Email
-              </label>
-              <input
-                id="email"
-                type="email"
-                className="form-control"
-                {...formik.getFieldProps('email')}
-                aria-required="true"
-              />
-              {formik.touched.email && formik.errors.email && (
-                <div className="text-danger">{formik.errors.email}</div>
-              )}
-            </div>
-
-            <div className="col-12">
-              <h4 className="mb-3">Room Selections</h4>
-              {formik.values.rooms.map((room, index) => (
-                <div key={index} className="row g-3 mb-3 align-items-end">
-                  <div className="col-md-5">
-                    <label htmlFor={`roomType-${index}`} className="form-label">
-                      Room Type
-                    </label>
-                    <select
-                      id={`roomType-${index}`}
-                      className="form-select"
-                      {...formik.getFieldProps(`rooms[${index}].type`)}
-                      aria-required="true"
-                    >
-                      <option value="" disabled>
-                        Choose...
-                      </option>
-                      {availableRoomTypes.map((roomOption) => (
-                        <option key={roomOption.type} value={roomOption.type}>
-                          {roomOption.type.charAt(0).toUpperCase() + roomOption.type.slice(1)} - $
-                          {roomOption.price} ({roomOption.quantity} available)
-                        </option>
-                      ))}
-                    </select>
-                    {formik.touched.rooms?.[index]?.type && formik.errors.rooms?.[index]?.type && (
-                      <div className="text-danger">{formik.errors.rooms[index].type}</div>
-                    )}
-                  </div>
-
-                  <div className="col-md-4">
-                    <label htmlFor={`roomCount-${index}`} className="form-label">
-                      Number of Rooms
-                    </label>
-                    <input
-                      id={`roomCount-${index}`}
-                      type="number"
-                      className="form-control"
-                      min="1"
-                      max={
-                        formik.values.rooms[index].type
-                          ? hotel.availableRooms.find(
-                            (r) => r.type === formik.values.rooms[index].type
-                          )?.quantity || 1
-                          : 1
-                      }
-                      {...formik.getFieldProps(`rooms[${index}].count`)}
-                      aria-required="true"
-                    />
-                    {formik.touched.rooms?.[index]?.count && formik.errors.rooms?.[index]?.count && (
-                      <div className="text-danger">{formik.errors.rooms[index].count}</div>
-                    )}
-                  </div>
-
-                  <div className="col-md-3">
-                    {formik.values.rooms.length > 1 && (
-                      <button
-                        type="button"
-                        className="btn btn-danger"
-                        onClick={() => removeRoomSelection(index)}
-                      >
-                        Remove
-                      </button>
-                    )}
-                  </div>
-                </div>
-              ))}
-              <div className="col-12">
-                <button
-                  type="button"
-                  className="btn btn-secondary mb-3"
-                  onClick={addRoomSelection}
-                  disabled={formik.values.rooms.length >= availableRoomTypes.length}
-                >
-                  Add Another Room Type
-                </button>
+              <div className="col-md-6">
+                <p>
+              <strong>Email:</strong> {userDetails.email}
+            </p>
               </div>
-            </div>
+              <div className="col-md-6"> <p>
+              <strong>Phone:</strong> {userDetails.phone}
+            </p></div>
+              <div className="col-md-6"> <p>
+              <strong>Check-In:</strong> {new Date(userDetails.checkIn).toLocaleDateString()}
+            </p></div>
+              
+              <div className="col-md-6">
+                 <h4>Selected Rooms</h4>
+            {selectedRooms.map((room, index) => (
+              <p key={index}>
+                {room.type}: {room.count} room(s) at ${room.price} each
+              </p>
+            ))}
+              </div>
+              <div className="col-md-6"> <p>
+              <strong>Check-Out:</strong>{' '}
+              {new Date(userDetails.checkOut).toLocaleDateString()}
+            </p></div>
+              <div className="col-md-6"> <h5>
+<h5>
+    Total Cost: ${displayTotal .toFixed(2)}
+    {isSpecialDate ? ` (10% ${specialDate.reason} discount)` : ''}
+  </h5>
+              {isSpecialDate ? ` (10% ${specialDate.reason} discount)` : ''}
+            </h5></div>
+              
+        
+          </div>
 
-            <div className="col-12">
-              <h5>
-                Total Cost: ${displayTotal.toFixed(2)}
-                {isSpecialDate ? ` (10% ${specialDate.reason} discount )` : ''}
-              </h5>
-            </div>
-
-            <div className="col-md-6">
-              <label htmlFor="checkIn" className="form-label">Check-In Date</label>
-              <input
-                id="checkIn"
-                type="date"
-                className="form-control"
-                {...formik.getFieldProps('checkIn')}
-              />
-              {formik.touched.checkIn && formik.errors.checkIn && (
-                <div className="text-danger">{formik.errors.checkIn}</div>
-              )}
-            </div>
-
-            <div className="col-md-6">
-              <label htmlFor="checkOut" className="form-label">Check-Out Date</label>
-              <input
-                id="checkOut"
-                type="date"
-                className="form-control"
-                {...formik.getFieldProps('checkOut')}
-              />
-              {formik.touched.checkOut && formik.errors.checkOut && (
-                <div className="text-danger">{formik.errors.checkOut}</div>
-              )}
-            </div>
-
+          <form onSubmit={formik.handleSubmit} className="row g-3">
             <div className="col-md-6">
               <label htmlFor="cardNumber" className="form-label">
                 Card Number
@@ -505,10 +346,11 @@ export default function HotelPayment() {
 
             <div className="col-12">
               <button className={`btn ${styles['btn-hpay']}`} type="submit">
-                Confirm Booking
+                Confirm Payment
               </button>
             </div>
           </form>
+          </div>
         </>
       )}
     </div>
