@@ -150,6 +150,9 @@ export default function ViewHotels() {
           icon: "error",
           title: "Error",
           text: err.message || "Failed to delete hotel. Please try again.",
+           customClass: {
+                    confirmButton: `btn ${styles['conbtn']}`,
+                  }
         });
       }
     }

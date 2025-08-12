@@ -138,6 +138,9 @@ export default function ViewFlights({ onFlightAdded }) {
       cancelButtonColor: "#6c757d",
       confirmButtonText: "Yes, delete it!",
       cancelButtonText: "Cancel",
+       customClass: {
+                confirmButton: `btn ${styles['conbtn']}`,
+              }
     });
 
     if (result.isConfirmed) {
@@ -156,6 +159,7 @@ export default function ViewFlights({ onFlightAdded }) {
           text: `Flight ${flightId} has been successfully deleted!`,
           timer: 2000,
           showConfirmButton: false,
+          
         });
       } catch (err) {
         console.error("Error deleting flight:", err);
@@ -163,6 +167,9 @@ export default function ViewFlights({ onFlightAdded }) {
           icon: "error",
           title: "Error",
           text: `Failed to delete flight: ${err.message}`,
+           customClass: {
+                    confirmButton: `btn ${styles['conbtn']}`,
+                  }
         });
       }
     }

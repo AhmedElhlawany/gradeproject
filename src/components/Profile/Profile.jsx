@@ -88,6 +88,9 @@ export default function Profile() {
             text: 'Profile photo uploaded but failed to update in backend. It may not persist after logout.',
             icon: 'warning',
             confirmButtonText: 'OK',
+             customClass: {
+                      confirmButton: `btn ${styles['conbtn']}`,
+                    }
           });
         }
 
@@ -100,6 +103,9 @@ export default function Profile() {
           text: 'Profile photo uploaded successfully!',
           icon: 'success',
           confirmButtonText: 'OK',
+           customClass: {
+                    confirmButton: `btn ${styles['conbtn']}`,
+                  }
         });
       } else {
         throw new Error('Image upload failed');
@@ -111,6 +117,9 @@ export default function Profile() {
         text: 'Failed to upload profile photo.',
         icon: 'error',
         confirmButtonText: 'OK',
+         customClass: {
+                  confirmButton: `btn ${styles['conbtn']}`,
+                }
       });
     } finally {
       setIsUploading(false);
@@ -160,6 +169,9 @@ export default function Profile() {
             text: 'Profile updated successfully!',
             icon: 'success',
             confirmButtonText: 'OK',
+             customClass: {
+                      confirmButton: `btn ${styles['conbtn']}`,
+                    }
           });
         } else {
           throw new Error('Failed to update profile');
@@ -171,6 +183,9 @@ export default function Profile() {
           text: error.response?.data?.error || 'Failed to update profile',
           icon: 'error',
           confirmButtonText: 'OK',
+           customClass: {
+                    confirmButton: `btn ${styles['conbtn']}`,
+                  }
         });
       }
     },

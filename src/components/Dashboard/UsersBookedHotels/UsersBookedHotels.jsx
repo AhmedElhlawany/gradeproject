@@ -174,7 +174,10 @@ export default function UsersBookedHotels() {
       Swal.fire(
         "Error",
         error.response?.data?.error || "Failed to update booking",
-        "error"
+        "error",
+        { customClass: {
+          confirmButton: `btn ${Style["conbtn"]}`,
+        },}
       );
     }
   };
@@ -228,6 +231,10 @@ export default function UsersBookedHotels() {
         icon: "success",
         title: "Success",
         text: "Hotel booking canceled successfully.",
+        confirmButtonText: "OK",
+         customClass: {
+                  confirmButton: `btn ${Style['conbtn']}`,
+                }
       });
     } catch (error) {
       console.error("Error canceling hotel booking:", error);
@@ -239,6 +246,10 @@ export default function UsersBookedHotels() {
         icon: "error",
         title: "Error",
         text: errorMessage,
+        confirmButtonText: "OK",
+         customClass: {
+          confirmButton: `btn ${Style['conbtn']}`,
+        }
       });
     }
   };

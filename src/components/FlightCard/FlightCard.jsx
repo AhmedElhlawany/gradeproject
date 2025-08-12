@@ -96,6 +96,9 @@ export default function FlightCard({
         text: `Failed to update favorite: ${error.message}`,
         icon: 'error',
         confirmButtonText: 'OK',
+         customClass: {
+                  confirmButton: `btn ${styles['conbtn']}`,
+                }
       
       });
     }

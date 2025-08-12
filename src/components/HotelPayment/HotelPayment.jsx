@@ -159,6 +159,9 @@ export default function HotelPayment() {
           text: `Booking failed: ${errorMessage}`,
           icon: 'error',
           confirmButtonText: 'OK',
+           customClass: {
+                    confirmButton: `btn ${styles['conbtn']}`,
+                  }
         });
       }
     },
@@ -171,6 +174,9 @@ export default function HotelPayment() {
         text: 'No booking to cancel',
         icon: 'error',
         confirmButtonText: 'OK',
+         customClass: {
+                  confirmButton: `btn ${styles['conbtn']}`,
+                }
       });
       return;
     }
@@ -198,6 +204,9 @@ export default function HotelPayment() {
         text: 'Booking cancelled successfully!',
         icon: 'success',
         confirmButtonText: 'OK',
+         customClass: {
+                  confirmButton: `btn ${styles['conbtn']}`,
+                }
       });
       navigate('/hotels');
     } catch (error) {
@@ -207,6 +216,9 @@ export default function HotelPayment() {
         text: `Cancel booking failed: ${errorMessage}`,
         icon: 'error',
         confirmButtonText: 'OK',
+         customClass: {
+                  confirmButton: `btn ${styles['conbtn']}`,
+                }
       });
     }
   };

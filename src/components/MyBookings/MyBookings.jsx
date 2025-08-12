@@ -42,49 +42,65 @@ export default function BookedFlights() {
     fetchBookings();
   }, [currentUser, token]);
 
-  const cancelBooking = async (flightId) => {
-    if (!currentUser || !token) return;
+const cancelBooking = async (bFId) => {
+  if (!currentUser || !token) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Authentication Error',
+      text: 'You must be logged in to cancel a booking.',
+      confirmButtonText: 'Ok',
+      customClass: {
+        confirmButton: `btn ${styles['conbtn']}`,
+      },
+    });
+    return;
+  }
 
-    try {
-      const response = await axios.post(
-        `http://localhost:3000/api/users/${currentUser.id}/cancel-booking`,
-        { flightId },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-        }
-      );
+  try {
+    console.log('bFId:', bFId); // Debug: Log the bFId value
+    if (!bFId || typeof bFId !== 'string' || bFId.trim() === '') {
+      throw new Error('Invalid bFId: Must be a non-empty string');
+    }
 
-      if (response.status !== 200) {
-        throw new Error(response.data.error || 'Failed to cancel booking');
+    const response = await axios.post(
+      `http://localhost:3000/api/users/${currentUser.id}/cancel-booking`,
+      { bFId },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
       }
+    );
 
-      // Update state to remove cancelled booking
-      setBookedFlights((prev) => prev.filter((f) => f.id !== flightId));
+    if (response.status === 200) {
+      setBookedFlights((prev) => prev.filter((f) => f.bFId !== bFId));
       Swal.fire({
         icon: 'success',
         title: 'Booking Cancelled',
         text: 'Your flight booking has been cancelled successfully.',
         confirmButtonText: 'Ok',
-         customClass: {
-                  confirmButton: `btn ${styles['conbtn']}`,
-                }
-      });
-    } catch (error) {
-      console.error('Cancellation failed:', error);
-      Swal.fire({
-        icon: 'error',
-        title: 'Cancellation Failed',
-        text: error.response?.data?.error || error.message,
-        confirmButtonText: 'Ok',
-         customClass: {
-                  confirmButton: `btn ${styles['conbtn']}`,
-                }
+        customClass: {
+          confirmButton: `btn ${styles['conbtn']}`,
+        },
       });
     }
-  };
+  } catch (error) {
+    console.error('Cancellation failed:', error);
+    const errorMessage = error.message === 'Invalid bFId: Must be a non-empty string'
+      ? 'The booking ID is invalid. Please try again.'
+      : error.response?.data?.error || 'An unexpected error occurred. Please try again.';
+    Swal.fire({
+      icon: 'error',
+      title: 'Cancellation Failed',
+      text: errorMessage,
+      confirmButtonText: 'Ok',
+      customClass: {
+        confirmButton: `btn ${styles['conbtn']}`,
+      },
+    });
+  }
+};
 
   if (!currentUser || !token) {
     return (
@@ -121,7 +137,7 @@ export default function BookedFlights() {
       ) : (
         <div className="row">
           {bookedFlights.map((flight) => (
-            <div key={flight.id} className="col-md-4 mb-4">
+            <div key={flight.bFId} className="col-md-4 mb-4">
               <div className={`card ${styles.card} p-3 shadow`}>
                 <div className="card-body">
                   <p className="card-text">
@@ -151,7 +167,7 @@ export default function BookedFlights() {
                   </p>
                   <button
                     className="btn btn-danger mt-2"
-                    onClick={() => cancelBooking(flight.id)}
+                    onClick={() => cancelBooking(flight.bFId)}
                   >
                     Cancel Booking
                   </button>

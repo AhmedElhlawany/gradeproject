@@ -271,16 +271,7 @@ export default function FlightSearch() {
                   />
                   <span className="ms-2">{formatTime(timeFilter[1])}</span>
                 </div>
-                {/* <h6>Arrival Time</h6>
-                <input
-                  type="range"
-                  min="0"
-                  max="23.99"
-                  step="0.25"
-                  value={timeFilter[1]}
-                  onChange={e => setTimeFilter([timeFilter[0], Number(e.target.value)])}
-                  className="form-range w-100"
-                /> */}
+               
               </div>
               <div className="mb-4">
                 <h4 className="h6 mb-2">Airlines</h4>
@@ -348,7 +339,7 @@ export default function FlightSearch() {
               </div>
               {filteredFlights.length > 0 ? (
                 <div className={`container ${Style['flight-list']}`}>
-                  {filteredFlights.slice(1).map((flight, index) => (
+                  {filteredFlights.map((flight, index) => (
                     <FlightCard
                       key={flight.id}
                       id={flight.id}

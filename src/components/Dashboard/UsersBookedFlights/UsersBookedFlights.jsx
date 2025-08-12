@@ -48,6 +48,10 @@ export default function UsersBookedFlights() {
           icon: "error",
           title: "Error",
           text: "Failed to fetch users. Please try again.",
+          confirmButtonText: "OK",
+          customClass: {
+            confirmButton: `btn ${Style.conbtn}`,
+          }
         });
       }
     };
@@ -135,6 +139,10 @@ export default function UsersBookedFlights() {
           icon: "error",
           title: "Authentication Required",
           text: "Please log in to perform this action.",
+          confirmButtonText: "OK",
+           customClass: {
+                    confirmButton: `btn ${Style['conbtn']}`,
+                  }
         });
         return;
       }
@@ -172,6 +180,10 @@ export default function UsersBookedFlights() {
         icon: "success",
         title: "Success",
         text: "Flight canceled successfully.",
+        confirmButtonText: "OK",
+        customClass: {
+          confirmButton: `btn ${Style['conbtn']}`,
+        }
       });
     } catch (error) {
       console.error("Error canceling flight:", error);
@@ -183,6 +195,10 @@ export default function UsersBookedFlights() {
         icon: "error",
         title: "Error",
         text: errorMessage,
+        confirmButtonText: "OK",
+        customClass: {
+          confirmButton: `btn ${Style['conbtn']}`,
+        }
       });
     }
   };

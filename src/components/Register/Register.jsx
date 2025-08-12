@@ -45,7 +45,10 @@ export default function Register() {
         title: 'Success!',
         text: 'Registration successful!',
         icon: 'success',
-        confirmButtonText: 'OK'
+        confirmButtonText: 'OK',
+         customClass: {
+                  confirmButton: `btn ${style['conbtn']}`,
+                }
       });
       navigate('/login');
     } catch (error) {
@@ -56,7 +59,10 @@ export default function Register() {
         title: 'Error!',
         text: errorMessage,
         icon: 'error',
-        confirmButtonText: 'OK'
+        confirmButtonText: 'OK',
+         customClass: {
+                  confirmButton: `btn ${style['conbtn']}`,
+                }
       });
     } finally {
       setIsLoading(false);

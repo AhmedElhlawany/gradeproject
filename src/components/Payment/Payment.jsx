@@ -4,6 +4,7 @@ import { FlightContext } from '../Context/FlightContext';
 import styles from './Payment.module.css';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import { v4 as uuidv4 } from 'uuid';
 
 export default function Payment() {
   const { selectedFlight, adults, child } = useContext(FlightContext);
@@ -67,6 +68,9 @@ export default function Payment() {
         title: 'Validation Error',
         text: validationError,
         confirmButtonText: 'Ok',
+        customClass: {
+          confirmButton: `btn ${styles['conbtn']}`,
+        },
       });
       return;
     }
@@ -78,6 +82,9 @@ export default function Payment() {
         title: 'Authentication Required',
         text: 'Please login to book a flight.',
         confirmButtonText: 'Ok',
+         customClass: {
+          confirmButton: `btn ${styles['conbtn']}`,
+        },
       });
       return;
     }
@@ -89,14 +96,19 @@ export default function Payment() {
         title: 'Invalid Flight',
         text: 'Invalid flight data.',
         confirmButtonText: 'Ok',
+        customClass: {
+          confirmButton: `btn ${styles['conbtn']}`,
+        },
       });
       return;
     }
+      const newBFId = uuidv4();
 
     try {
       const response = await axios.post(
         `http://localhost:3000/api/users/${currentUser.id}/bookings`,
         {
+          bFId:newBFId,
           flightId: selectedFlight.id,
           adults,
           children: child,
@@ -120,6 +132,9 @@ export default function Payment() {
         title: 'Booking Confirmed',
         text: 'Your flight has been booked successfully.',
         confirmButtonText: 'Ok',
+        customClass: {
+          confirmButton: `btn ${styles['conbtn']}`,
+        }
       });
     } catch (err) {
       console.error('Error booking flight:', err);
@@ -129,6 +144,9 @@ export default function Payment() {
         title: 'Booking Failed',
         text: err.response?.data?.error || err.message,
         confirmButtonText: 'Ok',
+        customClass: {
+          confirmButton: `btn ${styles['conbtn']}`,
+        }
       });
     }
   };
@@ -158,6 +176,9 @@ export default function Payment() {
         title: 'Booking Cancelled',
         text: 'Your flight booking has been cancelled successfully.',
         confirmButtonText: 'Ok',
+        customClass: {
+          confirmButton: `btn ${styles['conbtn']}`,
+        }
       });
       navigate('/flights');
     } catch (err) {
@@ -168,6 +189,9 @@ export default function Payment() {
         title: 'Cancellation Failed',
         text: err.response?.data?.error || err.message,
         confirmButtonText: 'Ok',
+        customClass: {
+          confirmButton: `btn ${styles['conbtn']}`,
+        }
       });
     }
   };
