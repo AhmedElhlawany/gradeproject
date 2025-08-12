@@ -28,7 +28,7 @@ export default function HotelDetails() {
   useEffect(() => {
     const fetchHotelDetails = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/api/hotels/${hotelId}`);
+        const response = await fetch(`https://flyhigh.zeabur.app/api/hotels/${hotelId}`);
         const data = await response.json();
         setHotel(data);
         // Initialize selectedRooms with all room types set to 0

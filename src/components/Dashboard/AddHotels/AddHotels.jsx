@@ -26,7 +26,7 @@ export default function AddHotels() {
   useEffect(() => {
     const fetchCities = async () => {
       try {
-        const response = await fetch("http://localhost:3000/api/places");
+        const response = await fetch("https://flyhigh.zeabur.app/api/places");
         if (!response.ok) {
           throw new Error(`Failed to fetch cities: ${response.status}`);
         }
@@ -42,7 +42,7 @@ export default function AddHotels() {
     };
     const fetchAmenities = async () => {
       try {
-        const response = await fetch("http://localhost:3000/api/hotels");
+        const response = await fetch("https://flyhigh.zeabur.app/api/hotels");
         if (!response.ok) {
           throw new Error(`Failed to fetch hotels: ${response.status}`);
         }
@@ -135,7 +135,7 @@ export default function AddHotels() {
 
   const refetchAmenities = async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/hotels");
+      const response = await fetch("https://flyhigh.zeabur.app/api/hotels");
       console.log("Refetch amenities response status:", response.status);
       if (!response.ok) {
         throw new Error(`Failed to refetch hotels: ${response.status}`);
@@ -193,7 +193,7 @@ export default function AddHotels() {
 
     try {
       console.log("Sending hotel data:", JSON.stringify(hotelData, null, 2));
-      const response = await fetch("http://localhost:3000/api/hotels", {
+      const response = await fetch("https://flyhigh.zeabur.app/api/hotels", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(hotelData),

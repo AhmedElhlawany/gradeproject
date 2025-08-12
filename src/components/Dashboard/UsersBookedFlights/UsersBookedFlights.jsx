@@ -30,7 +30,7 @@ export default function UsersBookedFlights() {
           });
           return;
         }
-        const response = await axios.get("http://localhost:3000/api/users", {
+        const response = await axios.get("https://flyhigh.zeabur.app/api/users", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -149,7 +149,7 @@ export default function UsersBookedFlights() {
 
       // Send flightId to backend
       await axios.post(
-        `http://localhost:3000/api/users/${userId}/cancel-booking`,
+        `https://flyhigh.zeabur.app/api/users/${userId}/cancel-booking`,
         { bFId },
         {
           headers: {

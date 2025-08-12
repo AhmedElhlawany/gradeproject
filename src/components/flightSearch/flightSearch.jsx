@@ -31,7 +31,7 @@ export default function FlightSearch() {
   };
 
   const fetchFlights = async (params = "") => {
-    const res = await fetch(`http://localhost:3000/api/flights${params}`);
+    const res = await fetch(`https://flyhigh.zeabur.app/api/flights${params}`);
     const data = await res.json();
     setFlights(data);
     setFilteredFlights(data);

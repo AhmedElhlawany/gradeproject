@@ -108,7 +108,7 @@ export default function HotelPayment() {
       try {
         for (const room of selectedRooms) {
           const response = await axios.post(
-            `http://localhost:3000/api/hotels/${hotel.id}/book`,
+            `https://flyhigh.zeabur.app/api/hotels/${hotel.id}/book`,
             {
               roomType: room.type,
               quantity: room.count,
@@ -127,7 +127,7 @@ export default function HotelPayment() {
         }
 
         const bookingResponse = await axios.post(
-          `http://localhost:3000/api/users/${currentUser.id}/hotel-bookings`,
+          `https://flyhigh.zeabur.app/api/users/${currentUser.id}/hotel-bookings`,
           bookingData,
           {
             headers: {
@@ -183,7 +183,7 @@ export default function HotelPayment() {
 
     try {
       const response = await axios.post(
-        `http://localhost:3000/api/users/${currentUser.id}/cancel-hotel-booking`,
+        `https://flyhigh.zeabur.app/api/users/${currentUser.id}/cancel-hotel-booking`,
         { bookingId },
         {
           headers: {

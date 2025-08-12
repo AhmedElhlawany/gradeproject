@@ -106,7 +106,7 @@ export default function Payment() {
 
     try {
       const response = await axios.post(
-        `http://localhost:3000/api/users/${currentUser.id}/bookings`,
+        `https://flyhigh.zeabur.app/api/users/${currentUser.id}/bookings`,
         {
           bFId:newBFId,
           flightId: selectedFlight.id,
@@ -156,7 +156,7 @@ export default function Payment() {
 
     try {
       const response = await axios.post(
-        `http://localhost:3000/api/users/${currentUser.id}/cancel-booking`,
+        `https://flyhigh.zeabur.app/api/users/${currentUser.id}/cancel-booking`,
         { flightId: selectedFlight.id },
         {
           headers: {

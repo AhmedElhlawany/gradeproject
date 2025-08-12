@@ -13,7 +13,7 @@ export default function Airlines() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch('http://localhost:3000/api/airlines')
+    fetch('https://flyhigh.zeabur.app/api/airlines')
       .then((res) => {
         if (!res.ok) throw new Error('Failed to fetch airlines');
         return res.json();
@@ -45,7 +45,7 @@ export default function Airlines() {
     }
 
     try {
-      const response = await fetch('http://localhost:3000/api/airlines', {
+      const response = await fetch('https://flyhigh.zeabur.app/api/airlines', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -70,7 +70,7 @@ export default function Airlines() {
 
   const handleDeleteAirline = async (id) => {
     try {
-      const response = await fetch(`http://localhost:3000/api/airlines/${id}`, {
+      const response = await fetch(`https://flyhigh.zeabur.app/api/airlines/${id}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
