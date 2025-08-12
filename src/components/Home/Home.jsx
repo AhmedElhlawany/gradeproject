@@ -18,6 +18,32 @@ export default function Home() {
     autoplay: true,
     autoplaySpeed: 2000,
     dots: true,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+          infinite: true,
+          dots: true
+        }
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          initialSlide: 1
+        }
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1
+        }
+      }
+    ]
   };
 
 function getUsers() {
@@ -62,7 +88,7 @@ function getUsers() {
     <>
 
       <div className={`${Style['home']} text-center m-0 d-flex justify-content-center align-items-center position-relative`}>
-        <video src="home.mp4" autoPlay loop muted width={"100%"} className="homeVid"></video>
+        <video src="home.mp4" autoPlay loop muted width={"100%"}  className="homeVid"></video>
         <div className={`${Style['overlay']} position-absolute`}></div>
         <div className={`${Style['header']} position-absolute `}>
           <h1 className='text-light'>Explore the <span>World </span>

@@ -115,7 +115,7 @@ export default function UsersBookedFlights() {
     setFilters((prev) => ({ ...prev, [name]: "" }));
   };
 
-  const handleDelete = async (userId, flightId) => {
+  const handleDelete = async (userId, bFId) => {
     const result = await Swal.fire({
       title: "Are you sure?",
       text: "Do you want to cancel this flight?",
@@ -150,7 +150,7 @@ export default function UsersBookedFlights() {
       // Send flightId to backend
       await axios.post(
         `http://localhost:3000/api/users/${userId}/cancel-booking`,
-        { flightId },
+        { bFId },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -166,7 +166,7 @@ export default function UsersBookedFlights() {
               ? {
                   ...user,
                   bookedFlights: user.bookedFlights.filter(
-                    (flight) => flight.id !== flightId
+                    (flight) => flight.bFId !== bFId
                   ),
                 }
               : user
@@ -414,11 +414,11 @@ export default function UsersBookedFlights() {
                       <td>{flight.date}</td>
                       <td>{flight.airline}</td>
                       <td>${flight.price}</td>
-                      <td>{flight.persons || 1}</td>
+                      <td>{flight.adults + flight.children}</td>
                       <td>
                         <button
                           className={Style.deleteButton}
-                          onClick={() => handleDelete(user.id, flight.id)}
+                          onClick={() => handleDelete(user.id, flight.bFId)}
                           title="Cancel Flight"
                         >
                           <FaTrash className={Style.deleteIcon} />

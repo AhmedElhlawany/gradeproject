@@ -34,7 +34,61 @@
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    width: 100% !important;
+    
+}
+.search-button{
+    padding: 10px 20px;
+    background-color: #3db9ef;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 20%;
+}
+.search-button:hover{
+    background-color: #226a8a;
+}
+
+/* responsive */
+
+@media (max-width: 960px) {
+    .form-floating{
+        width: 23% !important;
+    }
+    .dropdown-button{
+            font-size: 12px;
+
+    }
+    .search-button{
+        width: 23% !important;
+    }
 }
 
 
+@media (max-width: 767px) {
+    .form-floating{
+        width: 30% !important;
+    }
+    .dropdown-button{
+            font-size: 12px;
 
+    }
+    .search-button{
+        width: 30% !important;
+    }
+}
+
+@media (max-width: 575px) {
+    .form-floating{
+        width: 40% !important;
+
+    }
+    .dropdown-button{
+            font-size: 12px;
+}
+.search-button{
+    width: 40% !important;
+}
+}

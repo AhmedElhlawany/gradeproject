@@ -147,7 +147,7 @@ export default function FlightSearch() {
             />
             <label htmlFor="floatingInputDate">Date</label>
           </div>
-          <div className="dropdown">
+          <div className={`dropdown ${Style['form-floating']}`}>
             <button
               className={`btn dropdown-toggle p-3 mb-2 ${Style['dropdown-button']}`}
               onClick={togglePassengerDropdown}
@@ -276,7 +276,7 @@ export default function FlightSearch() {
               <div className="mb-4">
                 <h4 className="h6 mb-2">Airlines</h4>
                 {uniqueAirlines.map(airline => (
-                  <div key={airline?.id} className="form-check">
+                  <div key={airline.id} className="form-check">
                     <input
                       type="checkbox"
                       className="form-check-input"

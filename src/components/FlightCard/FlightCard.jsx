@@ -124,7 +124,7 @@ export default function FlightCard({
           <span className={styles.city}>{from}</span>
           <span className={styles.dash}>--------------</span>
           <span className={styles.city}>{to}</span>
-          <div className={styles.route}>
+          <div className={styles.airroute}>
             <span className="fw-normal">{fromAirport}</span>
             <span className={styles.dash}>--------------</span>
             <span className="fw-normal">{toAirport}</span>
@@ -144,14 +144,16 @@ export default function FlightCard({
             <strong>{arrivalTime}</strong>
             <small>{to}</small>
           </div>
-          <FaCalendarAlt className={styles.dateIcon} />
-          <span className={styles.date}>{date}</span>
+         
         </div>
-
+<div className={styles.dateSection}>
+   <FaCalendarAlt className={styles.dateIcon} />
+          <span className={styles.date}>{date}</span>
+</div>
         <div className={styles.priceSection}>
           <span className={styles.price}>
             <FaDollarSign className={styles.dollarIcon} />
-            <span>${price}</span>
+            <span>{price}</span>
           </span>
           <small className={styles.perPerson}>per person</small>
         </div>
