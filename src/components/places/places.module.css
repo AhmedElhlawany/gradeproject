@@ -16,3 +16,24 @@
 
     height: 200px;
 }
+
+/* responsive */
+
+@media (max-width: 1024px) {
+    .placecard {
+      width: 30%;
+    }
+  }
+
+@media screen and (max-width: 768px) {
+    .placecard {
+      width: 45%;
+    }
+  }
+  
+  @media screen and (max-width: 480px) {
+    .placecard {
+      width: 100%;
+    }
+  }
+

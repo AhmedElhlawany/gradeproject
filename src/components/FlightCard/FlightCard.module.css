@@ -147,6 +147,26 @@
 
 /* responsive */
 
+@media (max-width: 1080px){
+
+  .dash{
+    display: none;
+  }
+  .city{
+    margin: 5px;
+  }
+  .route{
+    width: 100%;
+  }
+  
+}
+
+
+
+
+
+
+
 /* Responsive Design: Tablet and Mobile */
 @media (max-width: 768px) {
   .card {
@@ -205,7 +225,9 @@
   .favoritefBtn {
     align-self: center;
   }
+ 
 }
+
 
 /* Extra Small Screens (e.g., Mobile Phones) */
 @media (max-width: 480px) {

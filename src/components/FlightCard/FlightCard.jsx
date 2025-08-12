@@ -125,7 +125,7 @@ export default function FlightCard({
           <span className={styles.dash}>--------------</span>
           <span className={styles.city}>{to}</span>
           <div className={styles.airroute}>
-            <span className="fw-normal">{fromAirport}</span>
+            <span className="fw-normal me-3">{fromAirport}</span>
             <span className={styles.dash}>--------------</span>
             <span className="fw-normal">{toAirport}</span>
           </div>
