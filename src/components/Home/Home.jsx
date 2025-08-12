@@ -50,7 +50,7 @@ function getUsers() {
   const token = localStorage.getItem("token"); 
 
   axios
-    .get("https://flyhigh.zeabur.app/api/users", {
+    .get("http://localhost:3000/api/users", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -68,7 +68,7 @@ function getUsers() {
 
 
   function getPlaces() {
-    axios.get(`https://flyhigh.zeabur.app/api/places`).then(res => setPlaces(res.data));
+    axios.get(`http://localhost:3000/api/places`).then(res => setPlaces(res.data));
 
 
   }

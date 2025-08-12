@@ -24,7 +24,7 @@ export default function ViewFlights({ onFlightAdded }) {
 
   const fetchFlights = async () => {
     try {
-      const response = await fetch("https://flyhigh.zeabur.app/api/flights");
+      const response = await fetch("http://localhost:3000/api/flights");
       if (!response.ok) {
         throw new Error(`Failed to fetch flights: ${response.status}`);
       }
@@ -145,7 +145,7 @@ export default function ViewFlights({ onFlightAdded }) {
 
     if (result.isConfirmed) {
       try {
-        const response = await fetch(`https://flyhigh.zeabur.app/api/flights/${flightId}`, {
+        const response = await fetch(`http://localhost:3000/api/flights/${flightId}`, {
           method: "DELETE",
         });
         if (!response.ok) {
@@ -187,7 +187,7 @@ export default function ViewFlights({ onFlightAdded }) {
 
   const handleFormSubmit = async (formData) => {
     try {
-      const response = await fetch(`https://flyhigh.zeabur.app/api/flights/${selectedFlight.id}`, {
+      const response = await fetch(`http://localhost:3000/api/flights/${selectedFlight.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

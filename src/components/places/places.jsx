@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Style from './Places.module.css';
+import Style from './places.module.css';
 import { useNavigate } from 'react-router-dom';
 
 export default function Places({ city }) {
@@ -8,7 +8,7 @@ const navigate = useNavigate();
   useEffect(() => {
     if (city) {
       console.log('Fetching places for city:', city); // للتحقق من الـ city
-      fetch(`https://flyhigh.zeabur.app/api/places?city=${encodeURIComponent(city)}`)
+      fetch(`http://localhost:3000/api/places?city=${encodeURIComponent(city)}`)
         .then(res => res.json())
         .then(data => {
           console.log('API response:', data); // للتحقق من الداتا

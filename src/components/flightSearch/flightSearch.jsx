@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import Style from './FlightSearch.module.css';
+import Style from './flightSearch.module.css';
 import { FlightContext } from '../Context/FlightContext';
 import { useNavigate } from 'react-router-dom';
 import FlightCard from '../FlightCard/FlightCard';
@@ -31,7 +31,7 @@ export default function FlightSearch() {
   };
 
   const fetchFlights = async (params = "") => {
-    const res = await fetch(`https://flyhigh.zeabur.app/api/flights${params}`);
+    const res = await fetch(`http://localhost:3000/api/flights${params}`);
     const data = await res.json();
     setFlights(data);
     setFilteredFlights(data);

@@ -18,7 +18,7 @@ const HotelBooking = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("https://flyhigh.zeabur.app/api/hotels")
+    fetch("http://localhost:3000/api/hotels")
       .then((res) => res.json())
       .then((data) => {
         setHotels(data);

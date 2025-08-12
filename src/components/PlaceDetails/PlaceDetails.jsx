@@ -6,7 +6,7 @@ export default function PlaceDetails() {
   const [place, setPlace] = useState(null);
 
   useEffect(() => {
-    fetch(`https://flyhigh.zeabur.app/api/places/${id}`)
+    fetch(`http://localhost:3000/api/places/${id}`)
       .then(res => res.json())
       .then(data => setPlace(data))
       .catch(err => {

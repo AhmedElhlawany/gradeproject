@@ -103,7 +103,7 @@ const userroutes = createBrowserRouter([
       { path: 'profile', element: <ProtectedRoute><Profile /></ProtectedRoute> },
       { path: 'contactUs', element: <ProtectedRoute><Contact /></ProtectedRoute> },
       { path: 'aboutUs', element: <ProtectedRoute><About /></ProtectedRoute> },
-      { path: 'place/:id', element: <ProtectedRoute><PlaceDetails /></ProtectedRoute> },
+      { path: 'place/:id', element: <PlaceDetails /> },
       { path: 'hoteldetails/:id', element: <HotelDetails /> },
       { path: 'FAQs', element: <ProtectedRoute><FaQs /></ProtectedRoute> },
       { path: 'booking-form', element: <ProtectedRoute><BookingForm /></ProtectedRoute> },

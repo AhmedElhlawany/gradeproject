@@ -1,15 +1,7 @@
 import { FaPlane, FaHotel, FaGlobe, FaList } from "react-icons/fa";
-import { Link, useLocation, Routes, Route, Outlet } from "react-router-dom";
+import { Link, useLocation, Outlet } from "react-router-dom";
 import styles from "./Dashboard.module.css";
-import AddFlights from "../AddFlights/AddFlights";
-import AddHotels from "../AddHotels/AddHotels";
-import AddAirlines from "../AddAirLine/AddAirlines";
-import ViewFlights from "../ViewFlights/ViewFlights";
-import ViewHotels from "../ViewHotels/ViewHotels";
-import Users from "../Users/Users";
-import UsersBookedFlights from "../UsersBookedFlights/UsersBookedFlights";
-import UsersBookedHotels from "../UsersBookedHotels/UsersBookedHotels";
-import OverView from "../OverView/OverView";
+
 
 export default function Dashboard() {
   const location = useLocation();

@@ -23,7 +23,7 @@ export default function ProtectedRoute({ children }) {
 
       try {
         // Validate JWT token by making a request to a protected endpoint
-        await axios.get(`https://flyhigh.zeabur.app/api/users/${currentUser.id}/favorites`, {
+        await axios.get(`http://localhost:3000/api/users/${currentUser.id}/favorites`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
