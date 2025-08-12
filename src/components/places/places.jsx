@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Style from './Places.module.css';
+import Style from './places.module.css';
 import { useNavigate } from 'react-router-dom';
 
 export default function Places({ city }) {
