@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import Style from './FlightSearch.module.css';
+import Style from './flightSearch.module.css';
 import { FlightContext } from '../Context/FlightContext';
 import { useNavigate } from 'react-router-dom';
 import FlightCard from '../FlightCard/FlightCard';
