@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import Style from './FaQs.module.css'
+
 export default function FaQs() {
 
 
