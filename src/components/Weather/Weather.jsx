@@ -88,6 +88,7 @@ export default function WeatherCard({ city, date }) {
                       <h3 className="my-2">{day.day.avgtemp_c}°C</h3>
                       <div>{day.day.condition.text}</div>
                       <div className="text-bolder fs-6  mt-2">{day.date}</div>
+                      <div className="layer"></div>
                     </div>
                   </div>
                 ))}

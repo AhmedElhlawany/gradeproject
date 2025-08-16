@@ -250,7 +250,7 @@ export default function HotelDetails() {
       </div>
 
       <div className="row">
-        <div className="col-md-6 mb-3 rounded-3 overflow-hidden">
+        <div className="col-md-12 mb-3 rounded-3 overflow-hidden">
           <iframe
             className="rounded-3"
             src={hotel.location}
@@ -261,7 +261,7 @@ export default function HotelDetails() {
             referrerPolicy="no-referrer-when-downgrade"
           ></iframe>
         </div>
-        <div className="col-md-6 p-5">
+        {/* <div className="col-md-6 p-5">
           <h3 className="mb-3">Contact Information</h3>
           <div className="row">
             <div className="col-md-12 mb-3">
@@ -283,7 +283,7 @@ export default function HotelDetails() {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

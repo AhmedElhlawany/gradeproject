@@ -3,7 +3,7 @@
 
 
 .chatbotContainer {
-  width: 350px;
+  width: 400px;
   height: 500px;
   border-radius: 15px;
   overflow: hidden;
@@ -35,11 +35,13 @@
 
 .user {
   align-self: flex-end;
-  background: #4cafef;
-  color: white;
+  background: #798892;
+  color: #fff !important;
   border-bottom-right-radius: 2px;
 }
-
+.user p {
+  color: #fff !important;
+}
 .assistant {
   align-self: flex-start;
   background: #e4e6eb;

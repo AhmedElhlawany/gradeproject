@@ -101,7 +101,7 @@ export default function Navbar() {
                         }`
                       }
                     >
-                      <i className={`fa-regular fa-user ${style['profile-icon']}`}></i>
+                      <i className={`fa-solid fa-user ${style['profile-icon']}`}></i>
                     </NavLink>
                   </li>
                   <li className="nav-item">

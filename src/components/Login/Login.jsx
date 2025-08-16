@@ -73,7 +73,7 @@ if(        JSON.parse(localStorage.getItem('currentUser'))?.email === "ahmedelha
 
   return (
     <div className={`${styles['login']} d-flex justify-content-center align-items-center vh-100`}>
-      <div className="login-form w-50 mx-auto my-5">
+      <div className={`${styles['login-form']}  mx-auto my-5`}>
         <h1 className="text-center mb-5">Login</h1>
         <form onSubmit={formik.handleSubmit}>
           <div className="form-floating mb-3 w-100">

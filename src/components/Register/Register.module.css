@@ -6,6 +6,15 @@
 
 }
 
+.register-form{
+  width: 40%;
+  padding: 30px;
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.8);
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+}
+
+
 .form-control {
   width: 100%;
   outline: #3db9ef;
@@ -27,25 +36,12 @@ label{
 }
 .register h1{
   color: #3db9ef;
-    font-size: 4rem;
+    /* font-size: 4rem; */
     font-weight: 700;
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     position: relative;
 }
-.register h1::after{
-    content: "";
-    position: absolute;
-    left: 50%;
-    bottom: -5px;
-    width: 35%;
-    height: 0px;
-    transform: translateX(-50%);
-    background: rgba(137, 208, 239, 0.5);
-    transition: 1s all;
-}
-.register h1:hover::after{
-    height: 40px;
-}
+
 p {
     color: #000;
     font-size: 1.2rem;

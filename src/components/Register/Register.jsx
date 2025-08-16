@@ -83,7 +83,7 @@ export default function Register() {
 
   return (
     <div className={`${style['register']} d-flex justify-content-center align-items-center `}>
-      <div className="register-form w-50 mx-auto my-5">
+      <div className={`${style['register-form']} mx-auto my-5`}>
         <h1 className="text-center mb-5">Register</h1>
         <form onSubmit={formik.handleSubmit}>
           <div className="form-floating mb-3">

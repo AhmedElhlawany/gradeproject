@@ -72,6 +72,12 @@ h2 span{
 }
 .heroButtons button{
     width: 150px;
+    color: #fefefe !important;
+    background-color: gray;
+
+}
+.heroButtons a{
+    color: #fefefe !important;
 }
 h1 span{
     color: #3db9ef;

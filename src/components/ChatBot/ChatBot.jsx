@@ -32,10 +32,10 @@ export default function ChatBot() {
         key={i} 
         className={`${style.message} ${msg.role === 'assistant' ? style.assistant : style.user}`}
       >
-        <p>{msg.content}</p>
+        <p>{msg.content.split('\n').map((line, i) => <span key={i}>{line}<br /></span>)}</p>
       </div>
     ))}
-    {loading && <p className={style.typing}>typing...</p>}
+    {loading && <p className={style.typing}>Searching...</p>}
   </div>
 
   <div className={style.inputContainer}>

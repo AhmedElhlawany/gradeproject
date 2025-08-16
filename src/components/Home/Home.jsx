@@ -99,7 +99,7 @@ function getUsers() {
 
           <div className={`${Style["heroButtons"]}`}>
             <button className={`me-3 btn ${Style['btn-Hbook']} px-4`} > <Link to="/flights"> Book Now </Link></button>
-            <button className='me-3 px-4 btn btn-secondary'> <Link to="/hotels">Explore</Link></button>
+            <button className='me-3 px-4 text-light btn btn-secondary'> <Link to="/hotels">Explore</Link></button>
           </div>
 
 
