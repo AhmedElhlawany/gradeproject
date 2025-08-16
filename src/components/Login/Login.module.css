@@ -35,7 +35,7 @@ label{
 }
 .login h1{
   color: #3db9ef;
-    font-size: 4rem;
+    /* font-size: 4rem; */
     font-weight: 700;
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     position: relative;
