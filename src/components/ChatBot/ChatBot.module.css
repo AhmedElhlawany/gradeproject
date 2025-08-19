@@ -104,3 +104,7 @@
 .chatbotContent::-webkit-scrollbar-thumb:hover {
   background: #999;
 }
+
+.clickableLine{
+  cursor: pointer;
+}

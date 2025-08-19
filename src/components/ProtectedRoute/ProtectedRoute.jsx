@@ -21,23 +21,27 @@ export default function ProtectedRoute({ children }) {
         return;
       }
 
-      try {
-        // Validate JWT token by making a request to a protected endpoint
-        await axios.get(`http://localhost:3000/api/users/${currentUser.id}/favorites`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+      if(token || currentUser) {
         setIsLoggedIn(true);
-      } catch (error) {
-        console.error('Token validation error:', error);
-        setIsLoggedIn(false);
-        setShowAlert(true);
-        // Clear localStorage on invalid token
-        localStorage.removeItem('token');
-        localStorage.removeItem('currentUser');
-        localStorage.removeItem('userEmail');
       }
+
+      // try {
+      //   // Validate JWT token by making a request to a protected endpoint
+      //   await axios.get(`http://localhost:3000/api/users/${currentUser.id}/favorites`, {
+      //     headers: {
+      //       Authorization: `Bearer ${token}`,
+      //     },
+      //   });
+      //   setIsLoggedIn(true);
+      // } catch (error) {
+      //   console.error('Token validation error:', error);
+      //   setIsLoggedIn(false);
+      //   setShowAlert(true);
+      //   // Clear localStorage on invalid token
+      //   localStorage.removeItem('token');
+      //   localStorage.removeItem('currentUser');
+      //   localStorage.removeItem('userEmail');
+      // }
       setChecking(false);
     };
 

@@ -622,7 +622,7 @@ const Payment = () => {
                       <strong>Airline:</strong> {selectedFlight.airline}
                     </p>
                     <p className="mb-0">
-                      <strong>Total Price:</strong> ${selectedFlight.price * (adults + child * 0.5)}
+                      <strong>Total Price:</strong> ${selectedFlight.price * (adults + (child * 0.5))}
                     </p>
                   </div>
 

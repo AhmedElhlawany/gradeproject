@@ -52,7 +52,6 @@ export default function Contact() {
           </div>
         ) : (
           <>
-            <h3 className={styles.subTitle}>Get in Touch</h3>
             <form onSubmit={handleSubmit} className={styles.contactForm}>
               <div className={styles.formGroup}>
                 <label htmlFor="name" className={styles.label}>Name</label>

@@ -15,10 +15,10 @@ export default function Login() {
   const validationSchema = Yup.object({
     email: Yup.string().email('Email is invalid').required('Email is required'),
     password: Yup.string()
-      .matches(
-        /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/,
-        'Password is not valid'
-      )
+      // .matches(
+      //   /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/,
+      //   'Password is not valid'
+      // )
       .required('Password is required'),
   });
 
@@ -38,7 +38,7 @@ export default function Login() {
         email: response.data.user.email,
         name: response.data.user.name,
         phone: response.data.user.phone,
-        profilePhoto: response.data.user.profilePhoto || '', // Include profilePhoto
+        profilePhoto: response.data.user.profilePhoto || '', 
       }));
       localStorage.setItem('userEmail', response.data.user.email);
 if(        JSON.parse(localStorage.getItem('currentUser'))?.email === "ahmedelhalawany429@gmail.com"){

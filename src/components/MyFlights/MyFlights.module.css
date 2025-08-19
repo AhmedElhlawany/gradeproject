@@ -32,6 +32,8 @@
 .transit-box h5 {
   color: #ffc118;
   margin-bottom: 0.5rem;
+  width: 100%;
+  
 }
 
 .section-title {
@@ -56,4 +58,16 @@
 
 .paymentBtn:hover {
   background-color: #0099cc;
+}
+
+.dropdown-button {
+    padding: 15px 45px;
+    background-color: #fff !important;
+    color: #000 !important;
+    border: 1px solid #ccc !important;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100% !important;
+    
 }

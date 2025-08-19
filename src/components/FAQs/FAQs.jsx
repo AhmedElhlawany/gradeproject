@@ -12,7 +12,7 @@ export default function FaQs() {
     {
       question: "Can I cancel my booking?",
       answer:
-        "Yes, you can cancel your booking from the 'Saved Trips' section. Cancellations are subject to the airline's policy, and refunds may take 5-7 business days to process.",
+        "Yes, you can cancel your booking from the your profile page . Cancellations are subject to the airline's policy, and refunds may take 5-7 business days to process.",
     },
     {
       question: "Is my payment secure?",
@@ -53,7 +53,7 @@ export default function FaQs() {
       <div className="container py-4">
         <h3 className="mb-4 fw-bold" style={{ color: "#77BEF0" }}>Frequently Asked Questions</h3>
 
-        <div className="accordion" id="faqAccordion">
+        <div className="accordion rounded-2 overflow-hidden" id="faqAccordion">
           {faqItems.map((item, index) => {
             const headingId = `heading${index}`;
             const collapseId = `collapse${index}`;
@@ -61,7 +61,7 @@ export default function FaQs() {
               <div className="accordion-item mb-2 border rounded" key={index}>
                 <h2 className="accordion-header" id={headingId}>
                   <button
-                    className={`accordion-button ${index !== 0 ? "collapsed" : ""}`}
+                    className={`accordion-button rounded-3 ${index !== 0 ? "collapsed" : ""}`}
                     type="button"
                     data-bs-toggle="collapse"
                     data-bs-target={`#${collapseId}`}

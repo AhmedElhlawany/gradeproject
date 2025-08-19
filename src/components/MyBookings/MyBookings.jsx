@@ -163,7 +163,7 @@ const cancelBooking = async (bFId) => {
                   </p>
                   <p className="card-text">
                     <strong>Total Price:</strong> $
-                    {(flight.price * (flight.adults + flight.children * 0.5)).toFixed(2)}
+                    {(flight.price ).toFixed(2)}
                   </p>
                   <button
                     className="btn btn-danger mt-2"

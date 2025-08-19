@@ -134,7 +134,7 @@ export default function About() {
           </div>
         </div>
 
-        <div className={styles.section}>
+        {/* <div className={styles.section}>
           <h3 className={styles.subTitle}>Our Journey</h3>
           <div className={styles.timeline}>
             {timelineEvents.map((event, index) => (
@@ -143,16 +143,16 @@ export default function About() {
                   <h4>{event.year}</h4>
                   <p>{event.event}</p>
                 </div>
-              </div>
+            </div>
             ))}
           </div>
-        </div>
+        </div> */}
 
-        <div className="d-flex justify-content-center mt-5">
+        {/* <div className="d-flex justify-content-center mt-5">
           <button className={styles.backBtn} onClick={handleBackToFlights}>
             Back to Flights
           </button>
-        </div>
+        </div> */}
       </div>
     </div>
   );

@@ -28,8 +28,8 @@ export const FavoritesProvider = ({ children }) => {
         });
         console.log('Response status:', res.status);
         if (res.status === 401 || res.status === 403) {
-          localStorage.removeItem('token');
-          localStorage.removeItem('currentUser');
+          // localStorage.removeItem('token');
+          // localStorage.removeItem('currentUser');
           alert('Session expired. Please log in again.');
           window.location.href = '/login';
           setFavorites([]);

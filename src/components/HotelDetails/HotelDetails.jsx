@@ -212,7 +212,21 @@ export default function HotelDetails() {
 
                   </td>
                   <td>{room.noOfBeds === 1 ? <i className='fas fa-user'></i> :
-                    room.noOfBeds === 2 ? <span><i className='fas fa-user me-2'></i><i className='fas fa-user'></i></span> : <span><i className='fas fa-user'></i><i className='fas fa-user mx-2'></i><i className='fas fa-user'></i></span>}</td>
+                    room.noOfBeds === 2 ? <span>
+                      <i className='fas fa-user me-1'></i>
+                      <i className='fas fa-user me-1'></i>
+                      <i className='fas fa-user me-1'></i>
+                      <i className='fas fa-user'></i>
+                      </span> 
+                      :
+                       <span>
+                      <i className='fas fa-user'></i>
+                      <i className='fas fa-user ms-1'></i>
+                      <i className='fas fa-user ms-1'></i>
+                      <i className='fas fa-user ms-1'></i>
+                      <i className='fas fa-user ms-1'></i>
+                      <i className='fas fa-user ms-1'></i>
+                      </span>}</td>
 
 
 
