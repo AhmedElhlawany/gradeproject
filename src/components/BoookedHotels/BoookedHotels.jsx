@@ -112,8 +112,8 @@ export default function BookedHotels() {
         updatedBooking: {
           fullName: formData.fullName,
           phone: formData.phone,
-          checkIn: formData.checkInDate,   // ✅ rename here
-          checkOut: formData.checkOutDate, // ✅ rename here
+          checkIn: formData.checkInDate,   
+          checkOut: formData.checkOutDate, 
         },
       },
       {

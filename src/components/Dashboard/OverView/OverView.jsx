@@ -66,7 +66,7 @@ export default function OverView() {
           userBookingsData[userIdentifier] = flightCount + hotelCount;
 
           (user.bookedFlights || []).forEach((flight) => {
-            const profit = flight.price * (flight.adults + flight.children) * 0.1;
+            const profit = flight.price  * 0.1;
             flightProfit += profit;
 
             const date = new Date(flight.date);
