@@ -188,11 +188,10 @@ export default function UsersBookedHotels() {
       text: "Do you want to cancel this hotel booking?",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonText: "Yes, cancel it!",
-      customClass: {
-        confirmButton: `btn ${Style["conbtn"]}`,
-      },
-      cancelButtonText: "No, keep it",
+      confirmButtonColor: "#c82333",
+      confirmButtonText: "Yes, delete it!",
+     
+      cancelButtonText: "Cancel",
     });
 
     if (!result.isConfirmed) return;
@@ -385,11 +384,11 @@ export default function UsersBookedHotels() {
 
       {/* Bootstrap Modal for Editing Booking */}
       {showEditModal && selectedBooking && (
-        <div className="modal show fade d-block" tabIndex="-1">
+        <div className="modal show fade d-block mt-5" tabIndex="-1">
           <div className="modal-dialog">
             <div className="modal-content">
               <div className="modal-header">
-                <h5 className="modal-title">Edit Booking</h5>
+                <h5 className="modal-title">Edit Hotel Booking</h5>
                 <button type="button" className="btn-close" onClick={() => setShowEditModal(false)}></button>
               </div>
               <div className="modal-body">
@@ -405,12 +404,13 @@ export default function UsersBookedHotels() {
                
               </div>
               <div className="modal-footer">
-                <button type="button" className="btn btn-secondary" onClick={() => setShowEditModal(false)}>
-                  Cancel
-                </button>
                 <button type="button" className={`btn ${Style['saveButton']}`} onClick={handleUpdateBooking}>
                   Save Changes
                 </button>
+                <button type="button" className="btn btn-secondary" onClick={() => setShowEditModal(false)}>
+                  Cancel
+                </button>
+                
               </div>
             </div>
           </div>

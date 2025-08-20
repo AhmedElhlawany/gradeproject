@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
+import {  useNavigate } from 'react-router-dom';
 import styles from './ResetPassword.module.css';
+import Swal from 'sweetalert2';
 
 export default function ResetPassword() {
   const [email, setEmail] = useState('');
@@ -10,7 +11,7 @@ export default function ResetPassword() {
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-const Navigate=useNavigate()
+const navigate=useNavigate()
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     setToken(params.get('token') || '');
@@ -42,16 +43,16 @@ const Navigate=useNavigate()
         setMessage(data.message);
         setNewPassword('');
         setConfirmPassword('');
-         await Swal.fire({
-                title: 'Success!',
-                text: 'Booking cancelled successfully!',
-                icon: 'success',
-                confirmButtonText: 'OK',
-                customClass: {
-                  confirmButton: `btn ${styles['conbtn']}`,
-                }
-              });
-        Navigate('/login');
+        Swal.fire({
+          icon: 'success',
+          title: 'Password Reset',
+          text: data.message,
+          confirmButtonText: 'OK',
+          customClass: {
+            confirmButton: `btn ${styles['conbtn']}`,
+          },
+        })
+        navigate('/login');
       } else {
         setError(data.error);
       }

@@ -5,6 +5,7 @@ import { FavoritesContext } from "../Context/FavouriteContext";
 import Swal from 'sweetalert2';
 
 export default function FlightCard({
+ 
   id=2001,
   airline = "Emirates",
   flightNumber = "Flight #1",

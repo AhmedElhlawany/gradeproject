@@ -88,7 +88,7 @@ export default function OverView() {
         console.log('Hotel Profit:', hotelProfit);
         console.log('Monthly Profits:', monthlyProfits);
         console.log('User Bookings:', userBookingsData);
-
+        
         setProfitData({
           totalProfit: flightProfit + hotelProfit,
           flightProfit,

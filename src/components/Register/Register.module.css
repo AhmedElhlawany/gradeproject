@@ -23,8 +23,7 @@
 }   
 .form-control:focus {
   outline: 2px solid #3db9ef;
-  border-color: #3db9ef;
-    box-shadow: 0 0 5px 5px #89d0ef;
+    box-shadow: 0 0 5px 1px #0b719d;
     background-color: transparent;
 }
 label{

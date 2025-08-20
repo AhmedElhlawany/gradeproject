@@ -298,3 +298,19 @@
 .deleteButton:hover .deleteIcon {
   color: #c82333;
 }
+
+.conbtn {
+  background-color: #c82333;
+  color: #fff;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+ 
+}
+
+.conbtn:hover {
+  background-color: #0099cc;
+}

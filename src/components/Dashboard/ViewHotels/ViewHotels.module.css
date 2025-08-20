@@ -45,10 +45,8 @@
 
 .thName { width: 11%; }
 .thCity { width: 6%; }
-.thRate { width: 5%; }
-.thPhone { width: 12%; }
-.thEmail { width: 16%; }       
-.thAmenities { width: 15%; }
+.thRate { width: 5%; }    
+.thAmenities { width: 20%; }
 .thRooms { width: 21%; }      
 .thActions { width: 7%; }
 

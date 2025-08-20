@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import Style from './flightSearch.module.css';
 import { FlightContext } from '../Context/FlightContext';
 import { useNavigate } from 'react-router-dom';
+import { Plane } from 'lucide-react';
 import FlightCard from '../FlightCard/FlightCard';
 
 export default function FlightSearch() {
@@ -9,14 +10,16 @@ export default function FlightSearch() {
   const [flights, setFlights] = useState([]);
   const [filteredFlights, setFilteredFlights] = useState([]);
   const [isSearched, setIsSearched] = useState(false);
-  const [filter, setFilter] = useState('none'); // 'none', 'cheapest', 'fastest', 'best'
+  const [filter, setFilter] = useState('none');
   const [showPassengerDropdown, setShowPassengerDropdown] = useState(false);
   const [showFilterDropdown, setShowFilterDropdown] = useState(false);
   const [showFilterSidebar, setShowFilterSidebar] = useState(false);
   const [stopFilter, setStopFilter] = useState([]);
-  const [timeFilter, setTimeFilter] = useState([0, 23.99]); // Time range from 0 to 23.99 hours
+  const [timeFilter, setTimeFilter] = useState([0, 23.99]);
   const [airlineFilter, setAirlineFilter] = useState([]);
-
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+const [cities, setCities] = useState([])
   const { selectedFlight, setSelectedFlight, adults, setAdults, child, setChild } = useContext(FlightContext);
 
   const navigate = useNavigate();
@@ -31,11 +34,25 @@ export default function FlightSearch() {
   };
 
   const fetchFlights = async (params = "") => {
-    const res = await fetch(`http://localhost:3000/api/flights${params}`);
-    const data = await res.json();
-    setFlights(data);
-    setFilteredFlights(data);
+    setIsLoading(true);
+    setError(null);
+    try {
+      const res = await fetch(`http://localhost:3000/api/flights${params}`);
+      if (!res.ok) throw new Error("Failed to fetch flights");
+      const data = await res.json();
+      setFlights(data);
+      setFilteredFlights(data);
+      setCities(data.map(flight => flight.from));
+    } catch (err) {
+      setError("Failed to load flights. Please try again later.");
+      setFlights([]);
+      setFilteredFlights([]);
+    } finally {
+      setIsLoading(false);
+    }
   };
+
+  
 
   const handleSearch = () => {
     const params = new URLSearchParams();
@@ -49,6 +66,7 @@ export default function FlightSearch() {
   };
 
   const calculateDuration = (flight) => {
+    if (!flight.departureTime || !flight.arrivalTime) return Infinity;
     const departure = new Date(`2025-08-01T${flight.departureTime}:00`);
     let arrival = new Date(`2025-08-01T${flight.arrivalTime}:00`);
     if (arrival < departure) {
@@ -56,7 +74,7 @@ export default function FlightSearch() {
     }
     let duration = (arrival - departure) / (1000 * 60);
     if (flight.transit) {
-      const [hours, minutes] = flight.transit.transitDuration.split('h ');
+      const [hours, minutes] = (flight.transit.transitDuration || '0h 0m').split('h ');
       duration += parseInt(hours) * 60 + (minutes ? parseInt(minutes.replace('m', '')) : 0);
     }
     return duration;
@@ -89,7 +107,7 @@ export default function FlightSearch() {
     }
     if (timeFilter[0] !== 0 || timeFilter[1] !== 23.99) {
       result = result.filter(flight => {
-        const [hour, minute] = flight.departureTime.split(':').map(Number);
+        const [hour, minute] = (flight.departureTime || '0:0').split(':').map(Number);
         const decimalTime = hour + minute / 60;
         return decimalTime >= timeFilter[0] && decimalTime <= timeFilter[1];
       });
@@ -104,7 +122,7 @@ export default function FlightSearch() {
     applyFilters(flights);
   }, [stopFilter, timeFilter, airlineFilter, flights]);
 
-  const uniqueAirlines = [...new Set(flights.map(flight => flight.airline))];
+  const uniqueAirlines = React.useMemo(() => [...new Set(flights.map(flight => flight.airline))], [flights]);
 
   const formatTime = (value) => {
     const hours = Math.floor(value);
@@ -124,6 +142,7 @@ export default function FlightSearch() {
               className="form-control"
               id="floatingInputFrom"
               placeholder="From"
+               list={cities}
             />
             <label htmlFor="floatingInputFrom">From</label>
           </div>
@@ -134,6 +153,7 @@ export default function FlightSearch() {
               className="form-control"
               id="floatingInputTo"
               placeholder="To"
+             
             />
             <label htmlFor="floatingInputTo">To</label>
           </div>
@@ -195,176 +215,187 @@ export default function FlightSearch() {
           </button>
         </div>
 
-        {isSearched && flights.length > 0 && (
-          <div className="d-flex text-dark">
-            <div className={`bg-light border-end p-4 transition-all duration-300 text-dark ${showFilterSidebar ? 'w-25' : 'w-0 d-none'} overflow-hidden`} style={{ minWidth: showFilterSidebar ? '250px' : '0' }}>
-              <h3 className="h5 mb-3">Filters</h3>
-              <div className="mb-4">
-                <h4 className="h6 mb-2">Stops</h4>
-                <div className="form-check">
-                  <input
-                    type="checkbox"
-                    className="form-check-input"
-                    id="stop0"
-                    value="0"
-                    checked={stopFilter.includes('0')}
-                    onChange={e => {
-                      const value = e.target.value;
-                      setStopFilter(prev =>
-                        prev.includes(value) ? prev.filter(v => v !== value) : [...prev, value]
-                      );
-                    }}
-                  />
-                  <label className="form-check-label text-dark" htmlFor="stop0">
-                    Non-stop
-                  </label>
-                </div>
-                <div className="form-check">
-                  <input
-                    type="checkbox"
-                    className="form-check-input"
-                    id="stop1"
-                    value="1"
-                    checked={stopFilter.includes('1')}
-                    onChange={e => {
-                      const value = e.target.value;
-                      setStopFilter(prev =>
-                        prev.includes(value) ? prev.filter(v => v !== value) : [...prev, value]
-                      );
-                    }}
-                  />
-                  <label className="form-check-label text-dark" htmlFor="stop1">
-                    1 Stop
-                  </label>
-                </div>
-                <div className="form-check">
-                  <input
-                    type="checkbox"
-                    className="form-check-input"
-                    id="stop2"
-                    value="2"
-                    checked={stopFilter.includes('2')}
-                    onChange={e => {
-                      const value = e.target.value;
-                      setStopFilter(prev =>
-                        prev.includes(value) ? prev.filter(v => v !== value) : [...prev, value]
-                      );
-                    }}
-                  />
-                  <label className="form-check-label text-dark" htmlFor="stop2">
-                    2+ Stops
-                  </label>
-                </div>
-              </div>
-              <div className="mb-4">
-                <h4 className="h6 mb-2">Departure Time</h4>
-                <div className="d-flex align-items-center mb-2">
-                  <span className="me-2">{formatTime(timeFilter[0])}</span>
-                  <input
-                    type="range"
-                    min="0"
-                    max="23.99"
-                    step="0.25"
-                    value={timeFilter[0]}
-                    onChange={e => setTimeFilter([Number(e.target.value), timeFilter[1]])}
-                    className="form-range flex-grow-1 mx-2"
-                  />
-                  <span className="ms-2">{formatTime(timeFilter[1])}</span>
-                </div>
-               
-              </div>
-              <div className="mb-4">
-                <h4 className="h6 mb-2">Airlines</h4>
-                {uniqueAirlines.map(airline => (
-                  <div key={airline.id} className="form-check">
-                    <input
-                      type="checkbox"
-                      className="form-check-input"
-                      id={`airline-${airline}`}
-                      value={airline}
-                      checked={airlineFilter.includes(airline)}
-                      onChange={e => {
-                        const value = e.target.value;
-                        setAirlineFilter(prev =>
-                          prev.includes(value) ? prev.filter(v => v !== value) : [...prev, value]
-                        );
-                      }}
-                    />
-                    <label className="form-check-label text-dark" htmlFor={`airline-${airline}`}>
-                      {airline}
-                    </label>
+        {isSearched && (
+          <>
+            {isLoading && <div className="text-center py-5">Loading flights...</div>}
+            {error && <div className="alert alert-danger text-center">{error}</div>}
+            {!isLoading && !error && (
+              <div className="d-flex text-dark">
+                <div className={`bg-light border-end p-4 transition-all duration-300 text-dark ${showFilterSidebar ? 'w-25' : 'w-0 d-none'} overflow-hidden`} style={{ minWidth: showFilterSidebar ? '250px' : '0' }}>
+                  <h3 className="h5 mb-3">Filters</h3>
+                  <div className="mb-4">
+                    <h4 className="h6 mb-2">Stops</h4>
+                    <div className="form-check">
+                      <input
+                        type="checkbox"
+                        className="form-check-input"
+                        id="stop0"
+                        value="0"
+                        checked={stopFilter.includes('0')}
+                        onChange={e => {
+                          const value = e.target.value;
+                          setStopFilter(prev =>
+                            prev.includes(value) ? prev.filter(v => v !== value) : [...prev, value]
+                          );
+                        }}
+                      />
+                      <label className="form-check-label text-dark" htmlFor="stop0">
+                        Non-stop
+                      </label>
+                    </div>
+                    <div className="form-check">
+                      <input
+                        type="checkbox"
+                        className="form-check-input"
+                        id="stop1"
+                        value="1"
+                        checked={stopFilter.includes('1')}
+                        onChange={e => {
+                          const value = e.target.value;
+                          setStopFilter(prev =>
+                            prev.includes(value) ? prev.filter(v => v !== value) : [...prev, value]
+                          );
+                        }}
+                      />
+                      <label className="form-check-label text-dark" htmlFor="stop1">
+                        1 Stop
+                      </label>
+                    </div>
+                    <div className="form-check">
+                      <input
+                        type="checkbox"
+                        className="form-check-input"
+                        id="stop2"
+                        value="2"
+                        checked={stopFilter.includes('2')}
+                        onChange={e => {
+                          const value = e.target.value;
+                          setStopFilter(prev =>
+                            prev.includes(value) ? prev.filter(v => v !== value) : [...prev, value]
+                          );
+                        }}
+                      />
+                      <label className="form-check-label text-dark" htmlFor="stop2">
+                        2+ Stops
+                      </label>
+                    </div>
                   </div>
-                ))}
-              </div>
-            </div>
-            <div className="flex-grow-1">
-              <div className="d-flex justify-content-end mb-3">
-                <button
-                  className="btn btn-secondary me-2"
-                  onClick={toggleFilterSidebar}
-                >
-                  {showFilterSidebar ? 'Hide Filters' : 'Show Filters'}
-                </button>
-                <div className="dropdown">
-                  <button
-                    className="btn btn-secondary dropdown-toggle"
-                    type="button"
-                    onClick={toggleFilterDropdown}
-                  >
-                    Sort: {filter === 'none' ? 'None' : filter.charAt(0).toUpperCase() + filter.slice(1)}
-                  </button>
-                  {showFilterDropdown && (
-                    <div className="dropdown-menu show">
+                  <div className="mb-4">
+                    <h4 className="h6 mb-2">Departure Time</h4>
+                    <div className="d-flex align-items-center mb-2">
+                      <span className="me-2">{formatTime(timeFilter[0])}</span>
+                      <input
+                        type="range"
+                        min="0"
+                        max="23.99"
+                        step="0.25"
+                        value={timeFilter[0]}
+                        onChange={e => setTimeFilter([Number(e.target.value), timeFilter[1]])}
+                        className="form-range flex-grow-1 mx-2"
+                      />
+                      <span className="ms-2">{formatTime(timeFilter[1])}</span>
+                    </div>
+                  </div>
+                  <div className="mb-4">
+                    <h4 className="h6 mb-2">Airlines</h4>
+                    {uniqueAirlines.map(airline => (
+                      <div key={airline} className="form-check">
+                        <input
+                          type="checkbox"
+                          className="form-check-input"
+                          id={`airline-${airline}`}
+                          value={airline}
+                          checked={airlineFilter.includes(airline)}
+                          onChange={e => {
+                            const value = e.target.value;
+                            setAirlineFilter(prev =>
+                              prev.includes(value) ? prev.filter(v => v !== value) : [...prev, value]
+                            );
+                          }}
+                        />
+                        <label className="form-check-label text-dark" htmlFor={`airline-${airline}`}>
+                          {airline}
+                        </label>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div className="flex-grow-1">
+                  <div className="d-flex justify-content-end mb-3">
+                    <button
+                      className="btn btn-secondary me-2"
+                      onClick={toggleFilterSidebar}
+                    >
+                      {showFilterSidebar ? 'Hide Filters' : 'Show Filters'}
+                    </button>
+                    <div className="dropdown">
                       <button
-                        className="dropdown-item"
-                        onClick={() => applySortFilter('cheapest')}
+                        className="btn btn-secondary dropdown-toggle"
+                        type="button"
+                        onClick={toggleFilterDropdown}
                       >
-                        Cheapest
+                        Sort: {filter === 'none' ? 'None' : filter.charAt(0).toUpperCase() + filter.slice(1)}
                       </button>
-                      <button
-                        className="dropdown-item"
-                        onClick={() => applySortFilter('fastest')}
-                      >
-                        Fastest
-                      </button>
-                      <button
-                        className="dropdown-item"
-                        onClick={() => applySortFilter('best')}
-                      >
-                        Best
-                      </button>
+                      {showFilterDropdown && (
+                        <div className="dropdown-menu show">
+                          <button
+                            className="dropdown-item"
+                            onClick={() => applySortFilter('cheapest')}
+                          >
+                            Cheapest
+                          </button>
+                          <button
+                            className="dropdown-item"
+                            onClick={() => applySortFilter('fastest')}
+                          >
+                            Fastest
+                          </button>
+                          <button
+                            className="dropdown-item"
+                            onClick={() => applySortFilter('best')}
+                          >
+                            Best
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                  {filteredFlights.length > 0 ? (
+                    <div className={`container ${Style['flight-list']}`}>
+                      {filteredFlights.map((flight, index) => (
+                        <FlightCard
+                          key={flight.id}
+                          id={flight.id}
+                          airline={flight.airline}
+                          flightNumber={`Flight #${index + 1}`}
+                          from={flight.from}
+                          to={flight.to}
+                          toAirport={flight?.toAirport?.code}
+                          fromAirport={flight?.fromAirport?.code}
+                          date={flight.date}
+                          departureTime={flight.departureTime}
+                          arrivalTime={flight.arrivalTime}
+                          price={flight.price * (adults + child * 0.5)}
+                          onBook={() => {
+                            setSelectedFlight(flight);
+                            navigate("/myflights");
+                          }}
+                        />
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="card text-center my-5 py-5 ms-4">
+                      <div className="card-body">
+                        <Plane className="text-muted mb-3" size={48} aria-hidden="true" />
+                        <h5>No flights found</h5>
+                        <p className="text-muted">Try adjusting your filters or search criteria.</p>
+                      </div>
                     </div>
                   )}
                 </div>
               </div>
-              {filteredFlights.length > 0 ? (
-                <div className={`container ${Style['flight-list']}`}>
-                  {filteredFlights.map((flight, index) => (
-                    <FlightCard
-                      key={flight.id}
-                      id={flight.id}
-                      airline={flight.airline}
-                      flightNumber={`Flight #${index + 1}`}
-                      from={flight.from}
-                      to={flight.to}
-                      toAirport={flight?.toAirport?.code}
-                      fromAirport={flight?.fromAirport?.code}
-                      date={flight.date}
-                      departureTime={flight.departureTime}
-                      arrivalTime={flight.arrivalTime}
-                      price={flight.price * (adults + child * 0.5)}
-                      onBook={() => {
-                        setSelectedFlight(flight);
-                        navigate("/myflights");
-                      }}
-                    />
-                  ))}
-                </div>
-              ) : (
-                <p style={{ textAlign: 'center', color: '#888' }}>No flights found.</p>
-              )}
-            </div>
-          </div>
+            )}
+          </>
         )}
       </div>
 

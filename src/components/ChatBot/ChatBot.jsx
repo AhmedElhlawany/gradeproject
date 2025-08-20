@@ -116,7 +116,6 @@ export default function ChatBot() {
               </div>
 
               {/* Render flights if present */}
-                              <p>you can book by clicking the links below</p>
 
               {msg.flights &&
                 msg.flights.map((f, j) => (

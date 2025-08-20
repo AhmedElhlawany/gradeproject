@@ -42,11 +42,12 @@ export default function Login() {
       }));
       localStorage.setItem('userEmail', response.data.user.email);
 if(        JSON.parse(localStorage.getItem('currentUser'))?.email === "ahmedelhalawany429@gmail.com"){
+  
       navigate(
           '/dashboard/overview',{replace: true})
           setTimeout(() => {
                       window.location.reload();
-}, 1);
+}, 0);
           
         }
       else{

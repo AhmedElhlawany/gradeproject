@@ -134,7 +134,6 @@ export default function ViewFlights({ onFlightAdded }) {
       text: `Do you want to delete Flight ${flightId}? `,
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#dc3545",
       cancelButtonColor: "#6c757d",
       confirmButtonText: "Yes, delete it!",
       cancelButtonText: "Cancel",
@@ -147,6 +146,10 @@ export default function ViewFlights({ onFlightAdded }) {
       try {
         const response = await fetch(`http://localhost:3000/api/flights/${flightId}`, {
           method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         });
         if (!response.ok) {
           throw new Error(`Failed to delete flight: ${response.status}`);
@@ -159,6 +162,7 @@ export default function ViewFlights({ onFlightAdded }) {
           text: `Flight ${flightId} has been successfully deleted!`,
           timer: 2000,
           showConfirmButton: false,
+
           
         });
       } catch (err) {
@@ -187,9 +191,14 @@ export default function ViewFlights({ onFlightAdded }) {
 
   const handleFormSubmit = async (formData) => {
     try {
+
       const response = await fetch(`http://localhost:3000/api/flights/${selectedFlight.id}`, {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json"
+,
+          "Authorization": `Bearer ${localStorage.getItem('token')}`,
+         },
+
         body: JSON.stringify({
           ...formData,
           price: parseFloat(formData.price),
@@ -841,13 +850,7 @@ export default function ViewFlights({ onFlightAdded }) {
                   <td>{flight.date}</td>
                   <td>${flight.price}</td>
                   <td>
-                    <button
-                      className={styles.editButton}
-                      onClick={() => handleEdit(flight)}
-                      title="Edit Flight"
-                    >
-                      <FaEdit className={styles.editIcon} />
-                    </button>
+                   
                     <button
                       className={styles.deleteButton}
                       onClick={() => handleDelete(flight.id)}

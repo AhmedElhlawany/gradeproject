@@ -70,17 +70,7 @@ export default function ViewHotels() {
         }
       }
 
-      if (filters.phone) {
-        result = result.filter(hotel =>
-          hotel.contact.phone.toLowerCase().includes(filters.phone.toLowerCase())
-        );
-      }
-
-      if (filters.email) {
-        result = result.filter(hotel =>
-          hotel.contact.email.toLowerCase().includes(filters.email.toLowerCase())
-        );
-      }
+   
 
       if (filters.amenities) {
         result = result.filter(hotel =>
@@ -106,8 +96,7 @@ export default function ViewHotels() {
       name: "",
       city: "",
       rate: "",
-      phone: "",
-      email: "",
+    
       amenities: ""
     });
   };
@@ -264,54 +253,7 @@ export default function ViewHotels() {
                     )}
                   </div>
                 </div>
-                <div className={styles.filterItem}>
-                  <label htmlFor="phone" className={styles.filterLabel}>Phone</label>
-                  <div className={styles.inputWrapper}>
-                    <input
-                      type="text"
-                      id="phone"
-                      name="phone"
-                      placeholder="Filter by Phone"
-                      value={filters.phone}
-                      onChange={handleFilterChange}
-                      className={styles.filterInput}
-                    />
-                    {filters.phone && (
-                      <button
-                        type="button"
-                        className={styles.clearInputButton}
-                        onClick={() => handleClearInput("phone")}
-                        aria-label="Clear Phone Filter"
-                      >
-                        <FaTimes className={styles.clearIcon} />
-                      </button>
-                    )}
-                  </div>
-                </div>
-                <div className={styles.filterItem}>
-                  <label htmlFor="email" className={styles.filterLabel}>Email</label>
-                  <div className={styles.inputWrapper}>
-                    <input
-                      type="text"
-                      id="email"
-                      name="email"
-                      placeholder="Filter by Email"
-                      value={filters.email}
-                      onChange={handleFilterChange}
-                      className={styles.filterInput}
-                    />
-                    {filters.email && (
-                      <button
-                        type="button"
-                        className={styles.clearInputButton}
-                        onClick={() => handleClearInput("email")}
-                        aria-label="Clear Email Filter"
-                      >
-                        <FaTimes className={styles.clearIcon} />
-                      </button>
-                    )}
-                  </div>
-                </div>
+              
                 <div className={styles.filterItem}>
                   <label htmlFor="amenities" className={styles.filterLabel}>Amenities</label>
                   <div className={styles.inputWrapper}>
@@ -441,54 +383,7 @@ export default function ViewHotels() {
                     )}
                   </div>
                 </div>
-                <div className={styles.filterItem}>
-                  <label htmlFor="phone" className={styles.filterLabel}>Phone</label>
-                  <div className={styles.inputWrapper}>
-                    <input
-                      type="text"
-                      id="phone"
-                      name="phone"
-                      placeholder="Filter by Phone"
-                      value={filters.phone}
-                      onChange={handleFilterChange}
-                      className={styles.filterInput}
-                    />
-                    {filters.phone && (
-                      <button
-                        type="button"
-                        className={styles.clearInputButton}
-                        onClick={() => handleClearInput("phone")}
-                        aria-label="Clear Phone Filter"
-                      >
-                        <FaTimes className={styles.clearIcon} />
-                      </button>
-                    )}
-                  </div>
-                </div>
-                <div className={styles.filterItem}>
-                  <label htmlFor="email" className={styles.filterLabel}>Email</label>
-                  <div className={styles.inputWrapper}>
-                    <input
-                      type="text"
-                      id="email"
-                      name="email"
-                      placeholder="Filter by Email"
-                      value={filters.email}
-                      onChange={handleFilterChange}
-                      className={styles.filterInput}
-                    />
-                    {filters.email && (
-                      <button
-                        type="button"
-                        className={styles.clearInputButton}
-                        onClick={() => handleClearInput("email")}
-                        aria-label="Clear Email Filter"
-                      >
-                        <FaTimes className={styles.clearIcon} />
-                      </button>
-                    )}
-                  </div>
-                </div>
+               
                 <div className={styles.filterItem}>
                   <label htmlFor="amenities" className={styles.filterLabel}>Amenities</label>
                   <div className={styles.inputWrapper}>
@@ -617,54 +512,7 @@ export default function ViewHotels() {
                   )}
                 </div>
               </div>
-              <div className={styles.filterItem}>
-                <label htmlFor="phone" className={styles.filterLabel}>Phone</label>
-                <div className={styles.inputWrapper}>
-                  <input
-                    type="text"
-                    id="phone"
-                    name="phone"
-                    placeholder="Filter by Phone"
-                    value={filters.phone}
-                    onChange={handleFilterChange}
-                    className={styles.filterInput}
-                  />
-                  {filters.phone && (
-                    <button
-                      type="button"
-                      className={styles.clearInputButton}
-                      onClick={() => handleClearInput("phone")}
-                      aria-label="Clear Phone Filter"
-                    >
-                      <FaTimes className={styles.clearIcon} />
-                    </button>
-                  )}
-                </div>
-              </div>
-              <div className={styles.filterItem}>
-                <label htmlFor="email" className={styles.filterLabel}>Email</label>
-                <div className={styles.inputWrapper}>
-                  <input
-                    type="text"
-                    id="email"
-                    name="email"
-                    placeholder="Filter by Email"
-                    value={filters.email}
-                    onChange={handleFilterChange}
-                    className={styles.filterInput}
-                  />
-                  {filters.email && (
-                    <button
-                      type="button"
-                      className={styles.clearInputButton}
-                      onClick={() => handleClearInput("email")}
-                      aria-label="Clear Email Filter"
-                    >
-                      <FaTimes className={styles.clearIcon} />
-                    </button>
-                  )}
-                </div>
-              </div>
+ 
               <div className={styles.filterItem}>
                 <label htmlFor="amenities" className={styles.filterLabel}>Amenities</label>
                 <div className={styles.inputWrapper}>
@@ -709,8 +557,7 @@ export default function ViewHotels() {
                 <th className={styles.thName}>Name</th>
                 <th className={styles.thCity}>City</th>
                 <th className={styles.thRate}>Rate</th>
-                <th className={styles.thPhone}>Contact Phone</th>
-                <th className={styles.thEmail}>Contact Email</th>
+                
                 <th className={styles.thAmenities}>Amenities</th>
                 <th className={styles.thRooms}>Rooms</th>
                 <th className={styles.thActions}>Actions</th>
@@ -722,13 +569,14 @@ export default function ViewHotels() {
                   <td>{hotel.name}</td>
                   <td>{hotel.city}</td>
                   <td>{hotel.rate}</td>
-                  <td>{hotel.contact.phone}</td>
-                  <td>{hotel.contact.email}</td>
+                 
                   <td>{hotel.amenities.join(", ")}</td>
                   <td>
                     {hotel.availableRooms
-                      .map((room) => `Type: ${room.type}, Quantity: ${room.quantity}, Price: $${room.price}`)
-                      .join("; ")}
+                      .map((room) => <li className="list-unstyled">Type: ${room.type}, Quantity: ${room.quantity}, Price: ${room.price}</li>
+                    
+                    )
+                      }
                   </td>
                   <td>
                     <button

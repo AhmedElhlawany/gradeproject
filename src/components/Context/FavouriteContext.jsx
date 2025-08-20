@@ -1,4 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react';
+import Swal from 'sweetalert2';
 
 export const FavoritesContext = createContext();
 
@@ -69,7 +70,16 @@ export const FavoritesProvider = ({ children }) => {
 
   const toggleFavorite = async (item) => {
     if (!userId || !localStorage.getItem('token')) {
-      alert('You must be logged in to favorite items.');
+      Swal.fire({
+        icon: 'error',
+        title: 'Authentication Required',
+        text: 'Please log in to perform this action.',
+        confirmButtonText: 'OK',
+        customClass: {
+          confirmButton: 'btn conbtn',
+        },
+      })
+      
       return;
     }
 
@@ -146,7 +156,6 @@ export const FavoritesProvider = ({ children }) => {
       if (res.status === 401 || res.status === 403) {
         localStorage.removeItem('token');
         localStorage.removeItem('currentUser');
-        alert('Session expired. Please log in again.');
         window.location.href = '/login';
         setFavorites([]);
         return;

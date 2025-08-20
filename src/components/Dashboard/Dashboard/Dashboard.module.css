@@ -78,7 +78,15 @@
   height: 100%;
 }
 
+.logo {
+  color: #3db9ef;
+  font-family: cursive;
+}
+.logoImg {
+  width: 90px;
+  height: 80px;
 
+}
 @media (max-width: 991px) {
   .sidebar {
     width: 220px;

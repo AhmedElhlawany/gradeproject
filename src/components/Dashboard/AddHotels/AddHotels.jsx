@@ -13,7 +13,6 @@ export default function AddHotels() {
     image: "",
     description: "",
     amenities: [],
-    contact: { phone: "", email: "" },
   });
   const [errors, setErrors] = useState({});
   const [cities, setCities] = useState([]);
@@ -69,8 +68,7 @@ export default function AddHotels() {
     if (!hotelForm.description) newErrors.description = "Description is required";
     if (!hotelForm.image) newErrors.image = "Image filename is required";
     if (!hotelForm.rate) newErrors.rate = "Rate is required";
-    if (!hotelForm.contact.phone) newErrors.phone = "Phone is required";
-    if (!hotelForm.contact.email) newErrors.email = "Email is required";
+  
     if (hotelForm.amenities.length === 0) newErrors.amenities = "At least one amenity is required";
 
     if (hotelForm.rate && (hotelForm.rate < 0 || hotelForm.rate > 5)) {
@@ -87,9 +85,7 @@ export default function AddHotels() {
       });
     }
 
-    if (hotelForm.contact.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(hotelForm.contact.email)) {
-      newErrors.email = "Invalid email format";
-    }
+   
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -100,9 +96,6 @@ export default function AddHotels() {
     if (name === "onSale") {
       setHotelForm({ ...hotelForm, onSale: checked });
       return;
-    } else if (name.startsWith("contact.")) {
-      const field = name.split(".")[1];
-      setHotelForm({ ...hotelForm, contact: { ...hotelForm.contact, [field]: value } });
     } else if (name === "amenities") {
       const updatedAmenities = checked
         ? [...hotelForm.amenities, value]
@@ -188,16 +181,22 @@ export default function AddHotels() {
       image: hotelForm.image,
       description: hotelForm.description,
       amenities: hotelForm.amenities,
-      contact: hotelForm.contact,
+      
     };
 
     try {
       console.log("Sending hotel data:", JSON.stringify(hotelData, null, 2));
-      const response = await fetch("http://localhost:3000/api/hotels", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(hotelData),
-      });
+     const token = localStorage.getItem("token"); // لو انت مخزن التوكن بعد اللوجين
+
+const response = await fetch("http://localhost:3000/api/hotels", {
+  method: "POST",
+  headers: { 
+    "Content-Type": "application/json",
+    "Authorization": `Bearer ${token}` // 👈 مهم
+  },
+  body: JSON.stringify(hotelData),
+});
+
       console.log("POST response status:", response.status);
 
       if (!response.ok) {
@@ -240,7 +239,7 @@ export default function AddHotels() {
         image: "",
         description: "",
         amenities: [],
-        contact: { phone: "", email: "" },
+       
       });
       setErrors({});
       formElement.classList.remove("was-validated");
@@ -352,32 +351,7 @@ export default function AddHotels() {
               <div className={styles.invalidFeedback}>{errors.description}</div>
             </div>
           </div>
-          <div className={`${styles.formRow} row`}>
-            <div className="col-md-6 mb-3">
-              <label className={styles.formLabel}>Contact Phone</label>
-              <input
-                type="tel"
-                name="contact.phone"
-                value={hotelForm.contact.phone}
-                onChange={handleHotelChange}
-                className={`${styles.formControl} ${errors.phone ? styles.isInvalid : hotelForm.contact.phone ? styles.isValid : ""}`}
-                required
-              />
-              <div className={styles.invalidFeedback}>{errors.phone}</div>
-            </div>
-            <div className="col-md-6 mb-3">
-              <label className={styles.formLabel}>Contact Email</label>
-              <input
-                type="email"
-                name="contact.email"
-                value={hotelForm.contact.email}
-                onChange={handleHotelChange}
-                className={`${styles.formControl} ${errors.email ? styles.isInvalid : hotelForm.contact.email ? styles.isValid : ""}`}
-                required
-              />
-              <div className={styles.invalidFeedback}>{errors.email}</div>
-            </div>
-          </div>
+        
           <div className={`${styles.formRow} row`}>
             <div className="col-md-12 mb-3">
               <label className={styles.formLabel}>Amenities</label>

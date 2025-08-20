@@ -88,7 +88,10 @@ export default function EditHotelModal({ hotel, onSave, onClose }) {
     try {
       const response = await fetch(`http://localhost:3000/api/hotels/${hotel.id}`, {
         method: "PUT",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json"
+          ,
+          "Authorization": `Bearer ${localStorage.getItem('token')}`,
+         },
         body: JSON.stringify({
           ...formData,
           rate: parseFloat(formData.rate),

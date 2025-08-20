@@ -62,6 +62,20 @@ const HotelBooking = () => {
   };
 
   const handleToggleFavorite = async (hotel) => {
+    if(! localStorage.getItem("token")) 
+    {
+      Swal.fire({
+        icon: "error",
+        title: "Authentication Required",
+        text: "Please log in to perform this action.",
+        confirmButtonText: "OK",
+        customClass: {
+          confirmButton: `btn ${style['conbtn']}`,
+        },
+        buttonsStyling: false,
+      });
+      return;
+    }
     try {
       await toggleFavorite({ ...hotel, type: "hotel" });
       const isFavorited = favorites.some((f) => f.id === hotel.id && f.type === "hotel");

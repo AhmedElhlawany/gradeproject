@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { FaEdit, FaTrash, FaFilter, FaTimes } from "react-icons/fa";
+import Swal from "sweetalert2"; // Import SweetAlert2
 import styles from "./Users.module.css";
 
 export default function Users() {
@@ -16,7 +17,7 @@ export default function Users() {
   }, []);
 
   useEffect(() => {
-    const filtered = users.filter(user => 
+    const filtered = users.filter((user) =>
       user.name.toLowerCase().includes(filters.name.toLowerCase()) &&
       user.email.toLowerCase().includes(filters.email.toLowerCase()) &&
       user.phone.toLowerCase().includes(filters.phone.toLowerCase())
@@ -38,7 +39,11 @@ export default function Users() {
       setFilteredUsers(data);
     } catch (err) {
       console.error("Error fetching users:", err);
-      alert("Failed to fetch users");
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Failed to fetch users. Please try again.",
+      });
     }
   };
 
@@ -85,36 +90,71 @@ export default function Users() {
       if (!res.ok) throw new Error("Failed to update user");
 
       const updated = await res.json();
-
       setUsers((prev) =>
         prev.map((u) => (u.id === updated.user.id ? updated.user : u))
       );
-
       setShowEditModal(false);
+
+      // Show success alert
+      Swal.fire({
+        icon: "success",
+        title: "Success!",
+        text: "User updated successfully!",
+        timer: 1500,
+        showConfirmButton: false,
+      });
     } catch (err) {
       console.error(err);
-      alert("Failed to update user");
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Failed to update user. Please try again.",
+      });
     }
   };
 
   const handleDeleteUser = async (id) => {
     const token = localStorage.getItem("token");
-    if (!window.confirm("Are you sure you want to delete this user?")) return;
+    // Show confirmation dialog
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "Do you want to delete this user?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#c82333",
+      cancelButtonColor: "#6c757d",
+      confirmButtonText: "Yes, delete it!",
+    });
 
-    try {
-      const res = await fetch(`http://localhost:3000/api/users/${id}`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+    if (result.isConfirmed) {
+      try {
+        const res = await fetch(`http://localhost:3000/api/users/${id}`, {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
-      if (!res.ok) throw new Error("Failed to delete user");
+        if (!res.ok) throw new Error("Failed to delete user");
 
-      setUsers((prev) => prev.filter((u) => u.id !== id));
-    } catch (err) {
-      console.error(err);
-      alert("Failed to delete user");
+        setUsers((prev) => prev.filter((u) => u.id !== id));
+
+        // Show success alert
+        Swal.fire({
+          icon: "success",
+          title: "Deleted!",
+          text: "User has been deleted.",
+          timer: 1500,
+          showConfirmButton: false,
+        });
+      } catch (err) {
+        console.error(err);
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Failed to delete user. Please try again.",
+        });
+      }
     }
   };
 
@@ -133,7 +173,9 @@ export default function Users() {
           <div className={styles.filterContainer}>
             <div className={styles.filterGroup}>
               <div className={styles.filterItem}>
-                <label htmlFor="name" className={styles.filterLabel}>Name</label>
+                <label htmlFor="name" className={styles.filterLabel}>
+                  Name
+                </label>
                 <div className={styles.inputWrapper}>
                   <input
                     type="text"
@@ -157,7 +199,9 @@ export default function Users() {
                 </div>
               </div>
               <div className={styles.filterItem}>
-                <label htmlFor="email" className={styles.filterLabel}>Email</label>
+                <label htmlFor="email" className={styles.filterLabel}>
+                  Email
+                </label>
                 <div className={styles.inputWrapper}>
                   <input
                     type="text"
@@ -181,7 +225,9 @@ export default function Users() {
                 </div>
               </div>
               <div className={styles.filterItem}>
-                <label htmlFor="phone" className={styles.filterLabel}>Phone</label>
+                <label htmlFor="phone" className={styles.filterLabel}>
+                  Phone
+                </label>
                 <div className={styles.inputWrapper}>
                   <input
                     type="text"
@@ -205,10 +251,7 @@ export default function Users() {
                 </div>
               </div>
             </div>
-            <button
-              className={styles.clearButton}
-              onClick={handleClearFilters}
-            >
+            <button className={styles.clearButton} onClick={handleClearFilters}>
               Clear Filters
             </button>
           </div>
@@ -216,7 +259,9 @@ export default function Users() {
       </div>
       <div className={styles.tableWrapper}>
         {filteredUsers.length === 0 ? (
-          <div className={styles.empty}>No users available for the selected filters.</div>
+          <div className={styles.empty}>
+            No users available for the selected filters.
+          </div>
         ) : (
           <table className={styles.userTable}>
             <thead>
@@ -263,30 +308,68 @@ export default function Users() {
       </div>
 
       {showEditModal && (
-        <div className="modal d-block" tabIndex="-1" style={{ backgroundColor: "rgba(0,0,0,0.5)" }}>
+        <div
+          className="modal d-block mt-5"
+          tabIndex="-1"
+          style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
+        >
           <div className="modal-dialog">
             <div className="modal-content">
               <div className="modal-header">
                 <h5 className="modal-title">Edit User</h5>
-                <button type="button" className="btn-close" onClick={() => setShowEditModal(false)}></button>
+                <button
+                  type="button"
+                  className="btn-close"
+                  onClick={() => setShowEditModal(false)}
+                ></button>
               </div>
               <div className="modal-body">
                 <div className="mb-3">
                   <label className="form-label">Name</label>
-                  <input type="text" name="name" className="form-control" value={editForm.name} onChange={handleEditChange} />
+                  <input
+                    type="text"
+                    name="name"
+                    className="form-control"
+                    value={editForm.name}
+                    onChange={handleEditChange}
+                  />
                 </div>
                 <div className="mb-3">
                   <label className="form-label">Email</label>
-                  <input type="email" name="email" className="form-control" value={editForm.email} onChange={handleEditChange} />
+                  <input
+                    type="email"
+                    name="email"
+                    className="form-control"
+                    value={editForm.email}
+                    onChange={handleEditChange}
+                  />
                 </div>
                 <div className="mb-3">
                   <label className="form-label">Phone</label>
-                  <input type="text" name="phone" className="form-control" value={editForm.phone} onChange={handleEditChange} />
+                  <input
+                    type="text"
+                    name="phone"
+                    className="form-control"
+                    value={editForm.phone}
+                    onChange={handleEditChange}
+                  />
                 </div>
               </div>
               <div className="modal-footer">
-                <button type="button" className="btn btn-secondary" onClick={() => setShowEditModal(false)}>Cancel</button>
-                <button type="button" className="btn btn-primary" onClick={handleSaveEdit}>Save</button>
+                <button
+                  type="button"
+                  className={`btn ${styles["conbtn"]}`}
+                  onClick={handleSaveEdit}
+                >
+                  Save
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={() => setShowEditModal(false)}
+                >
+                  Cancel
+                </button>
               </div>
             </div>
           </div>

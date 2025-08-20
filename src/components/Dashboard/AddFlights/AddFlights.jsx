@@ -51,12 +51,10 @@ export default function AddFlights({ onFlightAdded }) {
     const today = new Date("2025-07-27T15:31:00+03:00");
     const currentYear = 2025;
     const selectedDate = flightForm.date ? new Date(flightForm.date) : null;
-    // const selectedReturnDate = flightForm.returnDate ? new Date(flightForm.returnDate) : null;
 
     if (!flightForm.from) newErrors.from = "Origin city is required";
     if (!flightForm.to) newErrors.to = "Destination city is required";
     if (!flightForm.date) newErrors.date = "Departure date is required";
-    // if (!flightForm.returnDate) newErrors.returnDate = "Return date is required";
     if (!flightForm.price) newErrors.price = "Price is required";
     if (!flightForm.airline) newErrors.airline = "Airline is required";
     if (!flightForm.departureTime) newErrors.departureTime = "Departure time is required";
@@ -66,11 +64,6 @@ export default function AddFlights({ onFlightAdded }) {
       if (selectedDate < today) newErrors.date = "Departure date cannot be in the past";
       if (selectedDate.getFullYear() < currentYear) newErrors.date = "Year cannot be in the past";
     }
-
-    // if (flightForm.returnDate && selectedDate) {
-    //   if (selectedReturnDate <= selectedDate) newErrors.returnDate = "Return date must be after departure date";
-    //   if (selectedReturnDate.getFullYear() < currentYear) newErrors.returnDate = "Year cannot be in the past";
-    // }
 
     if (flightForm.departureTime && flightForm.arrivalTime) {
       const [depHours, depMinutes] = flightForm.departureTime.split(":").map(Number);
@@ -104,7 +97,6 @@ export default function AddFlights({ onFlightAdded }) {
         icon: "error",
         title: "Error",
         text: "Please fill in all required fields correctly.",
-        
       });
       return;
     }
@@ -123,9 +115,13 @@ export default function AddFlights({ onFlightAdded }) {
     };
 
     try {
+      const token = localStorage.getItem("token"); 
       const response = await fetch("http://localhost:3000/api/flights", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { 
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`
+        },
         body: JSON.stringify(flightData),
       });
       const result = await response.json();
@@ -147,6 +143,7 @@ export default function AddFlights({ onFlightAdded }) {
       });
       setErrors({});
       setShowErrors(false);
+
       const flightsResponse = await fetch("http://localhost:3000/api/flights");
       if (flightsResponse.ok) {
         const flightsData = await flightsResponse.json();
