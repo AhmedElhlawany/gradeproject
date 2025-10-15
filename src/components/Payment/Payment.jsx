@@ -423,7 +423,7 @@ const Payment = () => {
 
       // Create PaymentIntent
       const response = await axios.post(
-        `http://localhost:3000/api/create-flight-payment-intent`,
+        `http://flyhigh.zeabur.app/api/create-flight-payment-intent`,
         { flightId: selectedFlight.id, adults, children: child },
         {
           headers: {
@@ -457,7 +457,7 @@ const Payment = () => {
       if (paymentIntent.status === 'succeeded') {
         // Confirm booking
         const confirmResponse = await axios.post(
-          `http://localhost:3000/api/confirm-payment`,
+          `http://flyhigh.zeabur.app/api/confirm-payment`,
           { paymentIntentId: paymentIntent.id },
           {
             headers: {
@@ -511,7 +511,7 @@ const Payment = () => {
 
     try {
       const response = await axios.post(
-        `http://localhost:3000/api/users/${currentUser.id}/cancel-booking`,
+        `http://flyhigh.zeabur.app/api/users/${currentUser.id}/cancel-booking`,
         { bFId: bookingId },
         {
           headers: {

@@ -24,7 +24,6 @@ export default function Navbar() {
       // Clear localStorage
       localStorage.removeItem('currentUser');
       localStorage.removeItem('token');
-      localStorage.removeItem('userEmail');
       setUser(null);
       navigate('/login');
     } catch (error) {

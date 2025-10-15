@@ -47,7 +47,7 @@ export default function BookedHotels() {
 
     try {
       const response = await axios.post(
-        `http://localhost:3000/api/users/${currentUser.id}/cancel-hotel-booking`,
+        `http://flyhigh.zeabur.app/api/users/${currentUser.id}/cancel-hotel-booking`,
         { bookingId },
         {
           headers: {

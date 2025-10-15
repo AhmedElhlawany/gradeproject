@@ -70,7 +70,7 @@ a {
 
 
 .conbtn{
-  background-color: #3db9ef;
+  background-color: #3db9ef!important;
   color: #fff;
   border: none;
   padding: 8px 16px;

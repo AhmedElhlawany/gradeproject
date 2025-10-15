@@ -37,7 +37,7 @@ const [cities, setCities] = useState([])
     setIsLoading(true);
     setError(null);
     try {
-      const res = await fetch(`http://localhost:3000/api/flights${params}`);
+      const res = await fetch(`http://flyhigh.zeabur.app/api/flights${params}`);
       if (!res.ok) throw new Error("Failed to fetch flights");
       const data = await res.json();
       setFlights(data);

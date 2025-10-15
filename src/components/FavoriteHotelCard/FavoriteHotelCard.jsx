@@ -48,11 +48,7 @@ export default function FavoriteHotelCard({ hotel, onRemove, onBook }) {
             </span>
           ))}
         </div>
-        <div className="d-flex justify-content-center">
-          <button className={`${styles['bookBtn']}`} onClick={onBook}>
-            Book Now
-          </button>
-        </div>
+       
       </div>
     </div>
   );

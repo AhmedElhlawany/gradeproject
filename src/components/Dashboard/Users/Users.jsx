@@ -28,7 +28,7 @@ export default function Users() {
   const fetchUsers = async () => {
     const token = localStorage.getItem("token");
     try {
-      const res = await fetch("http://localhost:3000/api/users", {
+      const res = await fetch("http://flyhigh.zeabur.app/api/users", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -78,7 +78,7 @@ export default function Users() {
   const handleSaveEdit = async () => {
     const token = localStorage.getItem("token");
     try {
-      const res = await fetch(`http://localhost:3000/api/users/${selectedUser.id}`, {
+      const res = await fetch(`http://flyhigh.zeabur.app/api/users/${selectedUser.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -128,7 +128,7 @@ export default function Users() {
 
     if (result.isConfirmed) {
       try {
-        const res = await fetch(`http://localhost:3000/api/users/${id}`, {
+        const res = await fetch(`http://flyhigh.zeabur.app/api/users/${id}`, {
           method: "DELETE",
           headers: {
             Authorization: `Bearer ${token}`,

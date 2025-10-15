@@ -26,7 +26,7 @@ export default function Login() {
     setIsLoading(true);
     setApiError('');
     try {
-      const response = await axios.post('http://localhost:3000/api/login', {
+      const response = await axios.post('http://flyhigh.zeabur.app/api/login', {
         email: formValues.email,
         password: formValues.password,
       });

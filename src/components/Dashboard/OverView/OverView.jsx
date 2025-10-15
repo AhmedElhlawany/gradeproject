@@ -31,7 +31,7 @@ export default function OverView() {
     const fetchData = async () => {
       const token = localStorage.getItem('token');
       try {
-        const res = await fetch('http://localhost:3000/api/users', {
+        const res = await fetch('http://flyhigh.zeabur.app/api/users', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -107,7 +107,7 @@ export default function OverView() {
     //get number of hotels
     const fetchHotels = async () => {
       try {
-        const response = await fetch('http://localhost:3000/api/hotels');
+        const response = await fetch('http://flyhigh.zeabur.app/api/hotels');
         if (!response.ok) {
           throw new Error(`Failed to fetch hotels: ${response.status}`);
         }

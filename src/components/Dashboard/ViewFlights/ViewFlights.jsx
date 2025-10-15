@@ -24,7 +24,7 @@ export default function ViewFlights({ onFlightAdded }) {
 
   const fetchFlights = async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/flights");
+      const response = await fetch("http://flyhigh.zeabur.app/api/flights");
       if (!response.ok) {
         throw new Error(`Failed to fetch flights: ${response.status}`);
       }
@@ -144,7 +144,7 @@ export default function ViewFlights({ onFlightAdded }) {
 
     if (result.isConfirmed) {
       try {
-        const response = await fetch(`http://localhost:3000/api/flights/${flightId}`, {
+        const response = await fetch(`http://flyhigh.zeabur.app/api/flights/${flightId}`, {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
@@ -192,7 +192,7 @@ export default function ViewFlights({ onFlightAdded }) {
   const handleFormSubmit = async (formData) => {
     try {
 
-      const response = await fetch(`http://localhost:3000/api/flights/${selectedFlight.id}`, {
+      const response = await fetch(`http://flyhigh.zeabur.app/api/flights/${selectedFlight.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json"
 ,
@@ -266,31 +266,7 @@ export default function ViewFlights({ onFlightAdded }) {
                     )}
                   </div>
                 </div>
-                {/* <div className={styles.filterItem}>
-                  <label htmlFor="flightNumber" className={styles.filterLabel}>Flight Number</label>
-                  <div className={styles.inputWrapper}>
-                    <input
-                      type="number"
-                      id="flightNumber"
-                      name="flightNumber"
-                      placeholder="Filter by Flight Number"
-                      value={filters.flightNumber}
-                      onChange={handleFilterChange}
-                      className={styles.filterInput}
-                      min="1"
-                    />
-                    {filters.flightNumber && (
-                      <button
-                        type="button"
-                        className={styles.clearInputButton}
-                        onClick={() => handleClearInput("flightNumber")}
-                        aria-label="Clear Flight Number Filter"
-                      >
-                        <FaTimes className={styles.clearIcon} />
-                      </button>
-                    )}
-                  </div>
-                </div> */}
+               
                 <div className={styles.filterItem}>
                   <label htmlFor="from" className={styles.filterLabel}>From</label>
                   <div className={styles.inputWrapper}>
@@ -465,31 +441,7 @@ export default function ViewFlights({ onFlightAdded }) {
                     )}
                   </div>
                 </div>
-                {/* <div className={styles.filterItem}>
-                  <label htmlFor="flightNumber" className={styles.filterLabel}>Flight Number</label>
-                  <div className={styles.inputWrapper}>
-                    <input
-                      type="number"
-                      id="flightNumber"
-                      name="flightNumber"
-                      placeholder="Filter by Flight Number"
-                      value={filters.flightNumber}
-                      onChange={handleFilterChange}
-                      className={styles.filterInput}
-                      min="1"
-                    />
-                    {filters.flightNumber && (
-                      <button
-                        type="button"
-                        className={styles.clearInputButton}
-                        onClick={() => handleClearInput("flightNumber")}
-                        aria-label="Clear Flight Number Filter"
-                      >
-                        <FaTimes className={styles.clearIcon} />
-                      </button>
-                    )}
-                  </div>
-                </div> */}
+               
                 <div className={styles.filterItem}>
                   <label htmlFor="from" className={styles.filterLabel}>From</label>
                   <div className={styles.inputWrapper}>
@@ -663,31 +615,7 @@ export default function ViewFlights({ onFlightAdded }) {
                   )}
                 </div>
               </div>
-              {/* <div className={styles.filterItem}>
-                <label htmlFor="flightNumber" className={styles.filterLabel}>Flight Number</label>
-                <div className={styles.inputWrapper}>
-                  <input
-                    type="number"
-                    id="flightNumber"
-                    name="flightNumber"
-                    placeholder="Filter by Flight Number"
-                    value={filters.flightNumber}
-                    onChange={handleFilterChange}
-                    className={styles.filterInput}
-                    min="1"
-                  />
-                  {filters.flightNumber && (
-                    <button
-                      type="button"
-                      className={styles.clearInputButton}
-                      onClick={() => handleClearInput("flightNumber")}
-                      aria-label="Clear Flight Number Filter"
-                    >
-                      <FaTimes className={styles.clearIcon} />
-                    </button>
-                  )}
-                </div>
-              </div> */}
+              
               <div className={styles.filterItem}>
                 <label htmlFor="from" className={styles.filterLabel}>From</label>
                 <div className={styles.inputWrapper}>

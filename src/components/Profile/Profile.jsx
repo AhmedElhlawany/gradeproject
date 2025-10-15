@@ -23,7 +23,7 @@ export default function Profile() {
 
       try {
         const response = await axios.get(
-          `http://localhost:3000/api/users/${user.id}/profile`,
+          `http://flyhigh.zeabur.app/api/users/${user.id}/profile`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -68,7 +68,7 @@ export default function Profile() {
 
         try {
           const updateResponse = await axios.put(
-            `http://localhost:3000/api/users/${user.id}/profile`,
+            `http://flyhigh.zeabur.app/api/users/${user.id}/profile`,
             { profilePhoto: imageUrl },
             {
               headers: {
