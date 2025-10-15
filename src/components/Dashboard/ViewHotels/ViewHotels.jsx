@@ -23,7 +23,7 @@ export default function ViewHotels() {
 
   const fetchHotels = async () => {
     try {
-      const response = await fetch("http://flyhigh.zeabur.app/api/hotels");
+      const response = await fetch("https://flyhigh.zeabur.app/api/hotels");
       if (!response.ok) {
         throw new Error("Failed to fetch hotels");
       }
@@ -119,7 +119,7 @@ export default function ViewHotels() {
 
     if (result.isConfirmed) {
       try {
-        const response = await fetch(`http://flyhigh.zeabur.app/api/hotels/${hotelId}`, {
+        const response = await fetch(`https://flyhigh.zeabur.app/api/hotels/${hotelId}`, {
           method: "DELETE",
         });
         if (!response.ok) {

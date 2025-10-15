@@ -86,7 +86,7 @@ export default function EditHotelModal({ hotel, onSave, onClose }) {
     }
 
     try {
-      const response = await fetch(`http://flyhigh.zeabur.app/api/hotels/${hotel.id}`, {
+      const response = await fetch(`https://flyhigh.zeabur.app/api/hotels/${hotel.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json"
           ,

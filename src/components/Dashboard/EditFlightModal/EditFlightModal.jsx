@@ -60,7 +60,7 @@ export default function EditFlightModal({ flight, onClose, onSubmit }) {
     }
 
     try {
-      const response = await fetch(`http://flyhigh.zeabur.app/api/flights/${flight.id}`, {
+      const response = await fetch(`https://flyhigh.zeabur.app/api/flights/${flight.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

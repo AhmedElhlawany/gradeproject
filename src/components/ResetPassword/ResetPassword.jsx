@@ -31,7 +31,7 @@ const navigate=useNavigate()
     }
 
     try {
-      const response = await fetch('http://flyhigh.zeabur.app/api/reset-password', {
+      const response = await fetch('https://flyhigh.zeabur.app/api/reset-password', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, token, newPassword }),

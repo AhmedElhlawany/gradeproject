@@ -28,7 +28,7 @@ export default function UsersBookedHotels() {
     const fetchUsersWithBookedHotels = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await axios.get("http://flyhigh.zeabur.app/api/users", {
+        const response = await axios.get("https://flyhigh.zeabur.app/api/users", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -130,7 +130,7 @@ export default function UsersBookedHotels() {
 
     try {
       const res = await axios.put(
-        `http://flyhigh.zeabur.app/api/users/${user.id}/edit-hotel-booking`,
+        `https://flyhigh.zeabur.app/api/users/${user.id}/edit-hotel-booking`,
         {
           bookingId: hotel.bookingId,
           updatedBooking: editForm,
@@ -200,7 +200,7 @@ export default function UsersBookedHotels() {
       const token = localStorage.getItem("token");
 
       await axios.post(
-        `http://localhost:3000/api/users/${userId}/cancel-hotel-booking`,
+        `https://localhost:3000/api/users/${userId}/cancel-hotel-booking`,
         { bookingId },
         {
           headers: {

@@ -101,7 +101,7 @@ const HotelPayment = () => {
 
       // Create PaymentIntent
       const response = await axios.post(
-        `http://flyhigh.zeabur.app/api/create-hotel-payment-intent`,
+        `https://flyhigh.zeabur.app/api/create-hotel-payment-intent`,
         {
           hotelId: hotel.id,
           rooms: selectedRooms.map((room) => ({
@@ -146,7 +146,7 @@ const HotelPayment = () => {
       if (paymentIntent.status === 'succeeded') {
         // Confirm booking
         const confirmResponse = await axios.post(
-          `http://flyhigh.zeabur.app/api/confirm-payment`,
+          `https://flyhigh.zeabur.app/api/confirm-payment`,
           { paymentIntentId: paymentIntent.id },
           {
             headers: {
@@ -199,7 +199,7 @@ const HotelPayment = () => {
 
     try {
       const response = await axios.post(
-        `http://flyhigh.zeabur.app/api/users/${currentUser.id}/cancel-hotel-booking`,
+        `https://flyhigh.zeabur.app/api/users/${currentUser.id}/cancel-hotel-booking`,
         { bookingId },
         {
           headers: {

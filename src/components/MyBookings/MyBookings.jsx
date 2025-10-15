@@ -22,7 +22,7 @@ export default function BookedFlights() {
     const fetchBookings = async () => {
       try {
         const response = await axios.get(
-          `http://flyhigh.zeabur.app/api/users/${currentUser.id}/bookings`,
+          `https://flyhigh.zeabur.app/api/users/${currentUser.id}/bookings`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -63,7 +63,7 @@ const cancelBooking = async (bFId) => {
     }
 
     const response = await axios.post(
-      `http://flyhigh.zeabur.app/api/users/${currentUser.id}/cancel-booking`,
+      `https://flyhigh.zeabur.app/api/users/${currentUser.id}/cancel-booking`,
       { bFId },
       {
         headers: {

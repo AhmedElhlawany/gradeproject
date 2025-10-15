@@ -8,7 +8,7 @@ const navigate = useNavigate();
   useEffect(() => {
     if (city) {
       console.log('Fetching places for city:', city); 
-      fetch(`http://flyhigh.zeabur.app/api/places?city=${encodeURIComponent(city)}`)
+      fetch(`https://flyhigh.zeabur.app/api/places?city=${encodeURIComponent(city)}`)
         .then(res => res.json())
         .then(data => {
           console.log('API response:', data);

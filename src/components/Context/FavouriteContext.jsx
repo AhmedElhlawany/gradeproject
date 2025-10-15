@@ -21,7 +21,7 @@ export const FavoritesProvider = ({ children }) => {
           throw new Error('No authentication token found');
         }
         console.log('Fetching favorites for user:', userId);
-        const res = await fetch(`http://flyhigh.zeabur.app/api/users/${userId}/favorites`, {
+        const res = await fetch(`https://flyhigh.zeabur.app/api/users/${userId}/favorites`, {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json',
@@ -85,13 +85,13 @@ export const FavoritesProvider = ({ children }) => {
 
     try {
       const token = localStorage.getItem('token');
-      const endpoint = `http://flyhigh.zeabur.app/api/users/${userId}/favorites`;
+      const endpoint = `https://flyhigh.zeabur.app/api/users/${userId}/favorites`;
       const isFavorited = favorites.some(f => f.id === item.id && f.type === item.type);
 
       let payload;
       if (!isFavorited) {
         if (item.type === 'flight') {
-          const resFlight = await fetch(`http://localhost:3000/api/flights/${item.id}`, {
+          const resFlight = await fetch(`https://localhost:3000/api/flights/${item.id}`, {
             headers: {
               'Authorization': `Bearer ${token}`,
               'Content-Type': 'application/json',
@@ -114,7 +114,7 @@ export const FavoritesProvider = ({ children }) => {
             price: flightDetails.price || 'N/A',
           };
         } else if (item.type === 'hotel') {
-          const resHotel = await fetch(`http://flyhigh.zeabur.app/api/hotels/${item.id}`, {
+          const resHotel = await fetch(`https://flyhigh.zeabur.app/api/hotels/${item.id}`, {
             headers: {
               'Authorization': `Bearer ${token}`,
               'Content-Type': 'application/json',

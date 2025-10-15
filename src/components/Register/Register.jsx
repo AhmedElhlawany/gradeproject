@@ -25,7 +25,7 @@ export default function Register() {
     setIsLoading(true);
     setApiError('');
     try {
-      const response = await axios.post('http://flyhigh.zeabur.app/api/register', {
+      const response = await axios.post('https://flyhigh.zeabur.app/api/register', {
         name: values.name,
         phone: values.phone,
         email: values.email,

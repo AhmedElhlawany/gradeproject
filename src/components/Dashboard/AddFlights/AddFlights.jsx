@@ -18,7 +18,7 @@ export default function AddFlights({ onFlightAdded }) {
   useEffect(() => {
     const fetchCities = async () => {
       try {
-        const response = await fetch("http://flyhigh.zeabur.app/api/places");
+        const response = await fetch("https://flyhigh.zeabur.app/api/places");
         if (!response.ok) throw new Error("Failed to fetch cities");
         const data = await response.json();
         const cityList = [...new Set(data.map((item) => item.city))];
@@ -31,7 +31,7 @@ export default function AddFlights({ onFlightAdded }) {
     };
     const fetchAirlines = async () => {
       try {
-        const response = await fetch("http://flyhigh.zeabur.app/api/flights");
+        const response = await fetch("https://flyhigh.zeabur.app/api/flights");
         if (!response.ok) throw new Error("Failed to fetch flights");
         const data = await response.json();
         const airlineList = [...new Set(data.map((flight) => flight.airline).filter(Boolean))];
@@ -116,7 +116,7 @@ export default function AddFlights({ onFlightAdded }) {
 
     try {
       const token = localStorage.getItem("token"); 
-      const response = await fetch("http://flyhigh.zeabur.app/api/flights", {
+      const response = await fetch("https://flyhigh.zeabur.app/api/flights", {
         method: "POST",
         headers: { 
           "Content-Type": "application/json",
@@ -144,7 +144,7 @@ export default function AddFlights({ onFlightAdded }) {
       setErrors({});
       setShowErrors(false);
 
-      const flightsResponse = await fetch("http://flyhigh.zeabur.app/api/flights");
+      const flightsResponse = await fetch("https://flyhigh.zeabur.app/api/flights");
       if (flightsResponse.ok) {
         const flightsData = await flightsResponse.json();
         setAirlines([...new Set(flightsData.map((flight) => flight.airline).filter(Boolean))]);
@@ -212,17 +212,7 @@ export default function AddFlights({ onFlightAdded }) {
               {showErrors && errors.date && <div className={styles.invalidFeedback}>{errors.date}</div>}
             </div>
 
-            {/* <div className="col-md-6">
-              <label className={styles.formLabel}>Return Date</label>
-              <input
-                type="date"
-                name="returnDate"
-                value={flightForm.returnDate}
-                onChange={handleFlightChange}
-                className={`${styles.formControl} ${showErrors && errors.returnDate ? styles.isInvalid : ""}`}
-              />
-              {showErrors && errors.returnDate && <div className={styles.invalidFeedback}>{errors.returnDate}</div>}
-            </div> */}
+          
           </div>
 
           <div className="row">
